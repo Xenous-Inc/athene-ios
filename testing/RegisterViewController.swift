@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import os
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
 
@@ -31,20 +32,45 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         if(ed_text_password.text! == ed_text_password_confirm.text!){
             Auth.auth().createUser(withEmail: ed_text_email.text!, password: ed_text_password.text!) { authResult, error in
                 if error != nil{
-                    //Registration error
+                    self.errorAlert(text_error: "Unknown error while registrating, try again")
                     return
                 }
                 user = Auth.auth().currentUser!
                 Database.database().reference().child("users").child(user?.uid ?? "").child("username").setValue(self.ed_text_username.text!)
-                self.performSegue(withIdentifier: "start_from_registration", sender: RegisterViewController.self)
+                Auth.auth().currentUser?.sendEmailVerification { (error) in
+                    os_log("Error while sending verification email")
+                    self.errorAlert(text_error: "Error while sending verification email")
+                    return
+                }
+                do{
+                    try Auth.auth().signOut()
+                    let alert = UIAlertController(title: "Verification email sent", message: "Please check you email address to verify your email", preferredStyle: UIAlertController.Style.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "Got it", style: UIAlertAction.Style.default, handler: {(action) in
+                        alert.dismiss(animated: true, completion: nil)
+                        self.performSegue(withIdentifier: "to_login_after_reg", sender: RegisterViewController.self)
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }catch _ as NSError{
+                    self.errorAlert(text_error: "Unknown error. check internet connection and try again")
+                    os_log("error")
+                }
                 
             }
-            Auth.auth().currentUser?.sendEmailVerification { (error) in
-                // Error
-            }
+            
+            
         }else{
-            //Passwords are diffrent
+            errorAlert(text_error: "Passwords are different")
         }
+    }
+    
+    func errorAlert(text_error: String){
+        let alert = UIAlertController(title: "Error", message: text_error, preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: "Back", style: UIAlertAction.Style.default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func Back(_ sender: Any) {
