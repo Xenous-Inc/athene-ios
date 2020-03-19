@@ -23,8 +23,8 @@ class ChangeWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func Submit(_ sender: Any) {
-        ref.child("words").child(next_date).child(String(date_amounts[0] - 1)).child("English").setValue(ed_text_english.text!)
-        ref.child("words").child(next_date).child(String(date_amounts[0] - 1)).child("Russian").setValue(ed_text_russian.text!)
+        ref.child("words").child(String(words[current - 1].db_index)).child("English").setValue(ed_text_english.text!)
+        ref.child("words").child(String(words[current - 1].db_index)).child("Russian").setValue(ed_text_russian.text!)
         performSegue(withIdentifier: "back_from_change_word", sender: self)
     }
     
@@ -34,8 +34,7 @@ class ChangeWordViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "Delete", style: UIAlertAction.Style.default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
             os_log("Deleting...")
-            ref.child("words").child(next_date).child(String(date_amounts[0] - 1)).removeValue()
-            date_amounts[0] -= 1
+            pushCard(ind: words[current - 1].db_index)
             self.performSegue(withIdentifier: "back_from_change_word", sender: self)
         }))
         
@@ -60,4 +59,19 @@ class ChangeWordViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
+}
+
+func pushCard(ind: Int){
+    let last = number_of_words - 1
+    number_of_words -= 1
+    ref.child("words").child(String(last)).observeSingleEvent(of: .value, with: { (snap) in
+        ref.child("words").child(String(ind)).child("English").setValue(snap.childSnapshot(forPath: "English").value)
+        ref.child("words").child(String(ind)).child("Russian").setValue(snap.childSnapshot(forPath: "Russian").value)
+        ref.child("words").child(String(ind)).child("date").setValue(snap.childSnapshot(forPath: "date").value)
+        ref.child("words").child(String(ind)).child("level").setValue(snap.childSnapshot(forPath: "level").value)
+        ref.child("words").child(String(ind)).child("category").setValue(snap.childSnapshot(forPath: "category").value)
+        
+        ref.child("words").child(String(last)).removeValue()
+        print(number_of_words)
+    })
 }

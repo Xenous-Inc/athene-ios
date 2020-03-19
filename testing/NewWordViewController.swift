@@ -22,11 +22,15 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func Submit(_ sender: Any) {
-        ref.child("words").child(next_date).child(String(date_amounts[0])).child("English").setValue(ed_text_english.text!)
-        ref.child("words").child(next_date).child(String(date_amounts[0])).child("Russian").setValue(ed_text_russian.text!)
-        ref.child("words").child(next_date).child(String(date_amounts[0])).child("category").setValue("every_day")
+        ref.child("words").child(String(number_of_words)).child("English").setValue(ed_text_english.text!)
+        ref.child("words").child(String(number_of_words)).child("Russian").setValue(ed_text_russian.text!)
+        ref.child("words").child(String(number_of_words)).child("date").setValue(next_date)
+        ref.child("words").child(String(number_of_words)).child("level").setValue(0)
+        ref.child("words").child(String(number_of_words)).child("category").setValue("default")
         
-        date_amounts[0] += 1
+        number_of_words += 1
+        print(number_of_words)
+        
         performSegue(withIdentifier: "return_make_new_word", sender: self)
     }
     

@@ -14,9 +14,12 @@ var ref: DatabaseReference!
 var user_id = ""
 
 var next_date: String = ""
-var date_amounts = [0, 0, 0, 0, 0]
+var number_of_words = 0
 
-var archive : [String] = []
+var archive : [Word] = []
+
+var current: Int = 0;
+var words: [Word] = []
 
 var user : User? = nil
 
@@ -28,10 +31,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var change_text: UIButton!
     @IBOutlet weak var submit_btn: UIButton!
     
-    var english: String = "Test"
-    var russian: String = "Тест"
-    var state: String = ""
-    
     var now_date: String = ""
     var week_date: String = ""
     var month_date: String = ""
@@ -41,9 +40,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var archive_amount = 0
     
     let dateFormatter = DateFormatter()
-    
-    var amount: Int = 0
-    var words: [[String]] = []
     
     var answered = false
     
@@ -55,59 +51,50 @@ class ViewController: UIViewController, UITextFieldDelegate {
         sender.isEnabled = false
         answered = true
         var to_move = next_date
-        var to_move_state = "every_day"
         var trig = true
-        var i = 0
-        if (edit_text.text!) == english {
+        var new_lvl = words[current].level + 1
+        if (edit_text.text!) == words[current].english {
             warn_text.text = "Верно!"
-            switch state{
-            case "every_day":
+            switch words[current].level{
+            case 0:
                 to_move = week_date
-                i = 1
-                to_move_state = "every_week"
-            case "every_week":
+            case 1:
                 to_move = month_date
-                i = 2
-                to_move_state = "every_month"
-            case "every_month":
+            case 2:
                 to_move = three_month_date
-                i = 3
-                to_move_state = "every_three_month"
-            case "every_three_month":
+            case 3:
                 to_move = six_month_date
-                i = 4
-                to_move_state = "every_six_month"
             default:
                 trig = false
             }
         }else{
-            warn_text.text = "No, correct is \(english)"
+            new_lvl = 0
+            warn_text.text = "No, correct is \(words[current].english)"
             change_text.setTitle("Change word", for: .normal)
             change_text.isEnabled = true
         }
         if trig{
-            MoveCard(state: to_move_state, english: english, russian: russian, date : to_move, amount_in_date : i)
+            UpdateCard(ind: words[current].db_index, date: to_move, level: new_lvl)
         }else{
-            MoveCardToArchive(english: english, russian: russian)
+            MoveCardToArchive(ind: words[current].db_index)
         }
+        current += 1
     }
+    
     @IBAction func Next(_ sender: UIButton) {
         warn_text.text = ""
         change_text.setTitle("", for: .normal)
         change_text.isEnabled = false
         if(!answered){
-            MoveCard(state: "every_day", english: english, russian: russian, date: next_date, amount_in_date: 0)
+            UpdateCard(ind: words[current].db_index, date: next_date, level: 0)
+            current += 1
         }
-        if(amount < 0){
+        if(current >= words.count){
             text.text = "End of words"
             sender.isEnabled = false
             submit_btn.isEnabled = false
         }else{
-            english = words[amount][0]
-            russian = words[amount][1]
-            state = words[amount][2]
-            
-            text.text = russian
+            text.text = words[current].russian
             submit_btn.isEnabled = true
             
             answered = false
@@ -115,20 +102,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
         edit_text.text = ""
     }
     
-    func MoveCard(state : String, english : String, russian : String, date : String, amount_in_date : Int){
-        ref.child("words").child(now_date).child(String(amount)).removeValue()
-        ref.child("words").child(date).child(String(date_amounts[amount_in_date])).child("English").setValue(english)
-        ref.child("words").child(date).child(String(date_amounts[amount_in_date])).child("Russian").setValue(russian)
-        ref.child("words").child(date).child(String(date_amounts[amount_in_date])).child("category").setValue(state)
-        amount -= 1
-        date_amounts[amount_in_date] += 1
+    func UpdateCard(ind: Int, date: String, level: Int){
+        ref.child("words").child(String(ind)).child("date").setValue(date)
+        ref.child("words").child(String(ind)).child("level").setValue(level)
     }
     
-    func MoveCardToArchive(english : String, russian : String){
-        ref.child("words").child(now_date).child(String(amount)).removeValue()
-        ref.child("archive").child(String(archive_amount)).setValue("\(russian) - \(english)")
-        amount -= 1
-        archive_amount += 1
+    func MoveCardToArchive(ind: Int){
+        ref.child("words").child(String(ind)).child("level").setValue(-1)
     }
     
     func SetDates(){
@@ -166,74 +146,53 @@ class ViewController: UIViewController, UITextFieldDelegate {
         user_id = Auth.auth().currentUser!.uid
         
         archive = []
+        words = []
+        current = 0
         self.edit_text.delegate = self
+        number_of_words = 0
         SetDates()
         ref = Database.database().reference().child("users").child(user_id)
         ref.child("words").observeSingleEvent(of: .value, with: { (snapshot) in
             
-            self.amount = Int(snapshot.childSnapshot(forPath: self.now_date).childrenCount)
-            date_amounts[0] = Int(snapshot.childSnapshot(forPath: next_date).childrenCount)
-            date_amounts[1] = Int(snapshot.childSnapshot(forPath: self.week_date).childrenCount)
-            date_amounts[2] = Int(snapshot.childSnapshot(forPath: self.month_date).childrenCount)
-            date_amounts[3] = Int(snapshot.childSnapshot(forPath: self.three_month_date).childrenCount)
-            date_amounts[4] = Int(snapshot.childSnapshot(forPath: self.six_month_date).childrenCount)
-            
-            var date: Date, count: Int
+            number_of_words = Int(snapshot.childrenCount)
+            var date: Date, count: Int, trig: Bool = false
             let enumerator = snapshot.children
-            var last_words :[[String]] = []
+            var last_words :[Word] = []
             while let snap = enumerator.nextObject() as? DataSnapshot{
-                date = self.dateFormatter.date(from: snap.key)!
-                count = Calendar.current.dateComponents([.day], from: date, to: Date()).day!
-                if(count > 0){
-                    let enumer = snap.children
-                    while let ds = enumer.nextObject() as? DataSnapshot{
-                        let eng = ds.childSnapshot(forPath: "English").value as? String ?? ""
-                        let rus = ds.childSnapshot(forPath: "Russian").value as? String ?? ""
-                        var category = ds.childSnapshot(forPath: "category").value as? String ?? ""
-                        ref.child("words").child(self.now_date).child(String(self.amount)).child("English").setValue(eng)
-                        ref.child("words").child(self.now_date).child(String(self.amount)).child("Russian").setValue(rus)
-                        if(count >= 3 && (category == "every_week" || category == "every_month")){
-                            category = "every_day"
-                        }
-                        ref.child("words").child(self.now_date).child(String(self.amount)).child("category").setValue(category)
-                        last_words.append([eng, rus, category])
-                        self.amount += 1
+                date = self.dateFormatter.date(from: snap.childSnapshot(forPath: "date").value as? String ?? "")!
+                let n_date = self.dateFormatter.date(from: self.now_date)!
+                count = Calendar.current.dateComponents([.day], from: date, to: n_date).day!
+                let eng = snap.childSnapshot(forPath: "English").value as? String ?? ""
+                let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
+                let category = snap.childSnapshot(forPath: "category").value as? String ?? ""
+                var level = snap.childSnapshot(forPath: "category").value as? Int ?? 0
+                if(level == -1){
+                    archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, ind: Int(snap.key)!))
+                }else if(count > 0){
+                    trig = true
+                    ref.child("words").child(snap.key).child("date").setValue(self.now_date)
+                    if(count >= 3 && (level == 1 || level == 2)){
+                        level = 0
                     }
-                    ref.child("words").child(snap.key).removeValue()
+                    ref.child("words").child(snap.key).child("level").setValue(level)
+                    last_words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
                 }else if(count == 0){
-                    let enumer = snap.children
                     os_log("Hello")
-                    while let ds = enumer.nextObject() as? DataSnapshot{
-                        let eng = ds.childSnapshot(forPath: "English").value as? String ?? ""
-                        let rus = ds.childSnapshot(forPath: "Russian").value as? String ?? ""
-                        let category = ds.childSnapshot(forPath: "category").value as? String ?? ""
-                        self.words.append([eng, rus, category])
-                    }
+                    trig = true
+                    words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
                 }
             }
-            self.amount -= 1
-            if(self.amount >= 0){
-                self.words.append(contentsOf : last_words)
-                self.english = self.words[self.amount][0]
-                self.russian = self.words[self.amount][1]
-                self.state = self.words[self.amount][2]
+            if(trig){
+                words.append(contentsOf : last_words)
                 
-                self.text.text = self.russian
+                self.text.text = words[current].russian
             }else{
                 self.edit_text.isEnabled = false
                 self.text.text = "End of words"
             }
             self.change_text.isEnabled = false
         })
-        
-        ref.child("archive").observeSingleEvent(of: .value, with: {(snapshot) in
-            self.archive_amount = Int(snapshot.childrenCount)
-            let enumerator = snapshot.children
-            while let snap = enumerator.nextObject() as? DataSnapshot{
-                archive.append(snap.value as? String ?? "")
-            }
-            
-        })
+
         
     }
     

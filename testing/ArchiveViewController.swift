@@ -26,7 +26,7 @@ class ArchiveViewController: UITableViewController{
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "archiveCell", for: indexPath)
-        cell.textLabel?.text = archive[indexPath.row]
+        cell.textLabel?.text = archive[indexPath.row].english + " - " + archive[indexPath.row].russian
         return cell
     }
 

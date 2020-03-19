@@ -20,6 +20,7 @@
 		DAE37194223D0AD300F6E5E1 /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */; };
 		DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */; };
 		DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */; };
+		DAF1847B2420EA600031B68C /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1847A2420EA600031B68C /* Word.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordViewController.swift; sourceTree = "<group>"; };
 		DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWordViewController.swift; sourceTree = "<group>"; };
 		DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
+		DAF1847A2420EA600031B68C /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				DA67092F222D740300595D5E /* LaunchScreen.storyboard */,
 				DA67093A223232B200595D5E /* GoogleService-Info.plist */,
 				DA670932222D740300595D5E /* Info.plist */,
+				DAF1847A2420EA600031B68C /* Word.swift */,
 			);
 			path = testing;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			files = (
 				DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */,
 				DA670929222D73F600595D5E /* ViewController.swift in Sources */,
+				DAF1847B2420EA600031B68C /* Word.swift in Sources */,
 				DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */,
 				DA8CB9452253195C00D40849 /* FirstLogInViewController.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
@@ -360,10 +364,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 415AEFBD7CAD8BED08E77D8F /* Pods-testing.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M658992Q48;
+				DEVELOPMENT_TEAM = 36L89PHLKP;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -381,8 +386,11 @@
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 				);
 				INFOPLIST_FILE = testing/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = vadimka.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -390,7 +398,7 @@
 				SWIFT_VERSION = 4.2;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				SYSTEM_HEADER_SEARCH_PATHS = "$(inherited)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited)";
 			};
 			name = Debug;
@@ -399,10 +407,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CDC2F386D1A34A1D7D7E2148 /* Pods-testing.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M658992Q48;
+				DEVELOPMENT_TEAM = 36L89PHLKP;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -420,8 +429,11 @@
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 				);
 				INFOPLIST_FILE = testing/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = vadimka.testing;
@@ -430,7 +442,7 @@
 				SWIFT_VERSION = 4.2;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				SYSTEM_HEADER_SEARCH_PATHS = "$(inherited)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited)";
 			};
 			name = Release;
