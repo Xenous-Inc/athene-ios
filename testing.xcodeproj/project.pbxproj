@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		400979BE6C24F1974954E3C7 /* libPods-testing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AE17205D32347E213C5A3F /* libPods-testing.a */; };
+		DA60BA2C24247AAE00146E87 /* ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60BA2B24247AAE00146E87 /* ext.swift */; };
 		DA670927222D73F600595D5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA670926222D73F600595D5E /* AppDelegate.swift */; };
 		DA670929222D73F600595D5E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA670928222D73F600595D5E /* ViewController.swift */; };
 		DA67092C222D73F600595D5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA67092A222D73F600595D5E /* Main.storyboard */; };
@@ -17,9 +18,13 @@
 		DA8CB9452253195C00D40849 /* FirstLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB9442253195C00D40849 /* FirstLogInViewController.swift */; };
 		DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB94622531B4400D40849 /* LogInViewController.swift */; };
 		DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB9482253252E00D40849 /* RegisterViewController.swift */; };
+		DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E422423A71F00675EEA /* GraphicBuilder.swift */; };
+		DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E442423AA1D00675EEA /* FontHelper.swift */; };
+		DAC96E472423AA9100675EEA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E462423AA9100675EEA /* Strings.swift */; };
 		DAE37194223D0AD300F6E5E1 /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */; };
 		DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */; };
 		DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */; };
+		DAEC4190242BD3DD00944B7F /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEC418F242BD3DD00944B7F /* Test.swift */; };
 		DAF1847B2420EA600031B68C /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1847A2420EA600031B68C /* Word.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +32,7 @@
 		415AEFBD7CAD8BED08E77D8F /* Pods-testing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testing.debug.xcconfig"; path = "Target Support Files/Pods-testing/Pods-testing.debug.xcconfig"; sourceTree = "<group>"; };
 		96AE17205D32347E213C5A3F /* libPods-testing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-testing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDC2F386D1A34A1D7D7E2148 /* Pods-testing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testing.release.xcconfig"; path = "Target Support Files/Pods-testing/Pods-testing.release.xcconfig"; sourceTree = "<group>"; };
+		DA60BA2B24247AAE00146E87 /* ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext.swift; sourceTree = "<group>"; };
 		DA670923222D73F600595D5E /* testing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA670926222D73F600595D5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA670928222D73F600595D5E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,9 +44,13 @@
 		DA8CB9442253195C00D40849 /* FirstLogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLogInViewController.swift; sourceTree = "<group>"; };
 		DA8CB94622531B4400D40849 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		DA8CB9482253252E00D40849 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		DAC96E422423A71F00675EEA /* GraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicBuilder.swift; sourceTree = "<group>"; };
+		DAC96E442423AA1D00675EEA /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
+		DAC96E462423AA9100675EEA /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordViewController.swift; sourceTree = "<group>"; };
 		DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWordViewController.swift; sourceTree = "<group>"; };
 		DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
+		DAEC418F242BD3DD00944B7F /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		DAF1847A2420EA600031B68C /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,13 +111,18 @@
 				DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */,
 				DA67092A222D73F600595D5E /* Main.storyboard */,
 				DA8CB9442253195C00D40849 /* FirstLogInViewController.swift */,
-				DA8CB94622531B4400D40849 /* LogInViewController.swift */,
 				DA8CB9482253252E00D40849 /* RegisterViewController.swift */,
 				DA67092D222D740300595D5E /* Assets.xcassets */,
 				DA67092F222D740300595D5E /* LaunchScreen.storyboard */,
 				DA67093A223232B200595D5E /* GoogleService-Info.plist */,
 				DA670932222D740300595D5E /* Info.plist */,
 				DAF1847A2420EA600031B68C /* Word.swift */,
+				DA8CB94622531B4400D40849 /* LogInViewController.swift */,
+				DAC96E422423A71F00675EEA /* GraphicBuilder.swift */,
+				DAC96E442423AA1D00675EEA /* FontHelper.swift */,
+				DAC96E462423AA9100675EEA /* Strings.swift */,
+				DA60BA2B24247AAE00146E87 /* ext.swift */,
+				DAEC418F242BD3DD00944B7F /* Test.swift */,
 			);
 			path = testing;
 			sourceTree = "<group>";
@@ -211,13 +226,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */,
+				DA60BA2C24247AAE00146E87 /* ext.swift in Sources */,
 				DA670929222D73F600595D5E /* ViewController.swift in Sources */,
+				DAEC4190242BD3DD00944B7F /* Test.swift in Sources */,
 				DAF1847B2420EA600031B68C /* Word.swift in Sources */,
 				DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */,
+				DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */,
 				DA8CB9452253195C00D40849 /* FirstLogInViewController.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
+				DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */,
 				DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */,
 				DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */,
+				DAC96E472423AA9100675EEA /* Strings.swift in Sources */,
 				DAE37194223D0AD300F6E5E1 /* NewWordViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
