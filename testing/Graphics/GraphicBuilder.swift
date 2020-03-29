@@ -102,7 +102,7 @@ class GraphicBuilder: NSObject{
         finish_describtion.textColor = UIColor.white
         let f_size_smallx2 = FontHelper().getFontSize(strings: [create_word_text], font: font, maxFontSize: 120, width: finish_describtion.bounds.width, height: finish_describtion.bounds.height)
         finish_describtion.font = UIFont(name: font, size: CGFloat(f_size_smallx2))
-        finish_describtion.alpha = 0.7
+        finish_describtion.alpha = 0.8
         view.addSubview(finish_describtion)
         
         let f_img = UIImageView(image: UIImage(named: "plus"))
@@ -272,7 +272,7 @@ class GraphicBuilder: NSObject{
             view.addSubview(ed_text)
         }
         
-        let next_btn = UIButton(frame: CGRect(x: 0.275*window_width, y: 0.83*window_height - height, width: 0.45*window_width, height: height))
+        let next_btn = UIButton(frame: CGRect(x: 0.275*window_width, y: 0.77*window_height - height, width: 0.45*window_width, height: height))
         next_btn.setTitle("", for: .normal)
         next_btn.setTitleColor(UIColor.white, for: .normal)
         next_btn.backgroundColor = UIColor.clear
@@ -281,7 +281,8 @@ class GraphicBuilder: NSObject{
         next_btn.layer.cornerRadius = next_btn.bounds.height / 2
         next_btn.tag = 100
         next_btn.isUserInteractionEnabled = true
-        let arrow_img = UIImageView(image: UIImage(named: "plus"))
+        let arrow_img = UIImageView(image: UIImage(named: "next")!.withRenderingMode(.alwaysTemplate))
+        arrow_img.tintColor = UIColor.white
         arrow_img.bounds = CGRect(x: 0, y: 0, width: 0.33*next_btn.bounds.width, height: 0.7*next_btn.bounds.height)
         arrow_img.center = next_btn.center
         arrow_img.tag = 101
@@ -294,10 +295,58 @@ class GraphicBuilder: NSObject{
         let f_sz_small = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: describtionlabel.bounds.height))
         describtionlabel.font = UIFont(name: font, size: f_sz_small)
         describtionlabel.textColor = UIColor.white
-        describtionlabel.alpha = 0.5
+        describtionlabel.alpha = 0.8
         describtionlabel.textAlignment = .center
         describtionlabel.tag = 102
         view.addSubview(describtionlabel)
+        
+        let forgot_btn = UIButton(frame: CGRect(x: 0, y: 0, width: 0.45*window_width, height: height))
+        forgot_btn.center = CGPoint(x: window_width / 2, y: describtionlabel.frame.maxY + forgot_btn.bounds.height)
+        forgot_btn.setTitle(main_page_forgot_word_text, for: .normal)
+        forgot_btn.setTitleColor(UIColor.white, for: .normal)
+        forgot_btn.backgroundColor = UIColor.clear
+        forgot_btn.layer.borderWidth = 2
+        forgot_btn.layer.borderColor = UIColor.white.cgColor
+        forgot_btn.layer.cornerRadius = next_btn.bounds.height / 2
+        forgot_btn.tag = 103
+        forgot_btn.isUserInteractionEnabled = true
+        view.addSubview(forgot_btn)
+        
+        //Incorrect answer
+        
+        let incorrect_label = UILabel(frame: CGRect(x: 0, y: window_height / 2 - 3.5*height, width: window_width, height: height))
+        incorrect_label.textColor = UIColor.white
+        incorrect_label.text = main_page_incorrect
+        incorrect_label.font = UIFont(name: font, size: font_sz)
+        incorrect_label.textAlignment = .center
+        incorrect_label.tag = 200
+        incorrect_label.alpha = 0
+        incorrect_label.isUserInteractionEnabled = false
+        view.addSubview(incorrect_label)
+        
+        for i in 0..<2{
+            let btn = UIButton(frame: CGRect(x: window_width / 2 + CGFloat(3*i - 2)*height, y: window_height / 2 + 2.1*height, width: height, height: height))
+            btn.backgroundColor = UIColor.clear
+            btn.setImage(UIImage(named: ((i == 0) ? "edit" : "cross")), for: .normal)
+            btn.setTitle("", for: .normal)
+            btn.tag = 205 + i
+            btn.isUserInteractionEnabled = false
+            btn.alpha = 0
+            view.addSubview(btn)
+            
+            let descr = UILabel()
+            let d = [NSAttributedString.Key.font:UIFont(name:font, size:CGFloat(f_sz_small))!]
+            descr.bounds = CGRect(x: 0, y: 0, width: (main_page_img_describtions[i] as NSString).size(withAttributes: d).width, height: describtionlabel.bounds.height)
+            descr.center = CGPoint(x: btn.center.x, y: btn.frame.maxY + descr.bounds.height)
+            descr.font = UIFont(name: font, size: f_sz_small)
+            descr.text = main_page_img_describtions[i]
+            descr.textColor = UIColor.white
+            descr.textAlignment = .center
+            descr.alpha = 0
+            descr.isUserInteractionEnabled = false
+            descr.tag = 201 + i
+            view.addSubview(descr)
+        }
         
         return view
     }

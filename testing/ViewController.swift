@@ -25,11 +25,10 @@ var user : User? = nil
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var edit_text: UITextField!
-    @IBOutlet weak var text: UILabel!
-    @IBOutlet weak var warn_text: UILabel!
-    @IBOutlet weak var change_text: UIButton!
-    @IBOutlet weak var submit_btn: UIButton!
+    var edit_text: UITextField!
+    var text: UITextField!
+    var submit_btn: UIButton!
+    var forgot_btn: UIButton!
     
     var now_date: String = ""
     var week_date: String = ""
@@ -43,18 +42,30 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var answered = false
     
-    @IBAction func ChangeWord(_ sender: UIButton) {
+    
+    func ChangeWord(_ sender: UIButton) {
         performSegue(withIdentifier: "move_to_change_word", sender: self)
     }
     
-    @IBAction func Submit(_ sender: UIButton) {
-        sender.isEnabled = false
+    @objc func next_btn_pressed(_ sender: Any){
+        if(answered){
+            Next(sender)
+        }else{
+            Submit()
+        }
+    }
+    
+    var deadline = DispatchTime.now()
+    func Submit() {
         answered = true
         var to_move = next_date
         var trig = true
         var new_lvl = words[current].level + 1
+        deadline = .now()
         if (edit_text.text!) == words[current].english {
-            warn_text.text = "Верно!"
+            (view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.init(rgb: green_clr)
+            edit_text.textColor = UIColor.init(rgb: green_clr)
+            deadline = .now() + 0.7
             switch words[current].level{
             case 0:
                 to_move = week_date
@@ -69,9 +80,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }
         }else{
             new_lvl = 0
-            warn_text.text = "No, correct is \(words[current].english)"
-            change_text.setTitle("Change word", for: .normal)
-            change_text.isEnabled = true
+            animateIncorrectAnswer()
+            //warn_text.text = "No, correct is \(words[current].english)"
+            //change_text.setTitle("Change word", for: .normal)
+            //change_text.isEnabled = true
         }
         if trig{
             UpdateCard(ind: words[current].db_index, date: to_move, level: new_lvl)
@@ -81,17 +93,54 @@ class ViewController: UIViewController, UITextFieldDelegate {
         current += 1
     }
     
-    @IBAction func Next(_ sender: UIButton) {
-        warn_text.text = ""
-        change_text.setTitle("", for: .normal)
-        change_text.isEnabled = false
+    func animateIncorrectAnswer(){
+        let oldValue = submit_btn.layer.cornerRadius
+        let new_height = 2*submit_btn.bounds.height
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.4)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.submit_btn.bounds = CGRect(x: 0, y: 0, width: 2*self.submit_btn.bounds.height, height: new_height)
+            self.submit_btn.center = CGPoint(x: self.view.frame.width / 2, y: 0.9*self.view.frame.height - self.submit_btn.bounds.height / 2)
+            let img = self.view.viewWithTag(101)!
+            img.center = self.submit_btn.center
+            img.bounds = CGRect(x: 0, y: 0, width: 0.5*self.submit_btn.bounds.width, height: img.bounds.height)
+            let d = self.view.viewWithTag(102) as! UILabel
+            d.center = CGPoint(x: self.view.center.x, y: self.submit_btn.frame.maxY + d.bounds.height)
+            d.text = main_page_next_text
+            for i in self.view.subviews{
+                if([201, 202].contains(i.tag)){
+                    i.alpha = 0.8
+                }else if(i.tag >= 200){
+                    i.alpha = 1
+                    if([205, 206].contains(i.tag)){i.isUserInteractionEnabled = true}
+                }else if([0, 103].contains(i.tag)){
+                    i.alpha = 0
+                    i.isUserInteractionEnabled = false
+                }
+            }
+        })
+               
+        let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
+        cornerAnimation.fromValue = oldValue
+        cornerAnimation.toValue = new_height / 2
+        submit_btn.layer.cornerRadius = new_height / 2
+        submit_btn.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
+
+        CATransaction.commit()
+    }
+    
+    @objc func Next(_ sender: Any) {
+        //warn_text.text = ""
+        //change_text.setTitle("", for: .normal)
+        //change_text.isEnabled = false
         if(!answered){
             UpdateCard(ind: words[current].db_index, date: next_date, level: 0)
             current += 1
         }
         if(current >= words.count){
             text.text = "End of words"
-            sender.isEnabled = false
             submit_btn.isEnabled = false
         }else{
             text.text = words[current].russian
@@ -105,10 +154,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func UpdateCard(ind: Int, date: String, level: Int){
         ref.child("words").child(String(ind)).child("date").setValue(date)
         ref.child("words").child(String(ind)).child("level").setValue(level)
+        resetTint()
     }
     
     func MoveCardToArchive(ind: Int){
         ref.child("words").child(String(ind)).child("level").setValue(-1)
+        resetTint()
+    }
+    
+    @objc func resetTint(){
+        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+            (self.view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.white
+            self.edit_text.textColor = UIColor.white
+            self.Next(self)
+        })
     }
     
     func SetDates(){
@@ -123,25 +182,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         
     }
-
-    @IBAction func NewWord(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "make_new_word", sender: self)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(UserDefaults.isFirstLaunch()){
-            //Run tutorial
-            //return
-        }
-        if(Auth.auth().currentUser == nil){
-            os_log("Signing out...")
-            DispatchQueue.main.async(){
-                self.performSegue(withIdentifier: "signing_out", sender: self)
-            }
-            return
-        }
+        let gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
+        view = gb.buildMainView()
+        edit_text = view.viewWithTag(2) as? UITextField
+        text = view.viewWithTag(1) as? UITextField
+        submit_btn = view.viewWithTag(100) as? UIButton
+        submit_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
+        forgot_btn = view.viewWithTag(103) as? UIButton
+        forgot_btn.addTarget(self, action: #selector(Next(_:)), for: .touchUpInside)
         
         user_id = Auth.auth().currentUser!.uid
         
@@ -177,26 +229,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     ref.child("words").child(snap.key).child("level").setValue(level)
                     last_words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
                 }else if(count == 0){
-                    os_log("Hello")
                     trig = true
                     words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
                 }
             }
             if(trig){
                 words.append(contentsOf : last_words)
-                
                 self.text.text = words[current].russian
             }else{
                 self.edit_text.isEnabled = false
                 self.text.text = "End of words"
             }
-            self.change_text.isEnabled = false
         })
-
-        
     }
     
-    @IBAction func SignOut(_ sender: Any) {
+    func SignOut(_ sender: Any) {
         let alert = UIAlertController(title: "Signing out", message: "Do you really want to sign out?", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Sign out", style: UIAlertAction.Style.default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
@@ -217,7 +264,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    @IBAction func GoToArchive(_ sender: Any) {
+    func GoToArchive(_ sender: Any) {
         performSegue(withIdentifier: "go_to_archive", sender: self)
     }
     

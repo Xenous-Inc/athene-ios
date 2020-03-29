@@ -22,26 +22,25 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     var gb = GraphicBuilder(width: 0, height: 0)
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("test")
         gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
-        let v = gb.buildCreateWord(categories: default_categories)
-        v.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height / 2)
-        let category_view = v.viewWithTag(300)!
+        view = gb.buildCreateWord(categories: default_categories)
+        view.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height / 2)
+        let category_view = view.viewWithTag(300)!
         let rec1 = UITapGestureRecognizer(target: self, action: #selector(expandBottomBar(gesture: )))
         category_view.addGestureRecognizer(rec1)
-        view.addSubview(v)
         
-        cross_btn = v.viewWithTag(500) as! UIButton
+        cross_btn = view.viewWithTag(500) as! UIButton
         cross_btn.addTarget(self, action: #selector(shrinkBottomBar(_:)), for: .touchUpInside)
         cross_btn.isUserInteractionEnabled = false
         
-        category_label = v.viewWithTag(700) as! UILabel
+        category_label = view.viewWithTag(700) as! UILabel
         
-        submit_btn = v.viewWithTag(800) as! UIButton
+        submit_btn = view.viewWithTag(800) as! UIButton
         submit_btn.addTarget(self, action: #selector(submit(_:)), for: .touchUpInside)
         
-        ed_text_russian = (v.viewWithTag(100) as! UITextField)
-        ed_text_english = (v.viewWithTag(101) as! UITextField)
+        ed_text_russian = (view.viewWithTag(100) as! UITextField)
+        ed_text_english = (view.viewWithTag(101) as! UITextField)
         self.ed_text_english.delegate = self
         self.ed_text_russian.delegate = self
     }

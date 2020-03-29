@@ -24,7 +24,9 @@
 		DAE37194223D0AD300F6E5E1 /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */; };
 		DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */; };
 		DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */; };
-		DAEC4190242BD3DD00944B7F /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEC418F242BD3DD00944B7F /* Test.swift */; };
+		DAEC4193242F1E7700944B7F /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAEC4192242F1E7700944B7F /* Auth.storyboard */; };
+		DAEC4195242F38E300944B7F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEC4194242F38E300944B7F /* MainViewController.swift */; };
+		DAEC4199242F91AF00944B7F /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEC4198242F91AF00944B7F /* CustomPageControl.swift */; };
 		DAF1847B2420EA600031B68C /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1847A2420EA600031B68C /* Word.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +52,9 @@
 		DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordViewController.swift; sourceTree = "<group>"; };
 		DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWordViewController.swift; sourceTree = "<group>"; };
 		DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
-		DAEC418F242BD3DD00944B7F /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		DAEC4192242F1E7700944B7F /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
+		DAEC4194242F38E300944B7F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		DAEC4198242F91AF00944B7F /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		DAF1847A2420EA600031B68C /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,27 +108,53 @@
 		DA670925222D73F600595D5E /* testing */ = {
 			isa = PBXGroup;
 			children = (
+				DAEC4197242F916200944B7F /* Graphics */,
+				DAEC4196242F913900944B7F /* AuthControllers */,
+				DAEC4191242F1D5100944B7F /* Storyboards */,
 				DA670926222D73F600595D5E /* AppDelegate.swift */,
 				DA670928222D73F600595D5E /* ViewController.swift */,
 				DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */,
 				DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */,
 				DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */,
-				DA67092A222D73F600595D5E /* Main.storyboard */,
-				DA8CB9442253195C00D40849 /* FirstLogInViewController.swift */,
-				DA8CB9482253252E00D40849 /* RegisterViewController.swift */,
 				DA67092D222D740300595D5E /* Assets.xcassets */,
-				DA67092F222D740300595D5E /* LaunchScreen.storyboard */,
 				DA67093A223232B200595D5E /* GoogleService-Info.plist */,
 				DA670932222D740300595D5E /* Info.plist */,
 				DAF1847A2420EA600031B68C /* Word.swift */,
-				DA8CB94622531B4400D40849 /* LogInViewController.swift */,
-				DAC96E422423A71F00675EEA /* GraphicBuilder.swift */,
-				DAC96E442423AA1D00675EEA /* FontHelper.swift */,
 				DAC96E462423AA9100675EEA /* Strings.swift */,
 				DA60BA2B24247AAE00146E87 /* ext.swift */,
-				DAEC418F242BD3DD00944B7F /* Test.swift */,
+				DAEC4194242F38E300944B7F /* MainViewController.swift */,
 			);
 			path = testing;
+			sourceTree = "<group>";
+		};
+		DAEC4191242F1D5100944B7F /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				DA67092A222D73F600595D5E /* Main.storyboard */,
+				DA67092F222D740300595D5E /* LaunchScreen.storyboard */,
+				DAEC4192242F1E7700944B7F /* Auth.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		DAEC4196242F913900944B7F /* AuthControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DA8CB9442253195C00D40849 /* FirstLogInViewController.swift */,
+				DA8CB9482253252E00D40849 /* RegisterViewController.swift */,
+				DA8CB94622531B4400D40849 /* LogInViewController.swift */,
+			);
+			path = AuthControllers;
+			sourceTree = "<group>";
+		};
+		DAEC4197242F916200944B7F /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				DAC96E422423A71F00675EEA /* GraphicBuilder.swift */,
+				DAC96E442423AA1D00675EEA /* FontHelper.swift */,
+				DAEC4198242F91AF00944B7F /* CustomPageControl.swift */,
+			);
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +218,7 @@
 			files = (
 				DA670931222D740300595D5E /* LaunchScreen.storyboard in Resources */,
 				DA67093B223232B300595D5E /* GoogleService-Info.plist in Resources */,
+				DAEC4193242F1E7700944B7F /* Auth.storyboard in Resources */,
 				DA67092E222D740300595D5E /* Assets.xcassets in Resources */,
 				DA67092C222D73F600595D5E /* Main.storyboard in Resources */,
 			);
@@ -228,11 +259,12 @@
 				DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */,
 				DA60BA2C24247AAE00146E87 /* ext.swift in Sources */,
 				DA670929222D73F600595D5E /* ViewController.swift in Sources */,
-				DAEC4190242BD3DD00944B7F /* Test.swift in Sources */,
 				DAF1847B2420EA600031B68C /* Word.swift in Sources */,
 				DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */,
+				DAEC4199242F91AF00944B7F /* CustomPageControl.swift in Sources */,
 				DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */,
 				DA8CB9452253195C00D40849 /* FirstLogInViewController.swift in Sources */,
+				DAEC4195242F38E300944B7F /* MainViewController.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
 				DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */,
 				DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */,
@@ -415,6 +447,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = vadimka.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_VERSION = 4.2;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				SYSTEM_HEADER_SEARCH_PATHS = "$(inherited)";
@@ -459,6 +492,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = vadimka.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_VERSION = 4.2;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				SYSTEM_HEADER_SEARCH_PATHS = "$(inherited)";
