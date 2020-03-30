@@ -268,6 +268,7 @@ class GraphicBuilder: NSObject{
         cancel_btn.tag = 801
         cancel_btn.isUserInteractionEnabled = true
         view.addSubview(cancel_btn)
+        view.sendSubviewToBack(cancel_btn)
         
         return view
     }

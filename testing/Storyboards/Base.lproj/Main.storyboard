@@ -30,6 +30,9 @@
                         <viewLayoutGuide key="safeArea" id="Ogm-g4-lmV"/>
                     </view>
                     <navigationItem key="navigationItem" id="yG1-m9-m2j"/>
+                    <connections>
+                        <segue destination="y1e-ek-3Vd" kind="custom" identifier="back_from_word_edit" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="Yvl-CU-ogc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SuN-pP-tBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -130,6 +133,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3cI-cd-XnR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="238" y="923"/>
+        </scene>
+        <!--MainVC-->
+        <scene sceneID="bZc-LA-mZm">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="MainVC" id="y1e-ek-3Vd" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="6LH-XC-Ek7"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BWk-hR-iC1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1746" y="130"/>
         </scene>
     </scenes>
     <resources>

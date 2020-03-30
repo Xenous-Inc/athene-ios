@@ -24,6 +24,10 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         print("test")
         gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
+        initialSetting()
+    }
+    
+    func initialSetting(){
         let v = gb.buildCreateWord(categories: default_categories)
         v.tag = 12345
         view.addSubview(v)
@@ -51,7 +55,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         self.ed_text_russian.delegate = self
     }
     
-    @IBAction func submit(_ sender: Any) {
+    @objc func submit(_ sender: Any) {
         ref.child("words").child(String(number_of_words)).child("English").setValue(ed_text_english.text!)
         ref.child("words").child(String(number_of_words)).child("Russian").setValue(ed_text_russian.text!)
         ref.child("words").child(String(number_of_words)).child("date").setValue(next_date)
