@@ -252,7 +252,7 @@ class GraphicBuilder: NSObject{
         for i in 0..<2{
             let y = window_height / 2 + ((i == 0) ? -1.5*height : 0.5*height)
             let ed_text = UITextField(frame: CGRect(x: 0.1*window_width, y: y, width: 0.8*window_width, height: height))
-            ed_text.text = ""
+            ed_text.text = (i == 0) ? loading_text : ""
             ed_text.font = UIFont(name: font, size: font_sz)
             ed_text.textColor = UIColor.white
             

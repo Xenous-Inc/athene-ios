@@ -28,23 +28,6 @@ class ChangeWordViewController: UIViewController, UITextFieldDelegate {
         performSegue(withIdentifier: "back_from_change_word", sender: self)
     }
     
-    @IBAction func Delete(_ sender: Any) {
-        let alert = UIAlertController(title: "Delete?", message: "Do you really want to delete word?", preferredStyle: UIAlertController.Style.alert)
-
-        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertAction.Style.default, handler: {(action) in
-            alert.dismiss(animated: true, completion: nil)
-            os_log("Deleting...")
-            pushCard(ind: words[current - 1].db_index)
-            self.performSegue(withIdentifier: "back_from_change_word", sender: self)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     @IBAction func Cancel(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "back_from_change_word", sender: self)
     }
@@ -59,19 +42,4 @@ class ChangeWordViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-}
-
-func pushCard(ind: Int){
-    let last = number_of_words - 1
-    number_of_words -= 1
-    ref.child("words").child(String(last)).observeSingleEvent(of: .value, with: { (snap) in
-        ref.child("words").child(String(ind)).child("English").setValue(snap.childSnapshot(forPath: "English").value)
-        ref.child("words").child(String(ind)).child("Russian").setValue(snap.childSnapshot(forPath: "Russian").value)
-        ref.child("words").child(String(ind)).child("date").setValue(snap.childSnapshot(forPath: "date").value)
-        ref.child("words").child(String(ind)).child("level").setValue(snap.childSnapshot(forPath: "level").value)
-        ref.child("words").child(String(ind)).child("category").setValue(snap.childSnapshot(forPath: "category").value)
-        
-        ref.child("words").child(String(last)).removeValue()
-        print(number_of_words)
-    })
 }

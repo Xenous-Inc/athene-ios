@@ -24,7 +24,13 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         print("test")
         gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
-        view = gb.buildCreateWord(categories: default_categories)
+        let v = gb.buildCreateWord(categories: default_categories)
+        v.tag = 12345
+        view.addSubview(v)
+        setView()
+    }
+    
+    func setView(){
         view.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height / 2)
         let category_view = view.viewWithTag(300)!
         let rec1 = UITapGestureRecognizer(target: self, action: #selector(expandBottomBar(gesture: )))
@@ -79,8 +85,19 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
             UIView.animate(withDuration: 0.2, animations: {
                 s_img.alpha = 1
             }, completion: {(finished: Bool) in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                    self.performSegue(withIdentifier: "return_make_new_word", sender: self)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.alpha = 0
+                    }, completion: {(finished: Bool) in
+                        let v = self.gb.buildCreateWord(categories: default_categories)
+                        self.view.viewWithTag(12345)?.removeFromSuperview()
+                        self.view.addSubview(v)
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.view.alpha = 1
+                        }, completion: {(finished: Bool) in
+                            self.setView()
+                        })
+                    })
                 })
             })
         })
@@ -94,10 +111,6 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
 
         CATransaction.commit()
  
-    }
-    
-    @IBAction func Cancel(_ sender: Any) {
-        performSegue(withIdentifier: "return_make_new_word", sender: self)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

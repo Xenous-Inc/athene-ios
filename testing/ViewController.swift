@@ -44,12 +44,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var submit_btn_old_frame = CGRect()
     
-    
-    func ChangeWord(_ sender: UIButton) {
-        performSegue(withIdentifier: "move_to_change_word", sender: self)
-    }
+    //Navigation
     
     @objc func next_btn_pressed(_ sender: UIButton){
+        submit_btn.isEnabled = false
+        forgot_btn.isEnabled = false
         if(answering){
             Submit(sender: sender.tag)
         }else{
@@ -85,6 +84,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
         current += 1
     }
     
+    @objc func Next() {
+        if(answering == false){
+            answering = true
+            animateNextWord()
+        }
+        if(current >= words.count){
+            text.text = end_of_words_text
+            submit_btn.isEnabled = false
+            forgot_btn.isEnabled = false
+        }else{
+            text.text = words[current].russian
+            submit_btn.isEnabled = true
+            forgot_btn.isEnabled = true
+        }
+        edit_text.text = ""
+    }
+    
+    //Graphics
+    
     func animateIncorrectAnswer(ans: String, correct: String, status: Int){
         let oldValue = submit_btn.layer.cornerRadius
         let new_height = 2*submit_btn.bounds.height
@@ -119,8 +137,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.edit_text.text = correct
             self.edit_text.textColor = UIColor.init(rgb: green_clr)
             self.edit_text.isUserInteractionEnabled = false
+        }, completion: {(finished: Bool) in
+            self.submit_btn.isEnabled = true
         })
-               
+        
         let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
         cornerAnimation.fromValue = oldValue
         cornerAnimation.toValue = new_height / 2
@@ -169,22 +189,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
         CATransaction.commit()
     }
     
-    @objc func Next() {
-        if(answering == false){
-            answering = true
-            animateNextWord()
-        }
-        if(current >= words.count){
-            text.text = "End of words"
-            submit_btn.isEnabled = false
-            forgot_btn.isEnabled = false
-        }else{
-            text.text = words[current].russian
-            submit_btn.isEnabled = true
-            forgot_btn.isEnabled = true
-        }
-        edit_text.text = ""
+    @objc func resetTint(){
+        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+            (self.view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.white
+            self.edit_text.textColor = UIColor.white
+            self.Next()
+        })
     }
+    
+    //Database
     
     func UpdateCard(ind: Int, date: String, level: Int){
         ref.child("words").child(String(ind)).child("date").setValue(date)
@@ -195,26 +208,65 @@ class ViewController: UIViewController, UITextFieldDelegate {
         ref.child("words").child(String(ind)).child("level").setValue(-1)
     }
     
-    @objc func resetTint(){
-        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
-            (self.view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.white
-            self.edit_text.textColor = UIColor.white
-            self.Next()
-        })
+    @objc func Delete(_ sender: Any) {
+        let alert = UIAlertController(title: delete_alert_question, message: delete_alert_warning, preferredStyle: UIAlertController.Style.alert)
+
+        alert.addAction(UIAlertAction(title: delete_alert_delete, style: UIAlertAction.Style.default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+            current -= 1
+            let ind = words[current].db_index
+            number_of_words -= 1
+            ref.child("words").observeSingleEvent(of: .value, with: { (snap) in
+                let last = snap.childrenCount - 1
+                ref.child("words").child(String(ind)).child("English").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "English").value)
+                ref.child("words").child(String(ind)).child("Russian").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "Russian").value)
+                ref.child("words").child(String(ind)).child("date").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "date").value)
+                ref.child("words").child(String(ind)).child("level").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "level").value)
+                ref.child("words").child(String(ind)).child("category").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "category").value)
+                
+                for i in words{
+                    if(i.db_index == last){
+                        i.db_index = ind
+                        break
+                    }
+                }
+                
+                words.remove(at: current)
+                
+                ref.child("words").child(String(last)).removeValue()
+                
+                self.Next()
+            })
+        }))
+        
+        alert.addAction(UIAlertAction(title: delete_alert_cancel, style: UIAlertAction.Style.default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
-    func SetDates(){
-        now_date = Date().string(format: "yyyy-MM-dd")
-        next_date = (Calendar.current.date(byAdding: .day, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
-        week_date = (Calendar.current.date(byAdding: .day, value: 7, to: Date())!).string(format: "yyyy-MM-dd")
-        month_date = (Calendar.current.date(byAdding: .month, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
-        three_month_date = (Calendar.current.date(byAdding: .month, value: 3, to: Date())!).string(format: "yyyy-MM-dd")
-        six_month_date = (Calendar.current.date(byAdding: .month, value: 6, to: Date())!).string(format: "yyyy-MM-dd")
+    func SignOut(_ sender: Any) {
+        let alert = UIAlertController(title: "Signing out", message: "Do you really want to sign out?", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Sign out", style: UIAlertAction.Style.default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+            os_log("Signing out")
+            do{
+                try Auth.auth().signOut()
+                self.performSegue(withIdentifier: "signing_out", sender: self)
+            }catch _ as NSError{
+                //Error
+                os_log("error")
+            }
+        }))
         
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
         
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -228,6 +280,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         submit_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
         forgot_btn = view.viewWithTag(103) as? UIButton
         forgot_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
+        
+        (view.viewWithTag(206) as! UIButton).addTarget(self, action: #selector(Delete(_:)), for: .touchUpInside)
         
         user_id = Auth.auth().currentUser!.uid
         archive = []
@@ -271,30 +325,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 self.text.text = words[current].russian
             }else{
                 self.edit_text.isEnabled = false
-                self.text.text = "End of words"
+                self.text.text = no_words_for_today
             }
         })
     }
     
-    func SignOut(_ sender: Any) {
-        let alert = UIAlertController(title: "Signing out", message: "Do you really want to sign out?", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Sign out", style: UIAlertAction.Style.default, handler: {(action) in
-            alert.dismiss(animated: true, completion: nil)
-            os_log("Signing out")
-            do{
-                try Auth.auth().signOut()
-                self.performSegue(withIdentifier: "signing_out", sender: self)
-            }catch _ as NSError{
-                //Error
-                os_log("error")
-            }
-        }))
+    func SetDates(){
+        now_date = Date().string(format: "yyyy-MM-dd")
+        next_date = (Calendar.current.date(byAdding: .day, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
+        week_date = (Calendar.current.date(byAdding: .day, value: 7, to: Date())!).string(format: "yyyy-MM-dd")
+        month_date = (Calendar.current.date(byAdding: .month, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
+        three_month_date = (Calendar.current.date(byAdding: .month, value: 3, to: Date())!).string(format: "yyyy-MM-dd")
+        six_month_date = (Calendar.current.date(byAdding: .month, value: 6, to: Date())!).string(format: "yyyy-MM-dd")
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
+        
+    }
+    
+    func ChangeWord(_ sender: UIButton) {
+        performSegue(withIdentifier: "move_to_change_word", sender: self)
     }
     
     func GoToArchive(_ sender: Any) {

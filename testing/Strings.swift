@@ -32,6 +32,11 @@ let main_page_incorrect = "Неправильно :("
 let main_page_img_describtions = ["Изменить слово", "Удалить"]
 let main_page_next_text = "Следующее слово"
 
-//Stages on main page
-let ANSWERING = 0
-let INCORRECT = 1
+let loading_text = "загрузка..."
+let end_of_words_text = "Слова закончились"
+let no_words_for_today = "На сегодня слов нет"
+
+let delete_alert_question = "Удалить слово?"
+let delete_alert_warning = "Слово будет удалено из вашего аккаунта"
+let delete_alert_delete = "Удалить"
+let delete_alert_cancel = "Отмена"

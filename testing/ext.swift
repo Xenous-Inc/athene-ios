@@ -30,22 +30,6 @@ extension UserDefaults{
     }
 }
 
-func drawLine(view: UIView, start: CGPoint, end: CGPoint, color: CGColor, width: CGFloat){
-    let aPath = UIBezierPath()
-    aPath.move(to: start)
-    aPath.addLine(to: end)
-    aPath.close()
-    aPath.lineCapStyle = .round
-    
-    let layer = CAShapeLayer()
-    layer.path = aPath.cgPath
-    layer.strokeColor = color
-    layer.lineWidth = width
-    layer.fillColor = UIColor.clear.cgColor
-    
-    view.layer.addSublayer(layer)
-}
-
 extension UIColor {
    convenience init(red: Int, green: Int, blue: Int) {
        assert(red >= 0 && red <= 255, "Invalid red component")
@@ -62,4 +46,20 @@ extension UIColor {
            blue: rgb & 0xFF
        )
    }
+}
+
+func drawLine(view: UIView, start: CGPoint, end: CGPoint, color: CGColor, width: CGFloat){
+    let aPath = UIBezierPath()
+    aPath.move(to: start)
+    aPath.addLine(to: end)
+    aPath.close()
+    aPath.lineCapStyle = .round
+    
+    let layer = CAShapeLayer()
+    layer.path = aPath.cgPath
+    layer.strokeColor = color
+    layer.lineWidth = width
+    layer.fillColor = UIColor.clear.cgColor
+    
+    view.layer.addSublayer(layer)
 }

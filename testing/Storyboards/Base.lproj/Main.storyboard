@@ -21,11 +21,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Change word" id="YZe-qP-13H">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="23O-j4-9Rt">
-                                            <connections>
-                                                <action selector="Cancel:" destination="OEw-I6-jdo" id="lTA-EW-BOl"/>
-                                            </connections>
-                                        </barButtonItem>
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="23O-j4-9Rt"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -52,9 +48,6 @@
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 </variation>
-                                <connections>
-                                    <action selector="Submit:" destination="OEw-I6-jdo" eventType="touchUpInside" id="GW6-B1-PA5"/>
-                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" text="Hello" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Npx-4k-pev">
                                 <rect key="frame" x="31" y="258" width="352" height="51.666666666666686"/>
@@ -73,9 +66,6 @@
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 </variation>
-                                <connections>
-                                    <action selector="Delete:" destination="OEw-I6-jdo" eventType="touchUpInside" id="Eqe-4E-1pU"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="English" lineBreakMode="middleTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dib-oK-ldM">
                                 <rect key="frame" x="31" y="206.33333333333334" width="352" height="36.666666666666657"/>
@@ -120,14 +110,10 @@
                         <viewLayoutGuide key="safeArea" id="Ogm-g4-lmV"/>
                     </view>
                     <navigationItem key="navigationItem" id="yG1-m9-m2j"/>
-                    <connections>
-                        <outlet property="ed_text_english" destination="Npx-4k-pev" id="KIY-Rt-0wr"/>
-                        <outlet property="ed_text_russian" destination="2Cp-cg-amr" id="LPe-RP-tou"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SuN-pP-tBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1087" y="923"/>
+            <point key="canvasLocation" x="1146" y="130"/>
         </scene>
         <!--AuthVC-->
         <scene sceneID="oGQ-Hm-XYj">
@@ -145,7 +131,7 @@
                 <pageViewController storyboardIdentifier="PageVC" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="zsK-34-xZ1" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trq-AP-1uA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1087" y="130"/>
+            <point key="canvasLocation" x="-548" y="130"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="yrM-vQ-p8v">
