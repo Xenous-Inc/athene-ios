@@ -27,6 +27,11 @@ let main_page_placeholders = ["На русском", "На английском"
 let main_page_describtion_check = "Проверить"
 let main_page_forgot_word_text = "Не помню"
 let green_clr = 0x3BFFB6
+let red_clr = 0xF84291
 let main_page_incorrect = "Неправильно :("
 let main_page_img_describtions = ["Изменить слово", "Удалить"]
 let main_page_next_text = "Следующее слово"
+
+//Stages on main page
+let ANSWERING = 0
+let INCORRECT = 1

@@ -40,60 +40,52 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     let dateFormatter = DateFormatter()
     
-    var answered = false
+    var answering = true
+    
+    var submit_btn_old_frame = CGRect()
     
     
     func ChangeWord(_ sender: UIButton) {
         performSegue(withIdentifier: "move_to_change_word", sender: self)
     }
     
-    @objc func next_btn_pressed(_ sender: Any){
-        if(answered){
-            Next(sender)
+    @objc func next_btn_pressed(_ sender: UIButton){
+        if(answering){
+            Submit(sender: sender.tag)
         }else{
-            Submit()
+            Next()
         }
     }
     
     var deadline = DispatchTime.now()
-    func Submit() {
-        answered = true
-        var to_move = next_date
-        var trig = true
-        var new_lvl = words[current].level + 1
+    func Submit(sender: Int) {
         deadline = .now()
-        if (edit_text.text!) == words[current].english {
+        if (sender == submit_btn.tag) && ((edit_text.text!) == words[current].english) {
             (view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.init(rgb: green_clr)
             edit_text.textColor = UIColor.init(rgb: green_clr)
-            deadline = .now() + 0.7
+            deadline = .now() + 0.9
             switch words[current].level{
             case 0:
-                to_move = week_date
+                UpdateCard(ind: words[current].db_index, date: week_date, level: words[current].level + 1)
             case 1:
-                to_move = month_date
+                UpdateCard(ind: words[current].db_index, date: month_date, level: words[current].level + 1)
             case 2:
-                to_move = three_month_date
+                UpdateCard(ind: words[current].db_index, date: three_month_date, level: words[current].level + 1)
             case 3:
-                to_move = six_month_date
+                UpdateCard(ind: words[current].db_index, date: six_month_date, level: words[current].level + 1)
             default:
-                trig = false
+                MoveCardToArchive(ind: words[current].db_index)
             }
+            resetTint()
         }else{
-            new_lvl = 0
-            animateIncorrectAnswer()
-            //warn_text.text = "No, correct is \(words[current].english)"
-            //change_text.setTitle("Change word", for: .normal)
-            //change_text.isEnabled = true
-        }
-        if trig{
-            UpdateCard(ind: words[current].db_index, date: to_move, level: new_lvl)
-        }else{
-            MoveCardToArchive(ind: words[current].db_index)
+            answering = false
+            UpdateCard(ind: words[current].db_index, date: next_date, level: 0)
+            animateIncorrectAnswer(ans: edit_text.text!, correct: words[current].english, status: sender)
         }
         current += 1
     }
     
-    func animateIncorrectAnswer(){
+    func animateIncorrectAnswer(ans: String, correct: String, status: Int){
         let oldValue = submit_btn.layer.cornerRadius
         let new_height = 2*submit_btn.bounds.height
         CATransaction.begin()
@@ -120,6 +112,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     i.isUserInteractionEnabled = false
                 }
             }
+            if(status == self.submit_btn.tag){
+                self.text.text = ans
+                self.text.textColor = UIColor.magenta
+            }
+            self.edit_text.text = correct
+            self.edit_text.textColor = UIColor.init(rgb: green_clr)
+            self.edit_text.isUserInteractionEnabled = false
         })
                
         let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
@@ -131,22 +130,58 @@ class ViewController: UIViewController, UITextFieldDelegate {
         CATransaction.commit()
     }
     
-    @objc func Next(_ sender: Any) {
-        //warn_text.text = ""
-        //change_text.setTitle("", for: .normal)
-        //change_text.isEnabled = false
-        if(!answered){
-            UpdateCard(ind: words[current].db_index, date: next_date, level: 0)
-            current += 1
+    func animateNextWord(){
+        let oldValue = submit_btn.layer.cornerRadius
+        let new_height = submit_btn.bounds.height / 2
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.4)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.submit_btn.frame = self.submit_btn_old_frame
+            let img = self.view.viewWithTag(101)!
+            img.center = self.submit_btn.center
+            img.bounds = CGRect(x: 0, y: 0, width: 0.33*self.submit_btn.bounds.width, height: img.bounds.height)
+            let d = self.view.viewWithTag(102) as! UILabel
+            d.center = CGPoint(x: self.view.center.x, y: self.submit_btn.frame.maxY + d.bounds.height)
+            d.text = main_page_describtion_check
+            for i in self.view.subviews{
+                if(i.tag >= 200){
+                    i.alpha = 0
+                    i.isUserInteractionEnabled = false
+                }else if([0, 103].contains(i.tag)){
+                    i.alpha = 1
+                    if(i.tag == 103){i.isUserInteractionEnabled = true}
+                }
+            }
+            self.text.textColor = UIColor.white
+            self.edit_text.text = ""
+            self.edit_text.textColor = UIColor.white
+            self.edit_text.isUserInteractionEnabled = true
+        })
+               
+        let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
+        cornerAnimation.fromValue = oldValue
+        cornerAnimation.toValue = new_height / 2
+        submit_btn.layer.cornerRadius = new_height / 2
+        submit_btn.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
+
+        CATransaction.commit()
+    }
+    
+    @objc func Next() {
+        if(answering == false){
+            answering = true
+            animateNextWord()
         }
         if(current >= words.count){
             text.text = "End of words"
             submit_btn.isEnabled = false
+            forgot_btn.isEnabled = false
         }else{
             text.text = words[current].russian
             submit_btn.isEnabled = true
-            
-            answered = false
+            forgot_btn.isEnabled = true
         }
         edit_text.text = ""
     }
@@ -154,19 +189,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func UpdateCard(ind: Int, date: String, level: Int){
         ref.child("words").child(String(ind)).child("date").setValue(date)
         ref.child("words").child(String(ind)).child("level").setValue(level)
-        resetTint()
     }
     
     func MoveCardToArchive(ind: Int){
         ref.child("words").child(String(ind)).child("level").setValue(-1)
-        resetTint()
     }
     
     @objc func resetTint(){
         DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
             (self.view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.white
             self.edit_text.textColor = UIColor.white
-            self.Next(self)
+            self.Next()
         })
     }
     
@@ -191,12 +224,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         edit_text = view.viewWithTag(2) as? UITextField
         text = view.viewWithTag(1) as? UITextField
         submit_btn = view.viewWithTag(100) as? UIButton
+        submit_btn_old_frame = submit_btn.frame
         submit_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
         forgot_btn = view.viewWithTag(103) as? UIButton
-        forgot_btn.addTarget(self, action: #selector(Next(_:)), for: .touchUpInside)
+        forgot_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
         
         user_id = Auth.auth().currentUser!.uid
-        
         archive = []
         words = []
         current = 0

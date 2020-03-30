@@ -1,17 +1,6 @@
 {
   "images" : [
     {
-      "resizing" : {
-        "mode" : "3-part-horizontal",
-        "center" : {
-          "mode" : "tile",
-          "width" : 3
-        },
-        "cap-insets" : {
-          "right" : 38,
-          "left" : 8
-        }
-      },
       "idiom" : "universal",
       "filename" : "Group_4.png",
       "scale" : "1x"

@@ -281,9 +281,19 @@ class GraphicBuilder: NSObject{
         next_btn.layer.cornerRadius = next_btn.bounds.height / 2
         next_btn.tag = 100
         next_btn.isUserInteractionEnabled = true
-        let arrow_img = UIImageView(image: UIImage(named: "next")!.withRenderingMode(.alwaysTemplate))
+        
+        let arr_img = UIImage(named: "next")
+        let newSize = CGSize(width: 0.33*next_btn.bounds.width, height: 0.7*next_btn.bounds.height)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        arr_img?.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        let arrow_img = UIImageView(image: newImage!.withRenderingMode(.alwaysTemplate))
+        arrow_img.contentMode = .right
+        arrow_img.clipsToBounds = true
         arrow_img.tintColor = UIColor.white
-        arrow_img.bounds = CGRect(x: 0, y: 0, width: 0.33*next_btn.bounds.width, height: 0.7*next_btn.bounds.height)
+        arrow_img.bounds = rect
         arrow_img.center = next_btn.center
         arrow_img.tag = 101
         view.addSubview(arrow_img)
