@@ -282,6 +282,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         forgot_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
         
         (view.viewWithTag(206) as! UIButton).addTarget(self, action: #selector(Delete(_:)), for: .touchUpInside)
+        (view.viewWithTag(205) as! UIButton).addTarget(self, action: #selector(ChangeWord(_:)), for: .touchUpInside)
         
         user_id = Auth.auth().currentUser!.uid
         archive = []
@@ -343,8 +344,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func ChangeWord(_ sender: UIButton) {
-        performSegue(withIdentifier: "move_to_change_word", sender: self)
+    @objc func ChangeWord(_ sender: UIButton) {
+        main_vc.performSegue(withIdentifier: "create_word_segue", sender: main_vc)
     }
     
     func GoToArchive(_ sender: Any) {

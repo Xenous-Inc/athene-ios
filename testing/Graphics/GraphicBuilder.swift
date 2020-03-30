@@ -39,6 +39,7 @@ class GraphicBuilder: NSObject{
         let f_size = FontHelper().getFontSize(strings: [add_word_title, choose_category], font: font, maxFontSize: 120, width: title_label.bounds.width, height: title_label.bounds.height)
         title_label.font = UIFont(name: font, size: CGFloat(f_size))
         title_label.textColor = UIColor.white
+        title_label.tag = 1000
         view.addSubview(title_label)
         
         for i in 0..<2{
@@ -103,11 +104,13 @@ class GraphicBuilder: NSObject{
         let f_size_smallx2 = FontHelper().getFontSize(strings: [create_word_text], font: font, maxFontSize: 120, width: finish_describtion.bounds.width, height: finish_describtion.bounds.height)
         finish_describtion.font = UIFont(name: font, size: CGFloat(f_size_smallx2))
         finish_describtion.alpha = 0.8
+        finish_describtion.tag = 1001
         view.addSubview(finish_describtion)
         
         let f_img = UIImageView(image: UIImage(named: "plus"))
         f_img.bounds = CGRect(x: 0, y: 0, width: 0.25*finish_btn.bounds.width, height: 0.7*finish_btn.bounds.height)
         f_img.center = finish_btn.center
+        f_img.tag = 1002
         view.addSubview(f_img)
         
         let ans_view = UILabel()
@@ -233,6 +236,38 @@ class GraphicBuilder: NSObject{
         cross.alpha = 0
         cross.backgroundColor = UIColor.clear
         category_view.addSubview(cross)
+        
+        return view
+    }
+    
+    func buildEditView(categories: [String]) -> UIView{
+        let view = self.buildCreateWord(categories: categories)
+        
+        (view.viewWithTag(1000) as! UILabel).text = edit_page_title
+        let d = view.viewWithTag(1001) as! UILabel
+        d.text = edit_page_describtion
+        
+        let btn = view.viewWithTag(800) as! UIButton
+        btn.frame = CGRect(x: 0.1*window_width, y: btn.frame.minY, width: 0.37*window_width, height: btn.frame.height)
+        let img = view.viewWithTag(1002) as! UIImageView
+        img.image = UIImage(named: "edit")
+        img.bounds = CGRect(x: 0, y: 0, width: img.bounds.height, height: img.bounds.height)
+        img.center = btn.center
+        
+        d.center = CGPoint(x: btn.center.x, y: d.center.y)
+        
+        let cancel_btn = UIButton()
+        cancel_btn.bounds = btn.bounds
+        cancel_btn.setTitle(edit_page_cancel_text, for: .normal)
+        cancel_btn.setTitleColor(UIColor.white, for: .normal)
+        cancel_btn.backgroundColor = UIColor.clear
+        cancel_btn.layer.borderWidth = 2
+        cancel_btn.layer.borderColor = UIColor.white.cgColor
+        cancel_btn.center = CGPoint(x: 0.9*window_width - cancel_btn.bounds.width / 2, y: btn.center.y)
+        cancel_btn.layer.cornerRadius = cancel_btn.bounds.height / 2
+        cancel_btn.tag = 801
+        cancel_btn.isUserInteractionEnabled = true
+        view.addSubview(cancel_btn)
         
         return view
     }

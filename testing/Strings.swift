@@ -40,3 +40,8 @@ let delete_alert_question = "Удалить слово?"
 let delete_alert_warning = "Слово будет удалено из вашего аккаунта"
 let delete_alert_delete = "Удалить"
 let delete_alert_cancel = "Отмена"
+
+//Edit page
+let edit_page_title = "Редактирование"
+let edit_page_describtion = "Сохранить"
+let edit_page_cancel_text = "Отмена"

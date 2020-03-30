@@ -17,9 +17,10 @@ class ChangeWordViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.ed_text_english.delegate = self
-        self.ed_text_russian.delegate = self
+        let gb = GraphicBuilder(width: view.frame.width, height: view.frame.height)
+        view.addSubview(gb.buildEditView(categories: default_categories))
+        //self.ed_text_english.delegate = self
+        //self.ed_text_russian.delegate = self
     }
     
     @IBAction func Submit(_ sender: Any) {

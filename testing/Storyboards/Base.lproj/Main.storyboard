@@ -13,99 +13,19 @@
             <objects>
                 <viewController id="OEw-I6-jdo" customClass="ChangeWordViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kxt-AX-9Nf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YZu-Lh-6mq">
-                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Change word" id="YZe-qP-13H">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="23O-j4-9Rt"/>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Translation" lineBreakMode="middleTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="wCS-h4-gqW">
-                                <rect key="frame" x="31" y="349.66666666666669" width="352" height="36.666666666666686"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="120"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" text="Hello" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Cp-cg-amr">
-                                <rect key="frame" x="31" y="401.33333333333331" width="352" height="51.666666666666686"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                </variation>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CV2-Ha-BcJ">
-                                <rect key="frame" x="41.333333333333343" y="502.99999999999994" width="331.33333333333326" height="40.333333333333314"/>
-                                <color key="backgroundColor" red="1" green="0.34260344139999999" blue="0.26360290339999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Submit"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                </variation>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" text="Hello" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Npx-4k-pev">
-                                <rect key="frame" x="31" y="258" width="352" height="51.666666666666686"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                </variation>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AkM-NH-6mi">
-                                <rect key="frame" x="41.333333333333343" y="553.33333333333337" width="331.33333333333326" height="40.666666666666629"/>
-                                <color key="backgroundColor" red="1" green="0.34260344139999999" blue="0.26360290339999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Delete word"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                </variation>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="English" lineBreakMode="middleTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dib-oK-ldM">
-                                <rect key="frame" x="31" y="206.33333333333334" width="352" height="36.666666666666657"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="120"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="FkR-Kl-FFr">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="wCS-h4-gqW" firstAttribute="width" secondItem="Kxt-AX-9Nf" secondAttribute="width" multiplier="0.85" id="8fi-NV-p46"/>
-                            <constraint firstItem="AkM-NH-6mi" firstAttribute="width" secondItem="Kxt-AX-9Nf" secondAttribute="width" multiplier="0.8" id="9j8-eX-geD"/>
-                            <constraint firstItem="Npx-4k-pev" firstAttribute="top" secondItem="Dib-oK-ldM" secondAttribute="bottom" constant="15" id="A7Y-qT-z4d"/>
-                            <constraint firstItem="AkM-NH-6mi" firstAttribute="top" secondItem="CV2-Ha-BcJ" secondAttribute="bottom" constant="10" id="B7K-h5-set">
-                                <variation key="heightClass=regular-widthClass=regular" constant="40"/>
-                            </constraint>
-                            <constraint firstItem="AkM-NH-6mi" firstAttribute="height" secondItem="Kxt-AX-9Nf" secondAttribute="height" multiplier="0.055" id="Bg6-Nb-mhy"/>
-                            <constraint firstItem="AkM-NH-6mi" firstAttribute="centerX" secondItem="Kxt-AX-9Nf" secondAttribute="centerX" id="CVb-Am-h4l"/>
-                            <constraint firstItem="Npx-4k-pev" firstAttribute="width" secondItem="Kxt-AX-9Nf" secondAttribute="width" multiplier="0.85" id="DxZ-nU-MF1"/>
-                            <constraint firstItem="Dib-oK-ldM" firstAttribute="width" secondItem="Kxt-AX-9Nf" secondAttribute="width" multiplier="0.85" id="EyD-N1-js4"/>
-                            <constraint firstItem="CV2-Ha-BcJ" firstAttribute="width" secondItem="Kxt-AX-9Nf" secondAttribute="width" multiplier="0.8" id="Ghv-gc-VfR"/>
-                            <constraint firstItem="2Cp-cg-amr" firstAttribute="top" secondItem="wCS-h4-gqW" secondAttribute="bottom" constant="15" id="IoC-V5-ova"/>
-                            <constraint firstItem="2Cp-cg-amr" firstAttribute="height" secondItem="Kxt-AX-9Nf" secondAttribute="height" multiplier="0.07" id="PcL-p4-25Z"/>
-                            <constraint firstItem="CV2-Ha-BcJ" firstAttribute="centerX" secondItem="Kxt-AX-9Nf" secondAttribute="centerX" id="Slq-tt-gfY"/>
-                            <constraint firstItem="Dib-oK-ldM" firstAttribute="height" secondItem="Kxt-AX-9Nf" secondAttribute="height" multiplier="0.05" id="T2M-cQ-7AB"/>
-                            <constraint firstItem="CV2-Ha-BcJ" firstAttribute="height" secondItem="Kxt-AX-9Nf" secondAttribute="height" multiplier="0.055" id="Yy7-Gs-atG"/>
-                            <constraint firstItem="Dib-oK-ldM" firstAttribute="centerX" secondItem="Kxt-AX-9Nf" secondAttribute="centerX" id="Zaq-iQ-Rqd"/>
-                            <constraint firstItem="wCS-h4-gqW" firstAttribute="height" secondItem="Kxt-AX-9Nf" secondAttribute="height" multiplier="0.05" id="bLW-xW-2y9"/>
-                            <constraint firstItem="Npx-4k-pev" firstAttribute="centerX" secondItem="Kxt-AX-9Nf" secondAttribute="centerX" id="gBz-hj-bSQ"/>
-                            <constraint firstItem="Npx-4k-pev" firstAttribute="height" secondItem="Kxt-AX-9Nf" secondAttribute="height" multiplier="0.07" id="k5I-dL-t84"/>
-                            <constraint firstItem="2Cp-cg-amr" firstAttribute="centerX" secondItem="Kxt-AX-9Nf" secondAttribute="centerX" id="mIQ-yv-LuI"/>
-                            <constraint firstItem="wCS-h4-gqW" firstAttribute="top" secondItem="Npx-4k-pev" secondAttribute="bottom" constant="40" id="p4r-mo-yf0">
-                                <variation key="heightClass=regular-widthClass=regular" constant="150"/>
-                            </constraint>
-                            <constraint firstItem="wCS-h4-gqW" firstAttribute="centerX" secondItem="Kxt-AX-9Nf" secondAttribute="centerX" id="qcY-ke-3vG"/>
-                            <constraint firstItem="2Cp-cg-amr" firstAttribute="width" secondItem="Kxt-AX-9Nf" secondAttribute="width" multiplier="0.85" id="qhY-F1-Jai"/>
-                            <constraint firstItem="wCS-h4-gqW" firstAttribute="centerY" secondItem="Kxt-AX-9Nf" secondAttribute="centerY" id="uLl-qN-ldA"/>
-                            <constraint firstItem="CV2-Ha-BcJ" firstAttribute="top" secondItem="2Cp-cg-amr" secondAttribute="bottom" constant="50" id="udJ-UI-iYS">
-                                <variation key="heightClass=regular-widthClass=regular" constant="150"/>
-                            </constraint>
+                            <constraint firstItem="FkR-Kl-FFr" firstAttribute="leading" secondItem="Ogm-g4-lmV" secondAttribute="leading" id="HO8-yW-jgP"/>
+                            <constraint firstItem="FkR-Kl-FFr" firstAttribute="top" secondItem="Ogm-g4-lmV" secondAttribute="top" id="pmG-y8-kaG"/>
+                            <constraint firstItem="Ogm-g4-lmV" firstAttribute="trailing" secondItem="FkR-Kl-FFr" secondAttribute="trailing" id="r0A-hf-Yzm"/>
+                            <constraint firstItem="Ogm-g4-lmV" firstAttribute="bottom" secondItem="FkR-Kl-FFr" secondAttribute="bottom" id="sWz-28-1Mw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ogm-g4-lmV"/>
                     </view>
@@ -113,7 +33,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SuN-pP-tBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1146" y="130"/>
+            <point key="canvasLocation" x="1144.9275362318842" y="129.61956521739131"/>
         </scene>
         <!--AuthVC-->
         <scene sceneID="oGQ-Hm-XYj">
@@ -156,6 +76,7 @@
                     </view>
                     <connections>
                         <segue destination="zjN-e2-0KL" kind="show" identifier="signing_out" id="4Yq-xe-kbz"/>
+                        <segue destination="OEw-I6-jdo" kind="show" identifier="create_word_segue" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="gRe-sj-1m1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ojR-if-kKx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

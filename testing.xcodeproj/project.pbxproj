@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		400979BE6C24F1974954E3C7 /* libPods-testing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AE17205D32347E213C5A3F /* libPods-testing.a */; };
+		DA5AEAA424323FC0009DC286 /* SmoothSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */; };
 		DA60BA2C24247AAE00146E87 /* ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60BA2B24247AAE00146E87 /* ext.swift */; };
 		DA670927222D73F600595D5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA670926222D73F600595D5E /* AppDelegate.swift */; };
 		DA670929222D73F600595D5E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA670928222D73F600595D5E /* ViewController.swift */; };
@@ -34,6 +35,7 @@
 		415AEFBD7CAD8BED08E77D8F /* Pods-testing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testing.debug.xcconfig"; path = "Target Support Files/Pods-testing/Pods-testing.debug.xcconfig"; sourceTree = "<group>"; };
 		96AE17205D32347E213C5A3F /* libPods-testing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-testing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDC2F386D1A34A1D7D7E2148 /* Pods-testing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testing.release.xcconfig"; path = "Target Support Files/Pods-testing/Pods-testing.release.xcconfig"; sourceTree = "<group>"; };
+		DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmoothSegue.swift; sourceTree = "<group>"; };
 		DA60BA2B24247AAE00146E87 /* ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext.swift; sourceTree = "<group>"; };
 		DA670923222D73F600595D5E /* testing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA670926222D73F600595D5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				DAC96E462423AA9100675EEA /* Strings.swift */,
 				DA60BA2B24247AAE00146E87 /* ext.swift */,
 				DAEC4194242F38E300944B7F /* MainViewController.swift */,
+				DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */,
 			);
 			path = testing;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */,
 				DAC96E472423AA9100675EEA /* Strings.swift in Sources */,
 				DAE37194223D0AD300F6E5E1 /* NewWordViewController.swift in Sources */,
+				DA5AEAA424323FC0009DC286 /* SmoothSegue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

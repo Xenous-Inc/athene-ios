@@ -11,6 +11,8 @@ import UIKit
 import os
 import Firebase
 
+var main_vc = MainViewController()
+
 class MainViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate, UIPageViewControllerDelegate {
     
     var currentPageIndex:Int = 0 // holds the current page index
@@ -64,6 +66,8 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        main_vc = self
         
         if(UserDefaults.isFirstLaunch()){
             //Run tutorial
