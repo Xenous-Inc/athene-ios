@@ -13,6 +13,9 @@ let choose_category = "Выберете категорию"
 let choose_cat_describtion = "или добавьте новую"
 let add_cat_text = "Добавить новую"
 let create_word_text = "Добавить новое слово"
+let add_category = "Добавить категорию"
+let save_category = "Сохранить"
+let add_cat_placeholder = "Впишиите название категории"
 
 let default_categories = ["Еда", "Спорт", "Транспорт", "Наука", "Одежда", "Разное"]
 
@@ -45,3 +48,22 @@ let delete_alert_cancel = "Отмена"
 let edit_page_title = "Редактирование"
 let edit_page_describtion = "Сохранить"
 let edit_page_cancel_text = "Отмена"
+
+//Auth
+let log_in_title = "Вход"
+let auth_placeholders = ["Email", "Пароль", "Повторите пароль"]
+let forgot_text = "Забыли пароль?"
+let sign_up_invite_text = "Еще нет аккаунта? Зарегистрируйтесь"
+let sign_up_title = "Регистрация"
+
+//Auth error alerts
+let error_title = "Ошибка"
+let error_texts = ["Неверный пароль", "Пользователя с таким email не существует", "Ошибка при авторизации. Проверьте подключение к интернету и попробуйте еще раз", "Email не подтвержен. Проверьте вашу почту."]
+let error_texts_sign_up = ["Пароли не совпадают", "Ошибка при регистрации. Проверьте подключение к интернету и попробуйте еще раз", "Ошибка при отправки письма на почту. Проверьте подключение к интернету."]
+let verification_sent_text = "Проверьте почту"
+let verification_sent_describtion = "Мы отправили вам письмо для подтверждения вашел электронной почты"
+
+let alert_ok = "Ок"
+
+let reset_password_title = "Письмо для сброса пароля отправлено"
+let reset_password_describtion = "Мы отправили вам на почту письмо с инструкциями для сброса пароля к вашему аккаунту."

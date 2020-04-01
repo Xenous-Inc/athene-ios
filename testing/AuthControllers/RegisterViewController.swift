@@ -9,72 +9,87 @@
 import UIKit
 import Firebase
 import os
-
+var email = ""
 class RegisterViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var ed_text_username: UITextField!
-    @IBOutlet weak var ed_text_email: UITextField!
-    @IBOutlet weak var ed_text_password: UITextField!
-    @IBOutlet weak var ed_text_password_confirm: UITextField!
-    
-    
+    var ed_text_email = UITextField()
+    var ed_text_password = UITextField()
+    var ed_text_password_confirm = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.ed_text_username.delegate = self
+        email = ""
+        let gb = AuthGraphicBuilder(width: view.bounds.width, height: view.bounds.height)
+        view.addSubview(gb.buildSignUpView())
+        
+        (view.viewWithTag(800) as! UIButton).addTarget(self, action: #selector(Register(_:)), for: .touchUpInside)
+        
+        ed_text_email = view.viewWithTag(1) as! UITextField
+        ed_text_password = view.viewWithTag(2) as! UITextField
+        ed_text_password_confirm = view.viewWithTag(3) as! UITextField
+        
         self.ed_text_email.delegate = self
         self.ed_text_password.delegate = self
         self.ed_text_password_confirm.delegate = self
     }
     
-    @IBAction func Register(_ sender: Any) {
+    @objc func Register(_ sender: Any) {
         if(ed_text_password.text! == ed_text_password_confirm.text!){
+            view.isUserInteractionEnabled = false
+            let v = UIView(frame: view.frame)
+            v.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
+            v.alpha = 0
+            view.addSubview(v)
+            let indicator = UIActivityIndicatorView()
+            indicator.style = .whiteLarge
+            indicator.center = view.center
+            UIView.animate(withDuration: 0.1, animations: {
+                v.alpha = 1
+            }, completion: {(finished: Bool) in
+                self.view.addSubview(indicator)
+                indicator.startAnimating()
+            })
+            email = ed_text_email.text!
             Auth.auth().createUser(withEmail: ed_text_email.text!, password: ed_text_password.text!) { authResult, error in
+                self.view.layer.removeAllAnimations()
+                self.view.isUserInteractionEnabled = true
+                v.removeFromSuperview()
+                indicator.removeFromSuperview()
                 if error != nil{
-                    self.errorAlert(text_error: "Unknown error while registrating, try again")
+                    self.messageAlert(message: error_title, text_error: error_texts_sign_up[1])
                     return
                 }
                 user = Auth.auth().currentUser!
-                Database.database().reference().child("users").child(user?.uid ?? "").child("username").setValue(self.ed_text_username.text!)
                 Auth.auth().currentUser?.sendEmailVerification { (error) in
                     os_log("Error while sending verification email")
-                    self.errorAlert(text_error: "Error while sending verification email")
+                    self.messageAlert(message: error_title, text_error: error_texts_sign_up[2])
                     return
                 }
                 do{
                     try Auth.auth().signOut()
-                    let alert = UIAlertController(title: "Verification email sent", message: "Please check you email address to verify your email", preferredStyle: UIAlertController.Style.alert)
+                    let alert = UIAlertController(title: verification_sent_text, message: verification_sent_describtion, preferredStyle: UIAlertController.Style.alert)
                     
-                    alert.addAction(UIAlertAction(title: "Got it", style: UIAlertAction.Style.default, handler: {(action) in
+                    alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: {(action) in
                         alert.dismiss(animated: true, completion: nil)
-                        self.performSegue(withIdentifier: "to_login_after_reg", sender: RegisterViewController.self)
+                        self.performSegue(withIdentifier: "to_log_in_segue", sender: RegisterViewController.self)
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }catch _ as NSError{
-                    self.errorAlert(text_error: "Unknown error. check internet connection and try again")
+                    self.messageAlert(message: error_title, text_error: error_texts_sign_up[1])
                     os_log("error")
                 }
                 
             }
-            
-            
         }else{
-            errorAlert(text_error: "Passwords are different")
+            messageAlert(message: error_title, text_error: error_texts_sign_up[0])
         }
     }
     
-    func errorAlert(text_error: String){
-        let alert = UIAlertController(title: "Error", message: text_error, preferredStyle: UIAlertController.Style.alert)
+    func messageAlert(message: String, text_error: String){
+        let alert = UIAlertController(title: message, message: text_error, preferredStyle: UIAlertController.Style.alert)
         
-        alert.addAction(UIAlertAction(title: "Back", style: UIAlertAction.Style.default, handler: {(action) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
+        alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    @IBAction func Back(_ sender: Any) {
-        performSegue(withIdentifier: "back_from_register", sender: self)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -82,7 +97,6 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        ed_text_username.resignFirstResponder()
         ed_text_email.resignFirstResponder()
         ed_text_password.resignFirstResponder()
         ed_text_password_confirm.resignFirstResponder()

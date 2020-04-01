@@ -11,13 +11,13 @@
         <!--Change Word View Controller-->
         <scene sceneID="fhb-Ag-FmF">
             <objects>
-                <viewController id="OEw-I6-jdo" customClass="ChangeWordViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="OEw-I6-jdo" customClass="ChangeWordViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kxt-AX-9Nf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="FkR-Kl-FFr">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -38,10 +38,10 @@
             </objects>
             <point key="canvasLocation" x="1144.9275362318842" y="129.61956521739131"/>
         </scene>
-        <!--AuthVC-->
+        <!--loginvc-->
         <scene sceneID="oGQ-Hm-XYj">
             <objects>
-                <viewControllerPlaceholder storyboardName="Auth" referencedIdentifier="AuthVC" id="zjN-e2-0KL" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Auth" referencedIdentifier="loginvc" id="zjN-e2-0KL" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="f0e-xp-uzw"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pyw-ZA-1D9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -59,7 +59,7 @@
         <!--Main View Controller-->
         <scene sceneID="yrM-vQ-p8v">
             <objects>
-                <viewController storyboardIdentifier="MainVC" id="oQX-Oz-feE" customClass="MainViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainVC" modalPresentationStyle="fullScreen" id="oQX-Oz-feE" customClass="MainViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J9j-fP-QJE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -78,7 +78,7 @@
                         <viewLayoutGuide key="safeArea" id="2mc-gx-UUc"/>
                     </view>
                     <connections>
-                        <segue destination="zjN-e2-0KL" kind="show" identifier="signing_out" id="4Yq-xe-kbz"/>
+                        <segue destination="zjN-e2-0KL" kind="custom" identifier="signing_out" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="4Yq-xe-kbz"/>
                         <segue destination="OEw-I6-jdo" kind="show" identifier="create_word_segue" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="gRe-sj-1m1"/>
                     </connections>
                 </viewController>

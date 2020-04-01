@@ -16,9 +16,9 @@
 		DA67092E222D740300595D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA67092D222D740300595D5E /* Assets.xcassets */; };
 		DA670931222D740300595D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA67092F222D740300595D5E /* LaunchScreen.storyboard */; };
 		DA67093B223232B300595D5E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA67093A223232B200595D5E /* GoogleService-Info.plist */; };
-		DA8CB9452253195C00D40849 /* FirstLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB9442253195C00D40849 /* FirstLogInViewController.swift */; };
 		DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB94622531B4400D40849 /* LogInViewController.swift */; };
 		DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB9482253252E00D40849 /* RegisterViewController.swift */; };
+		DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95513424339A0300357808 /* AuthGraphicBuilder.swift */; };
 		DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E422423A71F00675EEA /* GraphicBuilder.swift */; };
 		DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E442423AA1D00675EEA /* FontHelper.swift */; };
 		DAC96E472423AA9100675EEA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E462423AA9100675EEA /* Strings.swift */; };
@@ -45,9 +45,9 @@
 		DA670930222D740300595D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA670932222D740300595D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA67093A223232B200595D5E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		DA8CB9442253195C00D40849 /* FirstLogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLogInViewController.swift; sourceTree = "<group>"; };
 		DA8CB94622531B4400D40849 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		DA8CB9482253252E00D40849 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		DA95513424339A0300357808 /* AuthGraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGraphicBuilder.swift; sourceTree = "<group>"; };
 		DAC96E422423A71F00675EEA /* GraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicBuilder.swift; sourceTree = "<group>"; };
 		DAC96E442423AA1D00675EEA /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		DAC96E462423AA9100675EEA /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -143,7 +143,6 @@
 		DAEC4196242F913900944B7F /* AuthControllers */ = {
 			isa = PBXGroup;
 			children = (
-				DA8CB9442253195C00D40849 /* FirstLogInViewController.swift */,
 				DA8CB9482253252E00D40849 /* RegisterViewController.swift */,
 				DA8CB94622531B4400D40849 /* LogInViewController.swift */,
 			);
@@ -156,6 +155,7 @@
 				DAC96E422423A71F00675EEA /* GraphicBuilder.swift */,
 				DAC96E442423AA1D00675EEA /* FontHelper.swift */,
 				DAEC4198242F91AF00944B7F /* CustomPageControl.swift */,
+				DA95513424339A0300357808 /* AuthGraphicBuilder.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -171,6 +171,7 @@
 				DA67091F222D73F600595D5E /* Sources */,
 				DA670920222D73F600595D5E /* Frameworks */,
 				DA670921222D73F600595D5E /* Resources */,
+				D03574B5967B0574CAAB119C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -252,6 +253,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D03574B5967B0574CAAB119C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-testing/Pods-testing-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-testing/Pods-testing-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-testing/Pods-testing-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -266,10 +284,10 @@
 				DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */,
 				DAEC4199242F91AF00944B7F /* CustomPageControl.swift in Sources */,
 				DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */,
-				DA8CB9452253195C00D40849 /* FirstLogInViewController.swift in Sources */,
 				DAEC4195242F38E300944B7F /* MainViewController.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
 				DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */,
+				DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */,
 				DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */,
 				DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */,
 				DAC96E472423AA9100675EEA /* Strings.swift in Sources */,

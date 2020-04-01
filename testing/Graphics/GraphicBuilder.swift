@@ -23,9 +23,14 @@ class GraphicBuilder: NSObject{
     var bottom_bar_height_small: CGFloat = 0
     var bottom_bar_width_small: CGFloat = 0
     
+    let min_len: CGFloat
+    let padding: CGFloat
+    
     init(width: CGFloat, height: CGFloat) {
         window_width = width
         window_height = height
+        min_len = 0.12*window_width
+        padding = 0.04*window_width
     }
     
     func buildCreateWord(categories: [String]) -> UIView{
@@ -146,12 +151,10 @@ class GraphicBuilder: NSObject{
         scroll.isUserInteractionEnabled = true
         category_view.addSubview(scroll)
         
-        let min_len = 0.12*window_width
-        let padding = 0.04*window_width
         var block_lens: [CGFloat] = []
         for i in 0..<categories.count{
             let l1 = 2*padding + (categories[i] as NSString).size(withAttributes: d).width
-            block_lens.append(max(l1, min_len))
+            block_lens.append(min(max(l1, min_len), scroll.bounds.width))
         }
         var start_line = 0
         var current_len: CGFloat = -padding
@@ -159,7 +162,7 @@ class GraphicBuilder: NSObject{
         categories_centers = []
         var trig = true
         for i in 0..<categories.count{
-            let limit = trig ? scroll.bounds.width - padding - cross_sz : scroll.bounds.width
+            let limit = trig ? scroll.bounds.width - padding - 1.45*cross_sz : scroll.bounds.width
             if(current_len + padding + block_lens[i] > limit){
                 trig = false
                 let n = i - start_line
@@ -229,12 +232,14 @@ class GraphicBuilder: NSObject{
         category_view.addSubview(add_btn)
         
         let cross = UIButton()
-        cross.frame = CGRect(x: bottom_bar_width - category_view.layer.cornerRadius -  cross_sz - (bottom_bar_width - category_view.bounds.width) / 2, y: category_view.layer.cornerRadius, width: cross_sz, height: cross_sz)
-        drawLine(view: cross, start: CGPoint(x: 0, y: 0), end: CGPoint(x: cross_sz, y: cross_sz), color: UIColor.init(rgb: cross_color).cgColor, width: 2)
-        drawLine(view: cross, start: CGPoint(x: 0, y: cross_sz), end: CGPoint(x: cross_sz, y: 0), color: UIColor.init(rgb: cross_color).cgColor, width: 2)
+        cross.bounds = CGRect(x: 0, y: 0, width: 1.45*cross_sz, height: 1.45*cross_sz)
+        cross.center = CGPoint(x: bottom_bar_width - category_view.layer.cornerRadius - cross.bounds.width / 2 - (bottom_bar_width - scroll.bounds.width), y: category_view.layer.cornerRadius + cross.bounds.height / 2)
+        drawLine(view: cross, start: CGPoint(x: 0.4*cross_sz, y: 0.4*cross_sz), end: CGPoint(x: cross.bounds.width - 0.4*cross_sz, y: cross.bounds.height - 0.4*cross_sz), color: UIColor.init(rgb: cross_color).cgColor, width: 2)
+        drawLine(view: cross, start: CGPoint(x: 0.4*cross_sz, y: cross.bounds.height - 0.4*cross_sz), end: CGPoint(x: cross.bounds.width - 0.4*cross_sz, y: 0.4*cross_sz), color: UIColor.init(rgb: cross_color).cgColor, width: 2)
         cross.tag = 500
         cross.alpha = 0
-        cross.backgroundColor = UIColor.clear
+        cross.backgroundColor = UIColor.init(white: 1, alpha: 0.8)
+        cross.layer.cornerRadius = cross.bounds.height / 2
         category_view.addSubview(cross)
         
         return view
