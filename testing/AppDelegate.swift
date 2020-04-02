@@ -12,7 +12,7 @@ import GoogleSignIn
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         FirebaseApp.configure()
         
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
-        GIDSignIn.sharedInstance()?.delegate = self
         
         return true
     }
@@ -30,27 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
       -> Bool {
       return GIDSignIn.sharedInstance().handle(url)
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        if let err = error{
-            print("Failed to log into Google: ", err)
-            return
-        }
-        
-        guard let idtoken = user.authentication.idToken else {return}
-        guard let accesstoken = user.authentication.accessToken else {return}
-        
-        let credentials = GoogleAuthProvider.credential(withIDToken: idtoken, accessToken: accesstoken)
-        
-        Auth.auth().signIn(with: credentials, completion: {(user, error) in
-            if let e = error{
-                print("Failed to log in Firebase using Google: ", e)
-            }
-            print("Successfully logged in Firebase", user!.uid)
-        })
-        
-        print("Successfully logged into Google ", user)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

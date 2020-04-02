@@ -73,7 +73,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
             //Run tutorial
             //return
         }
-        if(true){//Auth.auth().currentUser == nil){
+        if(Auth.auth().currentUser == nil){
             os_log("Signing out...")
             DispatchQueue.main.async(){
                 self.performSegue(withIdentifier: "signing_out", sender: self)

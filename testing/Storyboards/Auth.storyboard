@@ -47,7 +47,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vW4-nk-Y1G" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-111" y="-191"/>
+            <point key="canvasLocation" x="246" y="-193"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="daz-WP-vja">
@@ -73,6 +73,7 @@
                     <navigationItem key="navigationItem" id="5n3-bn-512"/>
                     <connections>
                         <segue destination="Dwd-RA-8FH" kind="custom" identifier="to_log_in_segue" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="bYd-ET-mOO"/>
+                        <segue destination="H1Z-6T-ZjC" kind="custom" identifier="to_main_from_sign_up" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="l8H-LA-G7m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5o-HW-0WR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -93,4 +94,7 @@
     <resources>
         <image name="bg" width="207" height="368"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="l8H-LA-G7m"/>
+    </inferredMetricsTieBreakers>
 </document>

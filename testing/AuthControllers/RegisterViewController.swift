@@ -8,9 +8,11 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 import os
+
 var email = ""
-class RegisterViewController: UIViewController, UITextFieldDelegate {
+class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
 
     var ed_text_email = UITextField()
     var ed_text_password = UITextField()
@@ -22,7 +24,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         let gb = AuthGraphicBuilder(width: view.bounds.width, height: view.bounds.height)
         view.addSubview(gb.buildSignUpView())
         
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().signIn()
+        GIDSignIn.sharedInstance()?.delegate = self
+        
         (view.viewWithTag(800) as! UIButton).addTarget(self, action: #selector(Register(_:)), for: .touchUpInside)
+        (view.viewWithTag(802) as! UIButton).addTarget(self, action: #selector(googleAuth(_sender:)), for: .touchUpInside)
         
         ed_text_email = view.viewWithTag(1) as! UITextField
         ed_text_password = view.viewWithTag(2) as! UITextField
@@ -33,28 +40,50 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         self.ed_text_password_confirm.delegate = self
     }
     
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let err = error{
+            print("Failed to log into Google: ", err)
+            return
+        }
+        
+        guard let idtoken = user.authentication.idToken else {return}
+        guard let accesstoken = user.authentication.accessToken else {return}
+        
+        let credentials = GoogleAuthProvider.credential(withIDToken: idtoken, accessToken: accesstoken)
+        
+        let v = LoadingView()
+        v.set(frame: view.frame)
+        view.addSubview(v)
+        v.show()
+        
+        Auth.auth().signIn(with: credentials, completion: {(user, error) in
+            v.removeFromSuperview()
+            if let e = error{
+                print("Failed to log in Firebase using Google: ", e)
+            }
+            self.performSegue(withIdentifier: "to_main_from_sign_up", sender: self)
+            print("Successfully logged in Firebase", user!.uid)
+        })
+        
+        print("Successfully logged into Google ", user)
+    }
+    
+    @objc func googleAuth(_sender: Any){
+        GIDSignIn.sharedInstance()?.signIn()
+    }
+    
     @objc func Register(_ sender: Any) {
         if(ed_text_password.text! == ed_text_password_confirm.text!){
             view.isUserInteractionEnabled = false
-            let v = UIView(frame: view.frame)
-            v.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
-            v.alpha = 0
+            let v = LoadingView()
+            v.set(frame: view.frame)
             view.addSubview(v)
-            let indicator = UIActivityIndicatorView()
-            indicator.style = .whiteLarge
-            indicator.center = view.center
-            UIView.animate(withDuration: 0.1, animations: {
-                v.alpha = 1
-            }, completion: {(finished: Bool) in
-                self.view.addSubview(indicator)
-                indicator.startAnimating()
-            })
+            v.show()
             email = ed_text_email.text!
             Auth.auth().createUser(withEmail: ed_text_email.text!, password: ed_text_password.text!) { authResult, error in
                 self.view.layer.removeAllAnimations()
                 self.view.isUserInteractionEnabled = true
                 v.removeFromSuperview()
-                indicator.removeFromSuperview()
                 if error != nil{
                     self.messageAlert(message: error_title, text_error: error_texts_sign_up[1])
                     return

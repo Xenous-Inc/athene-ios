@@ -284,6 +284,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         (view.viewWithTag(206) as! UIButton).addTarget(self, action: #selector(Delete(_:)), for: .touchUpInside)
         (view.viewWithTag(205) as! UIButton).addTarget(self, action: #selector(ChangeWord(_:)), for: .touchUpInside)
         
+        submit_btn.isEnabled = false
+        forgot_btn.isEnabled = false
+        
         user_id = Auth.auth().currentUser!.uid
         archive = []
         words = []
@@ -324,8 +327,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if(trig){
                 words.append(contentsOf : last_words)
                 self.text.text = words[current].russian
+                self.submit_btn.isEnabled = true
+                self.forgot_btn.isEnabled = true
             }else{
-                self.edit_text.isEnabled = false
                 self.text.text = no_words_for_today
             }
         })

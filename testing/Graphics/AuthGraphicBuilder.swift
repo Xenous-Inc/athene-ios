@@ -159,27 +159,44 @@ class AuthGraphicBuilder: NSObject{
             view.addSubview(ed_text)
         }
         
+        let pd = 0.05*window_width
+        
         let finish_btn = UIButton()
-        finish_btn.bounds = CGRect(x: 0, y: 0, width: 0.45*window_width, height: window_height / 18)
+        finish_btn.bounds = CGRect(x: 0, y: 0, width: 0.4*window_width, height: window_height / 18)
         finish_btn.setTitle("", for: .normal)
         finish_btn.setTitleColor(UIColor.white, for: .normal)
         finish_btn.backgroundColor = UIColor.clear
         finish_btn.layer.borderWidth = 2
         finish_btn.layer.borderColor = UIColor.white.cgColor
-        finish_btn.center = CGPoint(x: window_width / 2, y: 0.85*window_height - finish_btn.bounds.height / 2)
+        finish_btn.center = CGPoint(x: (window_width - 2*finish_btn.bounds.width - pd) / 2 + finish_btn.bounds.width / 2, y: 0.85*window_height - finish_btn.bounds.height / 2)
         finish_btn.layer.cornerRadius = finish_btn.bounds.height / 2
         finish_btn.tag = 800
         finish_btn.isUserInteractionEnabled = true
         view.addSubview(finish_btn)
         
         let f_img = UIImageView(image: UIImage(named: "next"))
-        f_img.bounds = CGRect(x: 0, y: 0, width: 0.25*finish_btn.bounds.width, height: 0.7*finish_btn.bounds.height)
+        f_img.bounds = CGRect(x: 0, y: 0, width: 0.35*finish_btn.bounds.width, height: 0.7*finish_btn.bounds.height)
         f_img.center = finish_btn.center
         f_img.tag = 801
         view.addSubview(f_img)
-
+        
+        let google_btn = UIButton()
+        google_btn.bounds = finish_btn.bounds
+        google_btn.center = CGPoint(x: finish_btn.frame.maxX + pd + google_btn.bounds.width / 2, y: 0.85*window_height - finish_btn.bounds.height / 2)
+        google_btn.backgroundColor = UIColor.white
+        google_btn.layer.cornerRadius = google_btn.bounds.height / 2
+        google_btn.tag = 802
+        view.addSubview(google_btn)
+        
+        let img = UIImage(named: "google_logo")
+        let h = 0.9*google_btn.bounds.height
+        let newSize = CGSize(width: h*(img!.size.width / img!.size.height), height: h)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        let imageView = UIImageView(image: img)
+        imageView.bounds = rect
+        imageView.center = google_btn.center
+        view.addSubview(imageView)
         
         return view
     }
-    
 }

@@ -11,7 +11,7 @@ import Firebase
 import GoogleSignIn
 import os
 
-class LogInViewController: UIViewController, UITextFieldDelegate {
+class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
     
 
     var ed_text_email = UITextField()
@@ -26,6 +26,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance().signIn()
+        GIDSignIn.sharedInstance()?.delegate = self
         
         let gb = AuthGraphicBuilder(width: view.frame.width, height: view.frame.height)
         view.addSubview(gb.buildBuildLogInView())
@@ -52,29 +53,47 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         GIDSignIn.sharedInstance()?.signIn()
     }
     
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let err = error{
+            print("Failed to log into Google: ", err)
+            return
+        }
+        
+        guard let idtoken = user.authentication.idToken else {return}
+        guard let accesstoken = user.authentication.accessToken else {return}
+        
+        let credentials = GoogleAuthProvider.credential(withIDToken: idtoken, accessToken: accesstoken)
+        
+        let v = LoadingView()
+        v.set(frame: view.frame)
+        view.addSubview(v)
+        v.show()
+        
+        Auth.auth().signIn(with: credentials, completion: {(user, error) in
+            v.removeFromSuperview()
+            if let e = error{
+                print("Failed to log in Firebase using Google: ", e)
+            }
+            self.performSegue(withIdentifier: "to_main", sender: self)
+            print("Successfully logged in Firebase", user!.uid)
+        })
+        
+        print("Successfully logged into Google ", user)
+    }
+    
     @objc func LogIn(_ sender: Any) {
         if(ed_text_email.text == "" || ed_text_password.text == ""){return}
         os_log("HELLO")
         view.isUserInteractionEnabled = false
-        let v = UIView(frame: view.frame)
-        v.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
-        v.alpha = 0
+        let v = LoadingView()
+        v.set(frame: view.frame)
         view.addSubview(v)
-        let indicator = UIActivityIndicatorView()
-        indicator.style = .whiteLarge
-        indicator.center = view.center
-        UIView.animate(withDuration: 0.1, animations: {
-            v.alpha = 1
-        }, completion: {(finished: Bool) in
-            self.view.addSubview(indicator)
-            indicator.startAnimating()
-        })
+        v.show()
         self.reset_password.isEnabled = true
         Auth.auth().signIn(withEmail: ed_text_email.text!, password: ed_text_password.text!, completion: { (u, err) in
             self.view.layer.removeAllAnimations()
             self.view.isUserInteractionEnabled = true
             v.removeFromSuperview()
-            indicator.removeFromSuperview()
             if let error = err{
                 let err_code = AuthErrorCode(rawValue: error._code)
                 switch err_code{

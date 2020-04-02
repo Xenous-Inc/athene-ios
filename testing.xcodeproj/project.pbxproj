@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,7 @@
 		DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB94622531B4400D40849 /* LogInViewController.swift */; };
 		DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB9482253252E00D40849 /* RegisterViewController.swift */; };
 		DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95513424339A0300357808 /* AuthGraphicBuilder.swift */; };
+		DA9551372435E61900357808 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9551362435E61500357808 /* LoadingView.swift */; };
 		DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E422423A71F00675EEA /* GraphicBuilder.swift */; };
 		DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E442423AA1D00675EEA /* FontHelper.swift */; };
 		DAC96E472423AA9100675EEA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E462423AA9100675EEA /* Strings.swift */; };
@@ -48,6 +49,7 @@
 		DA8CB94622531B4400D40849 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		DA8CB9482253252E00D40849 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DA95513424339A0300357808 /* AuthGraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGraphicBuilder.swift; sourceTree = "<group>"; };
+		DA9551362435E61500357808 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DAC96E422423A71F00675EEA /* GraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicBuilder.swift; sourceTree = "<group>"; };
 		DAC96E442423AA1D00675EEA /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		DAC96E462423AA9100675EEA /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				DAC96E442423AA1D00675EEA /* FontHelper.swift */,
 				DAEC4198242F91AF00944B7F /* CustomPageControl.swift */,
 				DA95513424339A0300357808 /* AuthGraphicBuilder.swift */,
+				DA9551362435E61500357808 /* LoadingView.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 			files = (
 				DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */,
 				DA60BA2C24247AAE00146E87 /* ext.swift in Sources */,
+				DA9551372435E61900357808 /* LoadingView.swift in Sources */,
 				DA670929222D73F600595D5E /* ViewController.swift in Sources */,
 				DAF1847B2420EA600031B68C /* Word.swift in Sources */,
 				DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */,
