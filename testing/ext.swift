@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 import AVFoundation
+import Firebase
 
 extension Date {
     func string(format: String) -> String {
@@ -62,4 +63,56 @@ func drawLine(view: UIView, start: CGPoint, end: CGPoint, color: CGColor, width:
     layer.fillColor = UIColor.clear.cgColor
     
     view.layer.addSublayer(layer)
+}
+
+func SetDates(){
+    now_date = Date().string(format: "yyyy-MM-dd")
+    next_date = (Calendar.current.date(byAdding: .day, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
+    week_date = (Calendar.current.date(byAdding: .day, value: 7, to: Date())!).string(format: "yyyy-MM-dd")
+    month_date = (Calendar.current.date(byAdding: .month, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
+    three_month_date = (Calendar.current.date(byAdding: .month, value: 3, to: Date())!).string(format: "yyyy-MM-dd")
+    six_month_date = (Calendar.current.date(byAdding: .month, value: 6, to: Date())!).string(format: "yyyy-MM-dd")
+}
+
+func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
+    user_id = Auth.auth().currentUser!.uid
+    archive = []
+    words = []
+    current = 0
+    number_of_words = 0
+    SetDates()
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    ref = Database.database().reference().child("users").child(user_id)
+    ref.child("words").observeSingleEvent(of: .value, with: { (snapshot) in
+        number_of_words = Int(snapshot.childrenCount)
+        var date: Date, count: Int
+        let enumerator = snapshot.children
+        while let snap = enumerator.nextObject() as? DataSnapshot{
+            date = dateFormatter.date(from: snap.childSnapshot(forPath: "date").value as? String ?? "")!
+            let n_date = dateFormatter.date(from: now_date)!
+            count = Calendar.current.dateComponents([.day], from: date, to: n_date).day!
+            let eng = snap.childSnapshot(forPath: "English").value as? String ?? ""
+            let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
+            let category = snap.childSnapshot(forPath: "category").value as? String ?? ""
+            var level = snap.childSnapshot(forPath: "level").value as? Int ?? 0
+            print("LEVEL: ", level, eng, count)
+            if(level == -1){
+                archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, ind: Int(snap.key)!))
+            }else if(count > 0){
+                ref.child("words").child(snap.key).child("date").setValue(now_date)
+                if(count >= 3 && (level == 1 || level == 2)){
+                    level = 0
+                }
+                ref.child("words").child(snap.key).child("level").setValue(level)
+                words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+            }else if(count == 0){
+                words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+            }
+        }
+        if let comp = completion{
+            comp(true)
+            print(words.count)
+        }
+    })
 }

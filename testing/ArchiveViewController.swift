@@ -10,10 +10,29 @@ import UIKit
 
 class ArchiveViewController: UITableViewController{
 
+    var frame: CGRect? = nil
+    
+    init(frame: CGRect)   {
+        print("init nibName style")
+        super.init(nibName: nil, bundle: nil)
+        self.frame = frame
+    }
+
+    // note slightly new syntax for 2017
+    required init?(coder aDecoder: NSCoder) {
+        print("init coder style")
+        super.init(coder: aDecoder)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.contentInset = UIEdgeInsets(top: 34,left: 0,bottom: 0,right: 0);
-        
+        self.tableView = UITableView(frame: self.view.frame)
+        if(frame != nil){
+            view.frame = frame!
+        }
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "archiveCell")
+        self.tableView.backgroundColor = UIColor.clear
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -27,6 +46,9 @@ class ArchiveViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "archiveCell", for: indexPath)
         cell.textLabel?.text = archive[indexPath.row].english + " - " + archive[indexPath.row].russian
+        cell.backgroundColor = UIColor.clear
+        cell.textLabel?.textColor = UIColor.white
+        cell.frame = cell.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         return cell
     }
 

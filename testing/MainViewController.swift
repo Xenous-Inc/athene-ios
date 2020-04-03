@@ -15,9 +15,14 @@ var main_vc = MainViewController()
 
 class MainViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate, UIPageViewControllerDelegate {
     
+    
+    @IBOutlet weak var sign_out_btn: UIButton!
+    
     var currentPageIndex:Int = 0 // holds the current page index
     var pageviewcontroller:UIPageViewController! // self explanatory
     var ViewControllers: [UIViewController] = [UIViewController]()
+    
+    let dateFormatter = DateFormatter()
     
     var lastPendingViewControllerIndex = 0
     
@@ -81,27 +86,50 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
             return
         }
         
-        pager_view.set(width: self.view.frame.width, height: 0.05*self.view.frame.height, tabs: 2)
+        user = Auth.auth().currentUser!
+        
+        pager_view.set(width: self.view.frame.width, height: 0.05*self.view.frame.height, tabs: 3, start: 1)
         pager_view.center = CGPoint(x: self.view.frame.width / 2, y: self.view.frame.height - pager_view.frame.height / 2)
         view.addSubview(pager_view)
         
         self.pageviewcontroller = (self.storyboard?.instantiateViewController(withIdentifier: "PageVC") as! UIPageViewController)
         self.pageviewcontroller.dataSource = self
         self.pageviewcontroller.delegate = self
-        ViewControllers.append(ViewController())
-        ViewControllers.append(NewWordViewController())
-        if let firstViewController = ViewControllers.first {
-                self.pageviewcontroller.setViewControllers([firstViewController],
-                                direction: .forward,
-                                animated: true,
-                                completion: nil)
-        }
-            
-        self.pageviewcontroller.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height-pager_view.frame.height)
-        self.addChild(pageviewcontroller)
-        self.view.addSubview(pageviewcontroller.view)
-        self.pageviewcontroller.didMove(toParent: self)
-        print(ViewControllers.count)
+        let top = sign_out_btn.frame.maxY + 0.02*view.bounds.height
+        self.pageviewcontroller.view.frame = CGRect(x: 0, y: top, width: self.view.frame.width, height: self.view.frame.height-self.pager_view.frame.height - top)
+        ViewControllers.append(ArchiveViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
+        ViewControllers.append(ViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
+        ViewControllers.append(NewWordViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
+        self.pageviewcontroller.setViewControllers([ViewControllers[1]], direction: .forward, animated: true, completion: nil)
+        
+        let v = LoadingView()
+        v.set(frame: view.frame)
+        view.addSubview(v)
+        v.show()
+        updateWordsFromDatabase(completion: {(finished: Bool) in
+            v.removeFromSuperview()
+            self.addChild(self.pageviewcontroller)
+            self.view.addSubview(self.pageviewcontroller.view)
+            self.pageviewcontroller.didMove(toParent: self)
+            (self.ViewControllers[1] as! ViewController).checkWordsUpdate()
+        })
     }
+    
+    @IBAction func logOut(_ sender: Any) {
+        let alert = UIAlertController(title: sign_out_question, message: nil, preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: sign_out_text, style: UIAlertAction.Style.default, handler: {(action) in
+            let firebaseAuth = Auth.auth()
+            do {
+                try firebaseAuth.signOut()
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "signing_out", sender: self)
+                }
+            } catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: sign_out_cancel, style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)    }
     
 }

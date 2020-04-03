@@ -23,18 +23,18 @@ var words: [Word] = []
 
 var user : User? = nil
 
+var now_date: String = ""
+var week_date: String = ""
+var month_date: String = ""
+var three_month_date: String = ""
+var six_month_date: String = ""
+
 class ViewController: UIViewController, UITextFieldDelegate {
 
     var edit_text: UITextField!
     var text: UITextField!
     var submit_btn: UIButton!
     var forgot_btn: UIButton!
-    
-    var now_date: String = ""
-    var week_date: String = ""
-    var month_date: String = ""
-    var three_month_date: String = ""
-    var six_month_date: String = ""
     
     var archive_amount = 0
     
@@ -44,9 +44,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var submit_btn_old_frame = CGRect()
     
+    var frame: CGRect? = nil
+    
+    init(frame: CGRect)   {
+        print("init nibName style")
+        super.init(nibName: nil, bundle: nil)
+        self.frame = frame
+    }
+
+    // note slightly new syntax for 2017
+    required init?(coder aDecoder: NSCoder) {
+        print("init coder style")
+        super.init(coder: aDecoder)
+        
+    }
+    
     //Navigation
     
     @objc func next_btn_pressed(_ sender: UIButton){
+        if(text.text! == end_of_words_text || text.text! == no_words_for_today){return}
         submit_btn.isEnabled = false
         forgot_btn.isEnabled = false
         if(answering){
@@ -270,7 +286,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if(frame != nil){
+            view.frame = frame!
+        }
         let gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
         view = gb.buildMainView()
         edit_text = view.viewWithTag(2) as? UITextField
@@ -287,65 +305,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
         submit_btn.isEnabled = false
         forgot_btn.isEnabled = false
         
-        user_id = Auth.auth().currentUser!.uid
-        archive = []
-        words = []
-        current = 0
         self.edit_text.delegate = self
-        number_of_words = 0
-        SetDates()
-        ref = Database.database().reference().child("users").child(user_id)
-        ref.child("words").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            number_of_words = Int(snapshot.childrenCount)
-            var date: Date, count: Int, trig: Bool = false
-            let enumerator = snapshot.children
-            var last_words :[Word] = []
-            while let snap = enumerator.nextObject() as? DataSnapshot{
-                date = self.dateFormatter.date(from: snap.childSnapshot(forPath: "date").value as? String ?? "")!
-                let n_date = self.dateFormatter.date(from: self.now_date)!
-                count = Calendar.current.dateComponents([.day], from: date, to: n_date).day!
-                let eng = snap.childSnapshot(forPath: "English").value as? String ?? ""
-                let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
-                let category = snap.childSnapshot(forPath: "category").value as? String ?? ""
-                var level = snap.childSnapshot(forPath: "category").value as? Int ?? 0
-                if(level == -1){
-                    archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, ind: Int(snap.key)!))
-                }else if(count > 0){
-                    trig = true
-                    ref.child("words").child(snap.key).child("date").setValue(self.now_date)
-                    if(count >= 3 && (level == 1 || level == 2)){
-                        level = 0
-                    }
-                    ref.child("words").child(snap.key).child("level").setValue(level)
-                    last_words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
-                }else if(count == 0){
-                    trig = true
-                    words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
-                }
-            }
-            if(trig){
-                words.append(contentsOf : last_words)
-                self.text.text = words[current].russian
-                self.submit_btn.isEnabled = true
-                self.forgot_btn.isEnabled = true
-            }else{
-                self.text.text = no_words_for_today
-            }
-        })
+        
+        checkWordsUpdate()
     }
     
-    func SetDates(){
-        now_date = Date().string(format: "yyyy-MM-dd")
-        next_date = (Calendar.current.date(byAdding: .day, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
-        week_date = (Calendar.current.date(byAdding: .day, value: 7, to: Date())!).string(format: "yyyy-MM-dd")
-        month_date = (Calendar.current.date(byAdding: .month, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
-        three_month_date = (Calendar.current.date(byAdding: .month, value: 3, to: Date())!).string(format: "yyyy-MM-dd")
-        six_month_date = (Calendar.current.date(byAdding: .month, value: 6, to: Date())!).string(format: "yyyy-MM-dd")
-        
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        
+    func checkWordsUpdate(){
+        if(current < words.count){
+            self.text.text = words[current].russian
+            self.submit_btn.isEnabled = true
+            self.forgot_btn.isEnabled = true
+        }else{
+            self.text.text = no_words_for_today
+        }
     }
     
     @objc func ChangeWord(_ sender: UIButton) {

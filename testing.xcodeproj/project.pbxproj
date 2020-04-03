@@ -116,6 +116,7 @@
 				DAEC4196242F913900944B7F /* AuthControllers */,
 				DAEC4191242F1D5100944B7F /* Storyboards */,
 				DA670926222D73F600595D5E /* AppDelegate.swift */,
+				DAEC4194242F38E300944B7F /* MainViewController.swift */,
 				DA670928222D73F600595D5E /* ViewController.swift */,
 				DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */,
 				DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */,
@@ -126,7 +127,6 @@
 				DAF1847A2420EA600031B68C /* Word.swift */,
 				DAC96E462423AA9100675EEA /* Strings.swift */,
 				DA60BA2B24247AAE00146E87 /* ext.swift */,
-				DAEC4194242F38E300944B7F /* MainViewController.swift */,
 				DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */,
 			);
 			path = testing;

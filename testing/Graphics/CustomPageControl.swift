@@ -16,7 +16,7 @@ class CustomPageControl: UIView{
     
     var current_tab = UIView()
     
-    func set(width: CGFloat, height: CGFloat, tabs: Int){
+    func set(width: CGFloat, height: CGFloat, tabs: Int, start: Int){
         self.bounds = CGRect(x: 0, y: 0, width: width, height: height)
         self.backgroundColor = UIColor.clear
         self.tabs = tabs
@@ -37,8 +37,8 @@ class CustomPageControl: UIView{
             
             self.addSubview(tab)
         }
-        
-        current_tab = UIView(frame: self.subviews.first!.frame)
+        current = start
+        current_tab = UIView(frame: self.subviews[start].frame)
         current_tab.backgroundColor = UIColor.white
         current_tab.layer.cornerRadius = current_tab.bounds.height / 2
         

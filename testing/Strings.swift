@@ -67,3 +67,8 @@ let alert_ok = "Ок"
 
 let reset_password_title = "Письмо для сброса пароля отправлено"
 let reset_password_describtion = "Мы отправили вам на почту письмо с инструкциями для сброса пароля к вашему аккаунту."
+
+let sign_out_question = "Выйти из аккаунты?"
+let sign_out_text = "Выйти"
+let sign_out_cancel = "Отмена"
+

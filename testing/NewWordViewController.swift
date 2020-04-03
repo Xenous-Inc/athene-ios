@@ -21,10 +21,28 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     var categories = default_categories
     var cat_count = 0
     
+    var frame: CGRect? = nil
+    
+    init(frame: CGRect)   {
+        print("init nibName style")
+        super.init(nibName: nil, bundle: nil)
+        self.frame = frame
+    }
+
+    // note slightly new syntax for 2017
+    required init?(coder aDecoder: NSCoder) {
+        print("init coder style")
+        super.init(coder: aDecoder)
+        
+    }
+    
     var opened = false
     var gb = GraphicBuilder(width: 0, height: 0)
     override func viewDidLoad() {
         super.viewDidLoad()
+        if(frame != nil){
+            view.frame = frame!
+        }
         print("test")
         gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
         initialSetting()
@@ -32,9 +50,10 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     
     func initialSetting(){
         categories = default_categories
-        ref.child("categories").observeSingleEvent(of: .value, with: {(snapshot) in
+        ref.observeSingleEvent(of: .value, with: {(snapshot) in
             self.cat_count = Int(snapshot.childrenCount)
-            let enumerator = snapshot.children
+            number_of_words = Int(snapshot.childSnapshot(forPath: "words").childrenCount)
+            let enumerator = snapshot.childSnapshot(forPath: "categories").children
             while let snap = enumerator.nextObject() as? DataSnapshot{
                 self.categories.append(snap.value as! String)
             }
