@@ -8,9 +8,10 @@
 
 import UIKit
 
-class ArchiveViewController: UITableViewController{
+class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     var frame: CGRect? = nil
+    var tableView: UITableView!
     
     init(frame: CGRect)   {
         print("init nibName style")
@@ -27,32 +28,38 @@ class ArchiveViewController: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView = UITableView(frame: self.view.frame)
         if(frame != nil){
             view.frame = frame!
         }
+        let v = CustomTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), content: ["Первый": [Word(eng: "nice", rus: "лол", ct: "", lvl: 0, ind: 0), Word(eng: "hello", rus: "привет", ct: "", lvl: 0, ind: 0)],
+                                                             "Second": [Word(eng: "house", rus: "дом", ct: "", lvl: 0, ind: 0)],
+                                                             "Third": [Word(eng: "perseverance", rus: "настойчивость", ct: "", lvl: 0, ind: 0), Word(eng: "doom", rus: "рок", ct: "", lvl: 0, ind: 0)]])
+        self.view.addSubview(v)
+        /*
+        self.tableView = UITableView(frame: self.view.frame)
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "archiveCell")
         self.tableView.backgroundColor = UIColor.clear
+        self.tableView.frame = view.frame
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self*/
+ 
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return archive.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "archiveCell", for: indexPath)
         cell.textLabel?.text = archive[indexPath.row].english + " - " + archive[indexPath.row].russian
         cell.backgroundColor = UIColor.clear
         cell.textLabel?.textColor = UIColor.white
         cell.frame = cell.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         return cell
-    }
-
-    @IBAction func Back(_ sender: Any) {
-        performSegue(withIdentifier: "back_from_archive", sender: self)
     }
 }
