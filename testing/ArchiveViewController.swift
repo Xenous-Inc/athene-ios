@@ -8,6 +8,8 @@
 
 import UIKit
 
+var categories_words: [String: [Word]] = [:]
+
 class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     var frame: CGRect? = nil
@@ -31,9 +33,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         if(frame != nil){
             view.frame = frame!
         }
-        let v = CustomTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), content: ["Первый": [Word(eng: "nice", rus: "лол", ct: "", lvl: 0, ind: 0), Word(eng: "hello", rus: "привет", ct: "", lvl: 0, ind: 0)],
-                                                             "Second": [Word(eng: "house", rus: "дом", ct: "", lvl: 0, ind: 0)],
-                                                             "Third": [Word(eng: "perseverance", rus: "настойчивость", ct: "", lvl: 0, ind: 0), Word(eng: "doom", rus: "рок", ct: "", lvl: 0, ind: 0)]])
+        let v = CustomTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), content: categories_words)
         self.view.addSubview(v)
         /*
         self.tableView = UITableView(frame: self.view.frame)

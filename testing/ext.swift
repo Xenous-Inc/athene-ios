@@ -80,6 +80,7 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     words = []
     current = 0
     number_of_words = 0
+    categories_words = [:]
     SetDates()
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -96,17 +97,23 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
             let category = snap.childSnapshot(forPath: "category").value as? String ?? ""
             var level = snap.childSnapshot(forPath: "level").value as? Int ?? 0
-            print("LEVEL: ", level, eng, count)
+            if(category != no_category){
+                if(categories_words[category] != nil){
+                    categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+                }else{
+                    categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!)]
+                }
+            }
             if(level == -1){
                 archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, ind: Int(snap.key)!))
-            }else if(count > 0){
+            }else if(level != -2 && count > 0){
                 ref.child("words").child(snap.key).child("date").setValue(now_date)
                 if(count >= 3 && (level == 1 || level == 2)){
                     level = 0
                 }
                 ref.child("words").child(snap.key).child("level").setValue(level)
                 words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
-            }else if(count == 0){
+            }else if(level != -2 && count == 0){
                 words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
             }
         }

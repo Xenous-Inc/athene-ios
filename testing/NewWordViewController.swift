@@ -49,7 +49,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     func initialSetting(){
-        categories = default_categories
+        categories = default_categories + [no_category]
         ref.observeSingleEvent(of: .value, with: {(snapshot) in
             self.cat_count = Int(snapshot.childrenCount)
             number_of_words = Int(snapshot.childSnapshot(forPath: "words").childrenCount)
@@ -165,6 +165,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         cross_btn.isUserInteractionEnabled = false
         
         category_label = view.viewWithTag(700) as! UILabel
+        category_label.text = no_category
         
         submit_btn = view.viewWithTag(800) as! UIButton
         submit_btn.addTarget(self, action: #selector(submit(_:)), for: .touchUpInside)

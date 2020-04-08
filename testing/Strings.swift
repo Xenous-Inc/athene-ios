@@ -17,7 +17,8 @@ let add_category = "Добавить категорию"
 let save_category = "Сохранить"
 let add_cat_placeholder = "Впишиите название категории"
 
-let default_categories = ["Еда", "Спорт", "Транспорт", "Наука", "Одежда", "Разное"]
+let default_categories = ["Спорт", "Наука", "Еда", "Транспорт", "Одежда"]
+let no_category = "Без категории"
 
 let colors = [0xB180FF, 0x967AF5, 0x9B78EE, 0x978EFE, 0x7A87F5]
 let cross_color = 0x4E4E50
