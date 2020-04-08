@@ -65,6 +65,8 @@ let verification_sent_text = "Проверьте почту"
 let verification_sent_describtion = "Мы отправили вам письмо для подтверждения вашел электронной почты"
 
 let alert_ok = "Ок"
+let alert_cancel = "Отмена"
+let alert_yes = "Да"
 
 let reset_password_title = "Письмо для сброса пароля отправлено"
 let reset_password_describtion = "Мы отправили вам на почту письмо с инструкциями для сброса пароля к вашему аккаунту."
@@ -75,3 +77,12 @@ let sign_out_cancel = "Отмена"
 
 let archive_title = "Архив"
 let categories_title = "Категории"
+
+let share_category_text = "Поделиться"
+let add_category_to_main_thread_text  = "Изучить"
+
+let add_alert_title = "Добавить слова к изучению?"
+let add_alert_describtion = "Слова начнут появляться в ежедневных подборках для их успешного изучения"
+
+let add_alert_title_single = "Добавить слово к изучению?"
+let add_alert_describtion_single = "Слово начнет появляться в ежедневных подборках для их успешного изучения"

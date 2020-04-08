@@ -11,6 +11,7 @@ import UIKit
 var categories_words: [String: [Word]] = [:]
 
 class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+    
 
     var frame: CGRect? = nil
     var tableView: UITableView!
@@ -59,6 +60,12 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         view.addSubview(bottom_bar)
         let v = CustomTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories_words)
+        for cell in v.cells{
+            cell.button_add.addTarget(self, action: #selector(learnCategory(sender:)), for: .touchUpInside)
+            for subcell in cell.subcells{
+                subcell.0.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(learnWord(gesture:))))
+            }
+        }
         self.view.addSubview(v)
         views.append(v)
         
@@ -68,6 +75,45 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         views.append(tableView)
+    }
+    
+    @objc func learnCategory(sender: UIButton){
+        let alert = UIAlertController(title: add_alert_title, message: add_alert_describtion, preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
+            let cell = sender.superview?.superview as! CustomTableViewCell
+            for i in cell.subcells{
+                let word = i.1
+                if(word.level == -2){
+                    ref.child("words").child(String(word.db_index)).child("level").setValue(0)
+                    ref.child("words").child(String(word.db_index)).child("date").setValue(next_date)
+                }
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func learnWord(gesture: UILongPressGestureRecognizer){
+        if(gesture.state == .began){
+            let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: UIAlertController.Style.alert)
+            
+            alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
+                let cell = gesture.view?.superview as! CustomTableViewCell
+                let ind = gesture.view?.tag
+                let word = cell.subcells[ind!].1
+                if(word.level == -2){
+                    ref.child("words").child(String(word.db_index)).child("level").setValue(0)
+                    ref.child("words").child(String(word.db_index)).child("date").setValue(next_date)
+                }
+            }))
+            
+            alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

@@ -76,12 +76,18 @@ class CustomTableViewCell: UIView{
     
     let font = "Helvetica"
     var padding: CGFloat = 0
-       
+    
+    var button_share = UIButton()
+    var button_add = UIButton()
+    
+    var main_closed_frame = CGRect()
+    
     init(frame: CGRect, text: String) {
         super.init(frame: frame)
         padding = 0.15*frame.height
         
         main_view = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        main_closed_frame = main_view.frame
         main_view.layer.cornerRadius = min(frame.width, frame.height) / 2
         main_view.backgroundColor = UIColor.init(white: 1, alpha: 0.4)
         main_view.layer.borderWidth = 2
@@ -101,6 +107,22 @@ class CustomTableViewCell: UIView{
         t_view.baselineAdjustment = .alignCenters
         main_view.addSubview(t_view)
         
+        for i in 0..<2{
+            let w = (main_view.bounds.width - 2*main_view.layer.cornerRadius - padding) / 2
+            let btn = UIButton(frame: CGRect(x: main_view.layer.cornerRadius + ((i == 1) ? w + padding: 0), y: t_view.frame.maxY + padding, width: w, height: 0.6*t_view.bounds.height))
+            btn.setTitle(((i == 0) ? add_category_to_main_thread_text : share_category_text), for: .normal)
+            btn.setTitleColor(UIColor.white, for: .normal)
+            btn.titleLabel?.font = UIFont(name: "Helvetica", size: CGFloat(FontHelper().getFontSize(strings: [add_category_to_main_thread_text, share_category_text], font: "Helvetica", maxFontSize: 120, width: btn.bounds.width, height: btn.bounds.height)))
+            if(i == 0){
+                button_add = btn
+            }else{
+                button_share = btn
+            }
+            btn.alpha = 0
+            btn.isUserInteractionEnabled = false
+            main_view.addSubview(btn)
+        }
+        opened_resize = (button_add.frame.maxY + padding) - main_view.bounds.height
         self.addSubview(main_view)
     }
     
@@ -165,6 +187,11 @@ class CustomTableViewCell: UIView{
         let tr = CGAffineTransform.identity.rotated(by: CGFloat(Double.pi))
         triangle.transform = tr
         self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.frame.width, height: self.frame.height + opened_resize)
+        main_view.frame = CGRect(x: main_view.frame.minX, y: main_view.frame.minY, width: main_view.frame.width, height: button_add.frame.maxY + padding)
+        for i in [button_add, button_share]{
+            i.alpha = 1
+            i.isUserInteractionEnabled = true
+        }
         var y = main_view.frame.maxY + padding
         for i in subcells{
             i.0.alpha = 1
@@ -177,7 +204,12 @@ class CustomTableViewCell: UIView{
         opened = false
         let tr = CGAffineTransform.identity.rotated(by: 0)
         triangle.transform = tr
+        main_view.frame = main_closed_frame
         self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: main_view.frame.width, height: main_view.frame.height)
+        for i in [button_add, button_share]{
+            i.alpha = 0
+            i.isUserInteractionEnabled = false
+        }
         for i in subcells{
             i.0.alpha = 0
             i.0.center = main_view.center
