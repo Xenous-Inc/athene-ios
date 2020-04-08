@@ -17,8 +17,13 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     
     @IBOutlet weak var sign_out_btn: UIButton!
+    @IBOutlet weak var btn_top_constraint: NSLayoutConstraint!
+    @IBOutlet weak var spacing1: NSLayoutConstraint!
+    @IBOutlet weak var spacing2: NSLayoutConstraint!
+    @IBOutlet weak var nav_btn1: UIButton!
+    @IBOutlet weak var nav_btn2: UIButton!
     
-    var currentPageIndex:Int = 0 // holds the current page index
+    var currentPageIndex:Int = 1 // holds the current page index
     var pageviewcontroller:UIPageViewController! // self explanatory
     var ViewControllers: [UIViewController] = [UIViewController]()
     
@@ -64,6 +69,21 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed{
+            if(currentPageIndex == 1 && lastPendingViewControllerIndex == 0){
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.nav_btn1.alpha = 1
+                    self.nav_btn2.alpha = 1
+                    self.nav_btn1.isUserInteractionEnabled = true
+                    self.nav_btn2.isUserInteractionEnabled = true
+                })
+            }else if(currentPageIndex == 0 && lastPendingViewControllerIndex == 1){
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.nav_btn1.alpha = 0
+                    self.nav_btn2.alpha = 0
+                    self.nav_btn1.isUserInteractionEnabled = false
+                    self.nav_btn2.isUserInteractionEnabled = false
+                })
+            }
             currentPageIndex = lastPendingViewControllerIndex
             pager_view.moveTo(tab: currentPageIndex)
         }
@@ -92,10 +112,28 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         pager_view.center = CGPoint(x: self.view.frame.width / 2, y: self.view.frame.height - pager_view.frame.height / 2)
         view.addSubview(pager_view)
         
+        let padding = 0.02*view.bounds.height
+        btn_top_constraint.constant = padding
+        
+        spacing1.constant = padding
+        spacing2.constant = padding
+        
+        let sz = CGSize(width: 0.25*view.bounds.width, height: 0.056*view.bounds.height)
+        let f_sz = CGFloat(FontHelper().getFontSize(strings: [archive_title, categories_title], font: "Helvetica", maxFontSize: 120, width: sz.width - 0.5*sz.height, height: sz.height))
+        nav_btn1.setTitle(categories_title, for: .normal)
+        nav_btn2.setTitle(archive_title, for: .normal)
+        for nav_btn in [nav_btn1, nav_btn2]{
+            nav_btn?.titleLabel!.font = UIFont(name: "Helvetica", size: f_sz)
+            nav_btn?.layer.cornerRadius = sz.height / 2
+            nav_btn?.layer.borderColor = UIColor.white.cgColor
+            nav_btn?.layer.borderWidth = 2
+            nav_btn?.alpha = 0
+        }
+        
         self.pageviewcontroller = (self.storyboard?.instantiateViewController(withIdentifier: "PageVC") as! UIPageViewController)
         self.pageviewcontroller.dataSource = self
         self.pageviewcontroller.delegate = self
-        let top = sign_out_btn.frame.maxY + 0.02*view.bounds.height
+        let top = sign_out_btn.frame.maxY + padding
         self.pageviewcontroller.view.frame = CGRect(x: 0, y: top, width: self.view.frame.width, height: self.view.frame.height-self.pager_view.frame.height - top)
         ViewControllers.append(ArchiveViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
         ViewControllers.append(ViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))

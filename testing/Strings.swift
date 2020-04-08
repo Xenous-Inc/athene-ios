@@ -73,3 +73,5 @@ let sign_out_question = "Выйти из аккаунты?"
 let sign_out_text = "Выйти"
 let sign_out_cancel = "Отмена"
 
+let archive_title = "Архив"
+let categories_title = "Категории"

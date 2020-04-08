@@ -68,27 +68,52 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Yr-pK-e6y">
-                                <rect key="frame" x="347.66666666666669" y="19.999999999999996" width="54" height="36.666666666666657"/>
+                                <rect key="frame" x="347.66666666666669" y="10" width="54" height="41.333333333333336"/>
                                 <state key="normal" title="Выйти"/>
                                 <connections>
                                     <action selector="logOut:" destination="oQX-Oz-feE" eventType="touchUpInside" id="SuZ-Tc-ZiP"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DSV-sf-zfl">
+                                <rect key="frame" x="154.33333333333334" y="10" width="124.00000000000003" height="41.333333333333336"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kVC-ba-vDN">
+                                <rect key="frame" x="14.999999999999993" y="10" width="124.33333333333331" height="41.333333333333336"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="top" secondItem="2mc-gx-UUc" secondAttribute="top" constant="20" id="7pP-VG-i9A"/>
-                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="height" secondItem="2mc-gx-UUc" secondAttribute="height" multiplier="0.05" id="8dv-S5-W9p"/>
+                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="top" secondItem="2mc-gx-UUc" secondAttribute="top" constant="10" id="7pP-VG-i9A"/>
+                            <constraint firstItem="kVC-ba-vDN" firstAttribute="height" secondItem="DSV-sf-zfl" secondAttribute="height" id="82z-pA-rSs"/>
                             <constraint firstItem="jfD-38-ycE" firstAttribute="leading" secondItem="2mc-gx-UUc" secondAttribute="leading" id="Dy3-Ql-p6t"/>
+                            <constraint firstItem="DSV-sf-zfl" firstAttribute="height" secondItem="1Yr-pK-e6y" secondAttribute="height" id="GTx-ie-4Dd"/>
+                            <constraint firstItem="DSV-sf-zfl" firstAttribute="leading" secondItem="kVC-ba-vDN" secondAttribute="trailing" constant="15" id="PYg-iN-X6x"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="bottom" secondItem="jfD-38-ycE" secondAttribute="bottom" id="Z8g-TI-cpF"/>
+                            <constraint firstItem="kVC-ba-vDN" firstAttribute="width" secondItem="DSV-sf-zfl" secondAttribute="width" id="ahW-BK-x4e"/>
+                            <constraint firstItem="kVC-ba-vDN" firstAttribute="leading" secondItem="2mc-gx-UUc" secondAttribute="leading" constant="15" id="epT-C8-6GT"/>
+                            <constraint firstItem="kVC-ba-vDN" firstAttribute="centerY" secondItem="DSV-sf-zfl" secondAttribute="centerY" id="fcn-dK-chr"/>
                             <constraint firstItem="jfD-38-ycE" firstAttribute="top" secondItem="2mc-gx-UUc" secondAttribute="top" id="htZ-SO-pgq"/>
+                            <constraint firstItem="kVC-ba-vDN" firstAttribute="width" secondItem="J9j-fP-QJE" secondAttribute="width" multiplier="0.3" id="i0X-Tz-0cN"/>
+                            <constraint firstItem="DSV-sf-zfl" firstAttribute="centerY" secondItem="1Yr-pK-e6y" secondAttribute="centerY" id="jiV-Zf-cUD"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="trailing" secondItem="jfD-38-ycE" secondAttribute="trailing" id="mfb-Ch-qAH"/>
+                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="height" secondItem="J9j-fP-QJE" secondAttribute="height" multiplier="0.056" id="tDt-xn-1yF"/>
                             <constraint firstItem="1Yr-pK-e6y" firstAttribute="trailing" secondItem="2mc-gx-UUc" secondAttribute="trailing" multiplier="0.97" id="wLN-OI-eRw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2mc-gx-UUc"/>
                     </view>
                     <connections>
+                        <outlet property="btn_top_constraint" destination="7pP-VG-i9A" id="f2s-DK-MlQ"/>
+                        <outlet property="nav_btn1" destination="kVC-ba-vDN" id="UgH-T1-4BK"/>
+                        <outlet property="nav_btn2" destination="DSV-sf-zfl" id="N32-pV-0Eb"/>
                         <outlet property="sign_out_btn" destination="1Yr-pK-e6y" id="RXH-3l-ZNL"/>
+                        <outlet property="spacing1" destination="epT-C8-6GT" id="bPl-nj-sZi"/>
+                        <outlet property="spacing2" destination="PYg-iN-X6x" id="t4G-l9-mPV"/>
                         <segue destination="zjN-e2-0KL" kind="custom" identifier="signing_out" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="4Yq-xe-kbz"/>
                         <segue destination="OEw-I6-jdo" kind="show" identifier="create_word_segue" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="gRe-sj-1m1"/>
                     </connections>
