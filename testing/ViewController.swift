@@ -307,7 +307,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("View will appear reached")
         checkWordsUpdate()
     }
     

@@ -129,3 +129,37 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
         }
     })
 }
+
+
+func downloadCategory(completion: ((Bool) -> Void)?){
+    guard let category = category_shared else {return}
+    guard let id = user_shared_id else {return}
+    updateWordsFromDatabase(completion: {(finished: Bool) in
+        let other_user_ref = Database.database().reference().child("users").child(id)
+        other_user_ref.child("words").observeSingleEvent(of: .value, with: {(snapshot) in
+            let enumerator = snapshot.children
+            while let snap = enumerator.nextObject() as? DataSnapshot{
+                let eng = snap.childSnapshot(forPath: "English").value as? String ?? ""
+                let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
+                let cat = snap.childSnapshot(forPath: "category").value as? String ?? ""
+                if(cat.elementsEqual(category)){
+                    ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
+                    ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
+                    ref.child("words").child(String(number_of_words)).child("category").setValue(cat)
+                    ref.child("words").child(String(number_of_words)).child("level").setValue(-2)
+                    ref.child("words").child(String(number_of_words)).child("date").setValue(now_date)
+                    if(categories_words[category] != nil){
+                        categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: -2, ind: number_of_words))
+                    }else{
+                        categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: -2, ind: number_of_words)]
+                    }
+                    number_of_words += 1
+                }
+            }
+            if let comp = completion{
+                comp(true)
+                print(words.count)
+            }
+        })
+    })
+}

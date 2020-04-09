@@ -42,7 +42,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 category_shared = i.value
             }
         }
-        
+        if(Auth.auth().currentUser != nil && user_shared_id != nil && category_shared != nil){
+            let alertController = UIAlertController(title: "Добавить слова категории \(category_shared!)?", message: nil, preferredStyle: .actionSheet)
+            guard let v_controller = self.window?.rootViewController else {return}
+            alertController.addAction(UIAlertAction(title: alert_yes, style: .default, handler: { (action) in
+                var v = LoadingView()
+                v.tag = 54321
+                v.set(frame: v_controller.view.frame)
+                if let loading_v = v_controller.view.viewWithTag(54321){
+                    v = loading_v as! LoadingView
+                }
+                v.show()
+                downloadCategory(completion: {(finished: Bool) in
+                    v.removeFromSuperview()
+                    v_controller.viewDidAppear(false)
+                })
+            }))
+            alertController.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
+            v_controller.present(alertController, animated: true, completion: nil)
+        }
     }
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
