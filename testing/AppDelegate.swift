@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import GoogleSignIn
 
+var user_shared_id: String? = nil
+var category_shared: String? = nil
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,9 +28,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
-      -> Bool {
-      return GIDSignIn.sharedInstance().handle(url)
+    func handleIncomingDynamicLink(_ dynamicLink: DynamicLink){
+        guard let url = dynamicLink.url else{
+            print("Dynaimc link object has no url")
+            return
+        }
+        print("Your incoming link parameter is \(url.absoluteString)")
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryitems = components.queryItems else {return}
+        for i in queryitems{
+            if(i.name == "user"){
+                user_shared_id = i.value
+            }else if(i.name == "category"){
+                category_shared = i.value
+            }
+        }
+        
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if let incomingURL = userActivity.webpageURL{
+            print("Incoming URL is \(incomingURL)")
+            let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { (dynamicLink, error) in
+                guard error == nil else{
+                    print("Dynamic links error: \(error!.localizedDescription)")
+                    return
+                }
+                if let dynamicLink = dynamicLink{
+                    self.handleIncomingDynamicLink(dynamicLink)
+                }
+            }
+            if(linkHandled){
+                return true
+            }else{
+                //Do something?
+                return false
+            }
+        }
+        return false
+    }
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromUniversalLink: url){
+            self.handleIncomingDynamicLink(dynamicLink)
+            return true
+        }else{
+            return GIDSignIn.sharedInstance().handle(url)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

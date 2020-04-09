@@ -302,10 +302,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         (view.viewWithTag(206) as! UIButton).addTarget(self, action: #selector(Delete(_:)), for: .touchUpInside)
         (view.viewWithTag(205) as! UIButton).addTarget(self, action: #selector(ChangeWord(_:)), for: .touchUpInside)
         
-        submit_btn.isEnabled = false
-        forgot_btn.isEnabled = false
-        
         self.edit_text.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         checkWordsUpdate()
     }
@@ -317,6 +318,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.forgot_btn.isEnabled = true
         }else{
             self.text.text = no_words_for_today
+            submit_btn.isEnabled = false
+            forgot_btn.isEnabled = false
         }
     }
     

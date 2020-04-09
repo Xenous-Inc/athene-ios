@@ -66,7 +66,9 @@ class CustomTableView: UIScrollView {
 }
 
 class CustomTableViewCell: UIView{
-       
+    
+    var title = ""
+    
     var subcells: [(UIView, Word)] = []
     var opened_resize: CGFloat = 0
     var opened = false
@@ -85,6 +87,8 @@ class CustomTableViewCell: UIView{
     init(frame: CGRect, text: String) {
         super.init(frame: frame)
         padding = 0.15*frame.height
+        
+        title = text
         
         main_view = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         main_closed_frame = main_view.frame

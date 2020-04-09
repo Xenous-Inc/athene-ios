@@ -85,7 +85,13 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
     ref = Database.database().reference().child("users").child(user_id)
-    ref.child("words").observeSingleEvent(of: .value, with: { (snapshot) in
+    ref.observeSingleEvent(of: .value, with: { (snp) in
+        categories = default_categories + [no_category]
+        let en = snp.childSnapshot(forPath: "categories").children
+        while let snap = en.nextObject() as? DataSnapshot{
+            categories.append(snap.value as! String)
+        }
+        let snapshot = snp.childSnapshot(forPath: "words")
         number_of_words = Int(snapshot.childrenCount)
         var date: Date, count: Int
         let enumerator = snapshot.children

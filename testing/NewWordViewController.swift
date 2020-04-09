@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 
+var categories: [String] = []
+
 class NewWordViewController: UIViewController, UITextFieldDelegate {
 
     var ed_text_english: UITextField!
@@ -18,7 +20,6 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     var category_label = UILabel()
     var submit_btn = UIButton()
     
-    var categories = default_categories
     var cat_count = 0
     
     var frame: CGRect? = nil
@@ -45,23 +46,15 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         }
         print("test")
         gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
+        cat_count = categories.count - default_categories.count - 1
         initialSetting()
     }
     
     func initialSetting(){
-        categories = default_categories + [no_category]
-        ref.observeSingleEvent(of: .value, with: {(snapshot) in
-            self.cat_count = Int(snapshot.childrenCount)
-            number_of_words = Int(snapshot.childSnapshot(forPath: "words").childrenCount)
-            let enumerator = snapshot.childSnapshot(forPath: "categories").children
-            while let snap = enumerator.nextObject() as? DataSnapshot{
-                self.categories.append(snap.value as! String)
-            }
-            let v = self.gb.buildCreateWord(categories: self.categories)
-            v.tag = 12345
-            self.view.addSubview(v)
-            self.setView()
-        })
+        let v = self.gb.buildCreateWord(categories: categories)
+        v.tag = 12345
+        self.view.addSubview(v)
+        self.setView()
     }
     
     @objc func createCategory(_ sender: Any){
@@ -79,7 +72,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 
                 self.shrinkBottomBar(nil)
                 self.cat_count += 1
-                self.categories.append(cat)
+                categories.append(cat)
                 self.category_label.text = cat
                 print("SUCCESS")
                 
@@ -87,7 +80,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 var s: CGFloat = 0
                 var cnt = 0
                 let scroll = self.view.viewWithTag(400) as! UIScrollView
-                for i in 0..<(self.categories.count - 1){
+                for i in 0..<(categories.count - 1){
                     if(self.gb.categories_centers[i].y > m){
                         m = self.gb.categories_centers[i].y
                         s = scroll.viewWithTag(i + 1)!.bounds.width
@@ -108,13 +101,13 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 cur.bounds = CGRect(x: 0, y: 0, width: len, height: comp_btn.bounds.height)
                 cur.setTitle(cat, for: .normal)
                 cur.titleLabel?.font = comp_btn.titleLabel?.font
-                cur.backgroundColor = UIColor.init(rgb: colors[(self.categories.count - 1) % colors.count])
+                cur.backgroundColor = UIColor.init(rgb: colors[(categories.count - 1) % colors.count])
                 cur.setTitleColor(UIColor.white, for: .normal)
                 cur.center = CGPoint(x: scroll.bounds.width / 2, y: cur.bounds.height / 2)
                 cur.alpha = 0
                 cur.clipsToBounds = true
                 cur.layer.cornerRadius = cur.bounds.height / 2
-                cur.tag = self.categories.count
+                cur.tag = categories.count
                 cur.isUserInteractionEnabled = false
                 scroll.addSubview(cur)
                 
@@ -126,7 +119,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                         border_pd = (scroll.bounds.width - s - CGFloat(cnt)*self.gb.padding - cur.bounds.width) / 2
                     }
                     var x = border_pd
-                    for j in 0..<(self.categories.count - 1){
+                    for j in 0..<(categories.count - 1){
                         if(self.gb.categories_centers[j].y < m - 1){
                             continue
                         }
@@ -272,7 +265,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
             add_btn.alpha = 1
             self.cross_btn.alpha = 1
             self.cross_btn.center = CGPoint(x: self.cross_btn.center.x + change_cross_pos, y: self.cross_btn.center.y)
-            for i in 0..<self.categories.count{
+            for i in 0..<categories.count{
                 let cat = scroll.viewWithTag(i + 1) as! UIButton
                 cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
                 cat.isUserInteractionEnabled = true
@@ -307,7 +300,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
             add_btn.center = CGPoint(x: self.gb.bottom_bar_width_small / 2, y: add_btn.center.y)
             self.cross_btn.alpha = 0
             self.cross_btn.center = CGPoint(x: self.cross_btn.center.x - change_cross_pos, y: self.cross_btn.center.y)
-            for i in 0..<self.categories.count{
+            for i in 0..<categories.count{
                 let cat = scroll.viewWithTag(i + 1) as! UIButton
                 cat.center = CGPoint(x: scroll.bounds.width / 2, y: cat.bounds.height / 2)
                 cat.alpha = 0

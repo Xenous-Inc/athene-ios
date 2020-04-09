@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>585528626928-06jmrgita89iaq2glmu4ndo120pplhq0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.585528626928-06jmrgita89iaq2glmu4ndo120pplhq0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDUR6q9qkFTfjzuZ161v1Lba4N4RR4IOAE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>585528626928</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.xenous.lett</string>
+	<key>PROJECT_ID</key>
+	<string>easyenglish-2c5af</string>
+	<key>STORAGE_BUCKET</key>
+	<string>easyenglish-2c5af.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:585528626928:ios:95fb3aa49c967440fabc35</string>
+	<key>DATABASE_URL</key>
+	<string>https://easyenglish-2c5af.firebaseio.com</string>
+</dict>
+</plist>

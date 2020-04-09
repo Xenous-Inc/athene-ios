@@ -15,12 +15,12 @@
 		DA67092C222D73F600595D5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA67092A222D73F600595D5E /* Main.storyboard */; };
 		DA67092E222D740300595D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA67092D222D740300595D5E /* Assets.xcassets */; };
 		DA670931222D740300595D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA67092F222D740300595D5E /* LaunchScreen.storyboard */; };
-		DA67093B223232B300595D5E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA67093A223232B200595D5E /* GoogleService-Info.plist */; };
 		DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB94622531B4400D40849 /* LogInViewController.swift */; };
 		DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB9482253252E00D40849 /* RegisterViewController.swift */; };
 		DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95513424339A0300357808 /* AuthGraphicBuilder.swift */; };
 		DA9551372435E61900357808 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9551362435E61500357808 /* LoadingView.swift */; };
 		DAC38FA6243B29360035C5BE /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC38FA5243B29360035C5BE /* CustomTableView.swift */; };
+		DAC38FA9243EE9B00035C5BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAC38FA8243EE9B00035C5BE /* GoogleService-Info.plist */; };
 		DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E422423A71F00675EEA /* GraphicBuilder.swift */; };
 		DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E442423AA1D00675EEA /* FontHelper.swift */; };
 		DAC96E472423AA9100675EEA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E462423AA9100675EEA /* Strings.swift */; };
@@ -39,19 +39,20 @@
 		CDC2F386D1A34A1D7D7E2148 /* Pods-testing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testing.release.xcconfig"; path = "Target Support Files/Pods-testing/Pods-testing.release.xcconfig"; sourceTree = "<group>"; };
 		DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmoothSegue.swift; sourceTree = "<group>"; };
 		DA60BA2B24247AAE00146E87 /* ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext.swift; sourceTree = "<group>"; };
-		DA670923222D73F600595D5E /* testing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA670923222D73F600595D5E /* Lett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA670926222D73F600595D5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA670928222D73F600595D5E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DA67092B222D73F600595D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA67092D222D740300595D5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA670930222D740300595D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA670932222D740300595D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DA67093A223232B200595D5E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA8CB94622531B4400D40849 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		DA8CB9482253252E00D40849 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DA95513424339A0300357808 /* AuthGraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGraphicBuilder.swift; sourceTree = "<group>"; };
 		DA9551362435E61500357808 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DAC38FA5243B29360035C5BE /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
+		DAC38FA7243E46DD0035C5BE /* testing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = testing.entitlements; sourceTree = "<group>"; };
+		DAC38FA8243EE9B00035C5BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DAC96E422423A71F00675EEA /* GraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicBuilder.swift; sourceTree = "<group>"; };
 		DAC96E442423AA1D00675EEA /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		DAC96E462423AA9100675EEA /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -106,7 +107,7 @@
 		DA670924222D73F600595D5E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA670923222D73F600595D5E /* testing.app */,
+				DA670923222D73F600595D5E /* Lett.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,6 +115,7 @@
 		DA670925222D73F600595D5E /* testing */ = {
 			isa = PBXGroup;
 			children = (
+				DAC38FA7243E46DD0035C5BE /* testing.entitlements */,
 				DAEC4197242F916200944B7F /* Graphics */,
 				DAEC4196242F913900944B7F /* AuthControllers */,
 				DAEC4191242F1D5100944B7F /* Storyboards */,
@@ -124,7 +126,7 @@
 				DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */,
 				DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */,
 				DA67092D222D740300595D5E /* Assets.xcassets */,
-				DA67093A223232B200595D5E /* GoogleService-Info.plist */,
+				DAC38FA8243EE9B00035C5BE /* GoogleService-Info.plist */,
 				DA670932222D740300595D5E /* Info.plist */,
 				DAF1847A2420EA600031B68C /* Word.swift */,
 				DAC96E462423AA9100675EEA /* Strings.swift */,
@@ -185,7 +187,7 @@
 			);
 			name = testing;
 			productName = testing;
-			productReference = DA670923222D73F600595D5E /* testing.app */;
+			productReference = DA670923222D73F600595D5E /* Lett.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -227,8 +229,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA670931222D740300595D5E /* LaunchScreen.storyboard in Resources */,
-				DA67093B223232B300595D5E /* GoogleService-Info.plist in Resources */,
 				DAEC4193242F1E7700944B7F /* Auth.storyboard in Resources */,
+				DAC38FA9243EE9B00035C5BE /* GoogleService-Info.plist in Resources */,
 				DA67092E222D740300595D5E /* Assets.xcassets in Resources */,
 				DA67092C222D73F600595D5E /* Main.storyboard in Resources */,
 			);
@@ -448,6 +450,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = testing/testing.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 36L89PHLKP;
@@ -474,8 +477,8 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = vadimka.testing;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xenous.lett;
+				PRODUCT_NAME = Lett;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_VERSION = 4.2;
@@ -492,6 +495,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = testing/testing.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 36L89PHLKP;
@@ -519,8 +523,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = vadimka.testing;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xenous.lett;
+				PRODUCT_NAME = Lett;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_VERSION = 4.2;
