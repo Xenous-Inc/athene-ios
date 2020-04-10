@@ -156,7 +156,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @objc func learnCategory(sender: UIButton){
-        let alert = UIAlertController(title: add_alert_title, message: add_alert_describtion, preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: add_alert_title, message: add_alert_describtion, preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
             let cell = sender.superview?.superview as! CustomTableViewCell
@@ -176,7 +176,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @objc func learnWord(gesture: UILongPressGestureRecognizer){
         if(gesture.state == .began){
-            let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: .actionSheet)
             
             alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
                 let cell = gesture.view?.superview as! CustomTableViewCell

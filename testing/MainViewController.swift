@@ -110,12 +110,6 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("Main view did appear")
-        if let cat = category_shared{
-            let alert = UIAlertController(title: cat, message: nil, preferredStyle: UIAlertController.Style.alert)
-            
-            alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
         let v = LoadingView()
         v.tag = 54321
         v.set(frame: view.frame)

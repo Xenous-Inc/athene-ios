@@ -74,6 +74,9 @@ func SetDates(){
     six_month_date = (Calendar.current.date(byAdding: .month, value: 6, to: Date())!).string(format: "yyyy-MM-dd")
 }
 
+var russian_list: [String] = []
+var english_list: [String] = []
+
 func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     user_id = Auth.auth().currentUser!.uid
     archive = []
@@ -82,6 +85,8 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     number_of_words = 0
     categories_words = [:]
     SetDates()
+    russian_list = []
+    english_list = []
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
     ref = Database.database().reference().child("users").child(user_id)
@@ -103,6 +108,8 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
             let category = snap.childSnapshot(forPath: "category").value as? String ?? ""
             var level = snap.childSnapshot(forPath: "level").value as? Int ?? 0
+            russian_list.append(rus)
+            english_list.append(eng)
             if(category != no_category){
                 if(categories_words[category] != nil){
                     categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
@@ -135,6 +142,10 @@ func downloadCategory(completion: ((Bool) -> Void)?){
     guard let category = category_shared else {return}
     guard let id = user_shared_id else {return}
     updateWordsFromDatabase(completion: {(finished: Bool) in
+        if(!categories.contains(category)){
+            ref.child("categories").child(String(categories.count - default_categories.count - 1)).setValue(category)
+            categories.append(category)
+        }
         let other_user_ref = Database.database().reference().child("users").child(id)
         other_user_ref.child("words").observeSingleEvent(of: .value, with: {(snapshot) in
             let enumerator = snapshot.children
@@ -142,6 +153,7 @@ func downloadCategory(completion: ((Bool) -> Void)?){
                 let eng = snap.childSnapshot(forPath: "English").value as? String ?? ""
                 let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
                 let cat = snap.childSnapshot(forPath: "category").value as? String ?? ""
+                if(english_list.contains(eng) || russian_list.contains(rus)){continue}
                 if(cat.elementsEqual(category)){
                     ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
                     ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
