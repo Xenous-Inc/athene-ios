@@ -490,6 +490,8 @@ class GraphicBuilder: NSObject{
             ed_text.font = UIFont(name: font, size: font_sz)
             ed_text.textColor = UIColor.white
             
+            ed_text.autocorrectionType = .no
+            
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:ed_text.frame.height - 1), size: CGSize(width: ed_text.frame.width, height: 2))
             bottomLine.backgroundColor = UIColor.white.cgColor

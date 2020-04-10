@@ -48,6 +48,9 @@ class AuthGraphicBuilder: NSObject{
             ed_text.font = UIFont(name: font, size: font_sz)
             ed_text.textColor = UIColor.white
             
+            if(i == 0){ed_text.keyboardType = .emailAddress}
+            ed_text.isSecureTextEntry = (i == 1)
+            
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:ed_text.frame.height - 1), size: CGSize(width: ed_text.frame.width, height: 2))
             bottomLine.backgroundColor = UIColor.white.cgColor
@@ -144,6 +147,9 @@ class AuthGraphicBuilder: NSObject{
             ed_text.text = ""
             ed_text.font = UIFont(name: font, size: font_sz)
             ed_text.textColor = UIColor.white
+            
+            if(i == 0){ed_text.keyboardType = .emailAddress}
+            ed_text.isSecureTextEntry = (i > 0)
             
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:ed_text.frame.height - 1), size: CGSize(width: ed_text.frame.width, height: 2))
