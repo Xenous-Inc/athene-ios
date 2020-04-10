@@ -11,11 +11,10 @@ import Firebase
 
 var categories_words: [String: [Word]] = [:]
 
-class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class ArchiveViewController: UIViewController{
     
 
     var frame: CGRect? = nil
-    var tableView: UITableView!
     var bottom_bar_btns: [UIView] = []
     
     var current_tab = 0
@@ -85,14 +84,14 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         v.tag = 10
         views[0] = v
         
-        self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height))
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "archiveCell")
-        self.tableView.backgroundColor = UIColor.clear
-        tableView.delegate = self
-        tableView.dataSource = self
-        v.tag = 20
+        let tableView = CustomTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: archive)
+        tableView.tag = 20
         views[1] = tableView
-        view.addSubview(views[0])
+        if(current_tab == 0){
+            view.addSubview(views[0])
+        }else{
+            view.addSubview(views[1])
+        }
     }
     
     @objc func shareCategory(sender: UIButton){
@@ -150,7 +149,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func showShareSheet(url: URL){
-        let promoText = "Посмотрите список слов, которым с вами поделились, в приложении Lett!"
+        let promoText = promo_text
         let activityVC = UIActivityViewController(activityItems: [promoText, url], applicationActivities: nil)
         present(activityVC, animated: true)
     }
@@ -192,23 +191,6 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             self.present(alert, animated: true, completion: nil)
         }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return archive.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "archiveCell", for: indexPath)
-        cell.textLabel?.text = archive[indexPath.row].english + " - " + archive[indexPath.row].russian
-        cell.backgroundColor = UIColor.clear
-        cell.textLabel?.textColor = UIColor.white
-        cell.frame = cell.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
-        return cell
     }
     
     @objc func switchView(gesture: UITapGestureRecognizer){

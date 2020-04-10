@@ -10,6 +10,7 @@ import UIKit
 import AVKit
 import AVFoundation
 import Firebase
+import UserNotifications
 
 extension Date {
     func string(format: String) -> String {
@@ -137,7 +138,6 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     })
 }
 
-
 func downloadCategory(completion: ((Bool) -> Void)?){
     guard let category = category_shared else {return}
     guard let id = user_shared_id else {return}
@@ -174,4 +174,27 @@ func downloadCategory(completion: ((Bool) -> Void)?){
             }
         })
     })
+}
+
+func scheduleNotification() {
+    let content = UNMutableNotificationContent()
+    
+    content.title = notification_title
+    content.body = notification_text
+    content.sound = UNNotificationSound.default
+    content.badge = 1
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm:ss.SSS"
+    let triggerDaily = Calendar.current.dateComponents([.hour,.minute,.second,], from: dateFormatter.date(from: notification_time)!)
+    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDaily, repeats: true)
+    
+    let identifier = "Local Notification"
+    let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+    UNUserNotificationCenter.current().add(request) { (error) in
+        if let error = error {
+            print("Error \(error.localizedDescription)")
+        }
+    }
 }
