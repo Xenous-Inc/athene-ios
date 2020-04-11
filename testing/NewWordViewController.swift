@@ -183,7 +183,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         
         number_of_words += 1
         print(number_of_words)
-        
+        self.view.isUserInteractionEnabled = false
         let oldValue = submit_btn.layer.cornerRadius
         submit_btn.setTitle("", for: .normal)
         CATransaction.begin()
@@ -212,12 +212,16 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                     UIView.animate(withDuration: 0.3, animations: {
                         self.view.alpha = 0
                     }, completion: {(finished: Bool) in
-                        let v = self.gb.buildCreateWord(categories: default_categories)
-                        self.view = UIView(frame: self.view.frame)
+                        let v = self.gb.buildCreateWord(categories: categories)
+                        v.tag = 12345
+                        for subview in self.view.subviews{
+                            subview.removeFromSuperview()
+                        }
                         self.view.addSubview(v)
                         UIView.animate(withDuration: 0.3, animations: {
                             self.view.alpha = 1
                         }, completion: {(finished: Bool) in
+                            self.view.isUserInteractionEnabled = true
                             self.setView()
                         })
                     })
