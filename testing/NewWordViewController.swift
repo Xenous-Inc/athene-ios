@@ -173,8 +173,10 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func submit(_ sender: Any) {
-        ref.child("words").child(String(number_of_words)).child("English").setValue(ed_text_english.text!)
-        ref.child("words").child(String(number_of_words)).child("Russian").setValue(ed_text_russian.text!)
+        guard let eng = ed_text_english.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        guard let rus = ed_text_russian.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
+        ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
         ref.child("words").child(String(number_of_words)).child("date").setValue(next_date)
         ref.child("words").child(String(number_of_words)).child("level").setValue(0)
         ref.child("words").child(String(number_of_words)).child("category").setValue(category_label.text!)
@@ -211,7 +213,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                         self.view.alpha = 0
                     }, completion: {(finished: Bool) in
                         let v = self.gb.buildCreateWord(categories: default_categories)
-                        self.view.viewWithTag(12345)?.removeFromSuperview()
+                        self.view = UIView(frame: self.view.frame)
                         self.view.addSubview(v)
                         UIView.animate(withDuration: 0.3, animations: {
                             self.view.alpha = 1

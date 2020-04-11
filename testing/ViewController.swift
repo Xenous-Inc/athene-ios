@@ -74,8 +74,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var deadline = DispatchTime.now()
     func Submit(sender: Int) {
+        guard let eng = edit_text.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         deadline = .now()
-        if (sender == submit_btn.tag) && ((edit_text.text!) == words[current].english) {
+        if (sender == submit_btn.tag) && (eng == words[current].english.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)) {
             (view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.init(rgb: green_clr)
             edit_text.textColor = UIColor.init(rgb: green_clr)
             deadline = .now() + 0.9

@@ -38,7 +38,7 @@ let main_page_next_text = "Следующее слово"
 
 let loading_text = "загрузка..."
 let end_of_words_text = "Слова закончились"
-let no_words_for_today = "На сегодня слов нет"
+let no_words_for_today = "Сегодня без слов"
 
 let delete_alert_question = "Удалить слово?"
 let delete_alert_warning = "Слово будет удалено из вашего аккаунта"

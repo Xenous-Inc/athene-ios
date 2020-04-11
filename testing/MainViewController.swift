@@ -109,6 +109,13 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if(Auth.auth().currentUser == nil){
+            os_log("Signing out...")
+            DispatchQueue.main.async(){
+                self.performSegue(withIdentifier: "signing_out", sender: self)
+            }
+            return
+        }
         print("Main view did appear")
         let v = LoadingView()
         v.tag = 54321
