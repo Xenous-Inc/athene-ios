@@ -11,7 +11,7 @@
         <!--Change Word View Controller-->
         <scene sceneID="fhb-Ag-FmF">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="OEw-I6-jdo" customClass="ChangeWordViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="OEw-I6-jdo" customClass="ChangeWordViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kxt-AX-9Nf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,7 +31,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="yG1-m9-m2j"/>
                     <connections>
-                        <segue destination="y1e-ek-3Vd" kind="custom" identifier="back_from_word_edit" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="Yvl-CU-ogc"/>
+                        <segue destination="y1e-ek-3Vd" kind="custom" identifier="back_from_word_edit" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="Yvl-CU-ogc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SuN-pP-tBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -46,20 +46,62 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pyw-ZA-1D9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="238" y="536"/>
+            <point key="canvasLocation" x="-149" y="611"/>
         </scene>
-        <!--Page View Controller-->
-        <scene sceneID="LBg-1H-RPi">
+        <!--tutorialVC-->
+        <scene sceneID="54s-M0-YXe">
             <objects>
-                <pageViewController storyboardIdentifier="PageVC" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="zsK-34-xZ1" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="trq-AP-1uA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="tutorialVC" id="Bxu-2S-TjA" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Cp0-Iy-Hmb"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ick-gn-rPk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-548" y="130"/>
+            <point key="canvasLocation" x="643" y="611"/>
+        </scene>
+        <!--Tutorial View Controller-->
+        <scene sceneID="a7m-no-UIr">
+            <objects>
+                <viewController storyboardIdentifier="tutorialVC" id="Yf6-9o-jav" customClass="TutorialViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ct7-vA-9wz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cqu-iB-uDe">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="699.33333333333337"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M7O-K1-hr2" customClass="CustomPageControl" customModule="Lett" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="699.33333333333337" width="414" height="36.666666666666629"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="M7O-K1-hr2" firstAttribute="height" secondItem="eB6-MD-OLq" secondAttribute="height" multiplier="0.05" id="Cfc-yI-GoO"/>
+                            <constraint firstItem="cqu-iB-uDe" firstAttribute="top" secondItem="eB6-MD-OLq" secondAttribute="top" id="Gta-CS-whz"/>
+                            <constraint firstItem="eB6-MD-OLq" firstAttribute="trailing" secondItem="cqu-iB-uDe" secondAttribute="trailing" id="e0T-Zx-qlb"/>
+                            <constraint firstItem="eB6-MD-OLq" firstAttribute="bottom" secondItem="M7O-K1-hr2" secondAttribute="bottom" id="fFl-CU-RV4"/>
+                            <constraint firstItem="M7O-K1-hr2" firstAttribute="leading" secondItem="eB6-MD-OLq" secondAttribute="leading" id="rqX-Xx-qQj"/>
+                            <constraint firstItem="eB6-MD-OLq" firstAttribute="trailing" secondItem="M7O-K1-hr2" secondAttribute="trailing" id="tOf-py-iRr"/>
+                            <constraint firstItem="cqu-iB-uDe" firstAttribute="leading" secondItem="eB6-MD-OLq" secondAttribute="leading" id="urv-5D-4Vw"/>
+                            <constraint firstItem="M7O-K1-hr2" firstAttribute="top" secondItem="cqu-iB-uDe" secondAttribute="bottom" id="zJU-qt-vxJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="eB6-MD-OLq"/>
+                    </view>
+                    <connections>
+                        <outlet property="container" destination="cqu-iB-uDe" id="h7T-db-CFE"/>
+                        <outlet property="pager_view" destination="M7O-K1-hr2" id="wZG-NS-RrW"/>
+                        <segue destination="zjN-e2-0KL" kind="show" identifier="finished_tutorial" id="5xT-hb-EGh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NPT-bs-xHW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-546.37681159420299" y="129.61956521739131"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="yrM-vQ-p8v">
             <objects>
-                <viewController storyboardIdentifier="MainVC" modalPresentationStyle="fullScreen" id="oQX-Oz-feE" customClass="MainViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainVC" modalPresentationStyle="fullScreen" id="oQX-Oz-feE" customClass="MainViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J9j-fP-QJE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,11 +129,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2mc-gx-UUc"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Hm1-Tr-cZS"/>
                     <connections>
                         <outlet property="btn_top_constraint" destination="7pP-VG-i9A" id="f2s-DK-MlQ"/>
                         <outlet property="sign_out_btn" destination="1Yr-pK-e6y" id="RXH-3l-ZNL"/>
-                        <segue destination="zjN-e2-0KL" kind="custom" identifier="signing_out" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="4Yq-xe-kbz"/>
-                        <segue destination="OEw-I6-jdo" kind="show" identifier="create_word_segue" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="gRe-sj-1m1"/>
+                        <segue destination="zjN-e2-0KL" kind="custom" identifier="signing_out" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="4Yq-xe-kbz"/>
+                        <segue destination="OEw-I6-jdo" kind="show" identifier="create_word_segue" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="gRe-sj-1m1"/>
+                        <segue destination="Bxu-2S-TjA" kind="show" identifier="move_to_tutorial" id="FMd-R5-uMt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ojR-if-kKx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -112,4 +156,7 @@
     <resources>
         <image name="bg" width="138" height="245.33332824707031"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="5xT-hb-EGh"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -93,3 +93,5 @@ let notification_text = "Проверьте новую подборку слов
 let notification_time = "12:00:00.000"
 
 let promo_text = "Посмотрите список слов, которым с вами поделились в приложении Lett!"
+
+let tutorial_images = ["new.png", "main.png", "cat1.png", "cat2.png", "cat3.png"]

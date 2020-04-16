@@ -102,6 +102,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func Next() {
+        print(words)
         if(answering == false){
             answering = true
             animateNextWord()
@@ -263,28 +264,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func SignOut(_ sender: Any) {
-        let alert = UIAlertController(title: "Signing out", message: "Do you really want to sign out?", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Sign out", style: UIAlertAction.Style.default, handler: {(action) in
-            alert.dismiss(animated: true, completion: nil)
-            os_log("Signing out")
-            do{
-                try Auth.auth().signOut()
-                self.performSegue(withIdentifier: "signing_out", sender: self)
-            }catch _ as NSError{
-                //Error
-                os_log("error")
-            }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         if(frame != nil){
@@ -326,10 +305,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @objc func ChangeWord(_ sender: UIButton) {
         main_vc.performSegue(withIdentifier: "create_word_segue", sender: main_vc)
-    }
-    
-    func GoToArchive(_ sender: Any) {
-        performSegue(withIdentifier: "go_to_archive", sender: self)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

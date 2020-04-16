@@ -15,6 +15,8 @@
 		DA67092C222D73F600595D5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA67092A222D73F600595D5E /* Main.storyboard */; };
 		DA67092E222D740300595D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA67092D222D740300595D5E /* Assets.xcassets */; };
 		DA670931222D740300595D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA67092F222D740300595D5E /* LaunchScreen.storyboard */; };
+		DA8042A6244627140012F3D0 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8042A5244627140012F3D0 /* TutorialViewController.swift */; };
+		DA8042A8244627870012F3D0 /* TutorialSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8042A7244627870012F3D0 /* TutorialSegmentViewController.swift */; };
 		DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB94622531B4400D40849 /* LogInViewController.swift */; };
 		DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB9482253252E00D40849 /* RegisterViewController.swift */; };
 		DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95513424339A0300357808 /* AuthGraphicBuilder.swift */; };
@@ -46,6 +48,8 @@
 		DA67092D222D740300595D5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA670930222D740300595D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA670932222D740300595D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA8042A5244627140012F3D0 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		DA8042A7244627870012F3D0 /* TutorialSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSegmentViewController.swift; sourceTree = "<group>"; };
 		DA8CB94622531B4400D40849 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		DA8CB9482253252E00D40849 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DA95513424339A0300357808 /* AuthGraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGraphicBuilder.swift; sourceTree = "<group>"; };
@@ -117,8 +121,9 @@
 			children = (
 				DAC38FA7243E46DD0035C5BE /* testing.entitlements */,
 				DAEC4197242F916200944B7F /* Graphics */,
-				DAEC4196242F913900944B7F /* AuthControllers */,
 				DAEC4191242F1D5100944B7F /* Storyboards */,
+				DAEC4196242F913900944B7F /* AuthControllers */,
+				DAC38FAE244620FF0035C5BE /* TutorialControllers */,
 				DA670926222D73F600595D5E /* AppDelegate.swift */,
 				DAEC4194242F38E300944B7F /* MainViewController.swift */,
 				DA670928222D73F600595D5E /* ViewController.swift */,
@@ -134,6 +139,15 @@
 				DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */,
 			);
 			path = testing;
+			sourceTree = "<group>";
+		};
+		DAC38FAE244620FF0035C5BE /* TutorialControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DA8042A5244627140012F3D0 /* TutorialViewController.swift */,
+				DA8042A7244627870012F3D0 /* TutorialSegmentViewController.swift */,
+			);
+			path = TutorialControllers;
 			sourceTree = "<group>";
 		};
 		DAEC4191242F1D5100944B7F /* Storyboards */ = {
@@ -293,6 +307,8 @@
 				DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */,
 				DAEC4199242F91AF00944B7F /* CustomPageControl.swift in Sources */,
 				DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */,
+				DA8042A8244627870012F3D0 /* TutorialSegmentViewController.swift in Sources */,
+				DA8042A6244627140012F3D0 /* TutorialViewController.swift in Sources */,
 				DAEC4195242F38E300944B7F /* MainViewController.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
 				DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */,

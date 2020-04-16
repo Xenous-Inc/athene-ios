@@ -22,13 +22,33 @@ extension Date {
 
 extension UserDefaults{
     static func isFirstLaunch() -> Bool{
-        let hasBeenLaunchedBeforeFlag = "hasBeenLaunchedBeforeFlag"
+        let hasBeenLaunchedBeforeFlag = "LetthasBeenLaunchedBefore"
         let isFirstLaunch = !UserDefaults.standard.bool(forKey: hasBeenLaunchedBeforeFlag)
-        if (isFirstLaunch) {
-            UserDefaults.standard.set(true, forKey: hasBeenLaunchedBeforeFlag)
-            UserDefaults.standard.synchronize()
-        }
+        print("Fist: \(isFirstLaunch)")
         return isFirstLaunch
+    }
+    
+    static func setFirstLaunchToFalse(){
+        let hasBeenLaunchedBeforeFlag = "LetthasBeenLaunchedBefore"
+        UserDefaults.standard.set(true, forKey: hasBeenLaunchedBeforeFlag)
+        UserDefaults.standard.synchronize()
+    }
+}
+
+extension UIViewController {
+    func attachToTop(_ customView: UIView, with margin: CGFloat = 0){
+        if #available(iOS 11.0, *) {
+            customView.topAnchor.constraint(
+              equalTo: view.safeAreaLayoutGuide.topAnchor,
+              constant: margin
+            ).isActive = true
+        } else {
+            print("Attaching view to top")
+            customView.topAnchor.constraint(
+              equalTo: topLayoutGuide.topAnchor,
+              constant: margin
+            ).isActive = true
+        }
     }
 }
 

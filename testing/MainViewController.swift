@@ -69,15 +69,16 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
             pager_view.moveTo(tab: currentPageIndex)
         }
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         main_vc = self
-        
         if(UserDefaults.isFirstLaunch()){
-            //Run tutorial
-            //return
+            print("First launch")
+            DispatchQueue.main.async(){
+                self.performSegue(withIdentifier: "move_to_tutorial", sender: self)
+            }
+            return
         }
         if(Auth.auth().currentUser == nil){
             os_log("Signing out...")
@@ -89,18 +90,27 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         
         user = Auth.auth().currentUser!
         
-        pager_view.set(width: self.view.frame.width, height: 0.05*self.view.frame.height, tabs: 3, start: 1)
-        pager_view.center = CGPoint(x: self.view.frame.width / 2, y: self.view.frame.height - pager_view.frame.height / 2)
+        pager_view.set(width: self.view.frame.width, height: 0.05*self.view.frame.height, tabs: 3, start: 1, color: UIColor.white)
+        if #available(iOS 11.0, *) {
+            NSLayoutConstraint.activate([
+                pager_view.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.bottomAnchor, multiplier: 1),
+                pager_view.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
+                pager_view.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 1),
+                pager_view.heightAnchor.constraint(equalToConstant: 0.05*self.view.frame.height)
+            ])
+        } else {
+            pager_view.center = CGPoint(x: self.view.frame.width / 2, y: self.view.frame.height - pager_view.frame.height / 2)
+        }
         view.addSubview(pager_view)
         
         let padding = 0.02*view.bounds.height
         btn_top_constraint.constant = padding
         
-        self.pageviewcontroller = (self.storyboard?.instantiateViewController(withIdentifier: "PageVC") as! UIPageViewController)
+        self.pageviewcontroller = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.pageviewcontroller.dataSource = self
         self.pageviewcontroller.delegate = self
         let top = sign_out_btn.frame.maxY + padding
-        self.pageviewcontroller.view.frame = CGRect(x: 0, y: top, width: self.view.frame.width, height: self.view.frame.height-self.pager_view.frame.height - top)
+        self.pageviewcontroller.view.frame = CGRect(x: 0, y: top, width: self.view.frame.width, height: self.pager_view.frame.minY - top)
         ViewControllers.append(ArchiveViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
         ViewControllers.append(ViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
         ViewControllers.append(NewWordViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
@@ -109,6 +119,9 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if(UserDefaults.isFirstLaunch()){
+            return
+        }
         if(Auth.auth().currentUser == nil){
             os_log("Signing out...")
             DispatchQueue.main.async(){

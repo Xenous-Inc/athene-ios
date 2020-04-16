@@ -16,11 +16,14 @@ class CustomPageControl: UIView{
     
     var current_tab = UIView()
     
-    func set(width: CGFloat, height: CGFloat, tabs: Int, start: Int){
+    var color = UIColor()
+    
+    func set(width: CGFloat, height: CGFloat, tabs: Int, start: Int, color: UIColor){
         self.bounds = CGRect(x: 0, y: 0, width: width, height: height)
         self.backgroundColor = UIColor.clear
+        self.color = color
         self.tabs = tabs
-        let pd = 0.05*width
+        let pd = 0.2*(width / CGFloat(tabs))
         var x = pd
         
         let tab_w = (width - CGFloat(tabs + 1)*pd) / CGFloat(tabs)
@@ -32,14 +35,14 @@ class CustomPageControl: UIView{
             x += tab_w + pd
             
             tab.layer.borderWidth = 2
-            tab.layer.borderColor = UIColor.white.cgColor
+            tab.layer.borderColor = self.color.cgColor
             tab.layer.cornerRadius = tab_h / 2
             
             self.addSubview(tab)
         }
         current = start
         current_tab = UIView(frame: self.subviews[start].frame)
-        current_tab.backgroundColor = UIColor.white
+        current_tab.backgroundColor = self.color
         current_tab.layer.cornerRadius = current_tab.bounds.height / 2
         
         self.addSubview(current_tab)
@@ -58,7 +61,7 @@ class CustomPageControl: UIView{
             new_cur.frame = CGRect(x: cords[tab].minX, y: cords[tab].minY, width: 0, height: cords[tab].height)
             new_x = current_tab.frame.maxX
         }
-        new_cur.backgroundColor = UIColor.white
+        new_cur.backgroundColor = color
         new_cur.layer.cornerRadius = new_cur.bounds.height / 2
         self.addSubview(new_cur)
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
