@@ -18,7 +18,6 @@ var number_of_words = 0
 
 var archive : [Word] = []
 
-var current: Int = 0;
 var words: [Word] = []
 
 var user : User? = nil
@@ -62,7 +61,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //Navigation
     
     @objc func next_btn_pressed(_ sender: UIButton){
-        if(text.text! == end_of_words_text || text.text! == no_words_for_today){return}
+        if(words.count == 0){return}
         submit_btn.isEnabled = false
         forgot_btn.isEnabled = false
         if(answering){
@@ -76,43 +75,46 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func Submit(sender: Int) {
         guard let eng = edit_text.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         deadline = .now()
-        if (sender == submit_btn.tag) && (eng == words[current].english.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)) {
+        if (sender == submit_btn.tag) && (eng == words[0].english.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)) {
             (view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.init(rgb: green_clr)
             edit_text.textColor = UIColor.init(rgb: green_clr)
             deadline = .now() + 0.9
-            switch words[current].level{
+            switch words[0].level{
             case 0:
-                UpdateCard(ind: words[current].db_index, date: week_date, level: words[current].level + 1)
+                UpdateCard(ind: words[0].db_index, date: week_date, level: words[0].level + 1)
             case 1:
-                UpdateCard(ind: words[current].db_index, date: month_date, level: words[current].level + 1)
+                UpdateCard(ind: words[0].db_index, date: month_date, level: words[0].level + 1)
             case 2:
-                UpdateCard(ind: words[current].db_index, date: three_month_date, level: words[current].level + 1)
+                UpdateCard(ind: words[0].db_index, date: three_month_date, level: words[0].level + 1)
             case 3:
-                UpdateCard(ind: words[current].db_index, date: six_month_date, level: words[current].level + 1)
+                UpdateCard(ind: words[0].db_index, date: six_month_date, level: words[0].level + 1)
             default:
-                MoveCardToArchive(ind: words[current].db_index)
+                MoveCardToArchive(ind: words[0].db_index)
             }
             resetTint()
         }else{
             answering = false
-            UpdateCard(ind: words[current].db_index, date: next_date, level: 0)
-            animateIncorrectAnswer(ans: edit_text.text!, correct: words[current].english, status: sender)
+            UpdateCard(ind: words[0].db_index, date: next_date, level: 0)
+            animateIncorrectAnswer(ans: edit_text.text!, correct: words[0].english, status: sender)
         }
-        current += 1
     }
     
     @objc func Next() {
-        print(words)
+        for i in words{
+            print(i.english, terminator: "  ")
+        }
+        print("")
+        words.remove(at: 0)
         if(answering == false){
             answering = true
             animateNextWord()
         }
-        if(current >= words.count){
+        if(words.count == 0){
             text.text = end_of_words_text
             submit_btn.isEnabled = false
             forgot_btn.isEnabled = false
         }else{
-            text.text = words[current].russian
+            text.text = words[0].russian
             submit_btn.isEnabled = true
             forgot_btn.isEnabled = true
         }
@@ -231,8 +233,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         alert.addAction(UIAlertAction(title: delete_alert_delete, style: UIAlertAction.Style.default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
-            current -= 1
-            let ind = words[current].db_index
+            let ind = words[0].db_index
             number_of_words -= 1
             ref.child("words").observeSingleEvent(of: .value, with: { (snap) in
                 let last = snap.childrenCount - 1
@@ -248,8 +249,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         break
                     }
                 }
-                
-                words.remove(at: current)
                 
                 ref.child("words").child(String(last)).removeValue()
                 
@@ -292,8 +291,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func checkWordsUpdate(){
-        if(current < words.count){
-            self.text.text = words[current].russian
+        if(words.count > 0){
+            self.text.text = words[0].russian
             self.submit_btn.isEnabled = true
             self.forgot_btn.isEnabled = true
         }else{

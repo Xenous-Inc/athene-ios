@@ -102,7 +102,6 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     user_id = Auth.auth().currentUser!.uid
     archive = []
     words = []
-    current = 0
     number_of_words = 0
     categories_words = [:]
     SetDates()
