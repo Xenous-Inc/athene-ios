@@ -150,6 +150,8 @@ class CustomTableViewCell: UIView{
         let t_view = UILabel(frame: CGRect(x: main_view.layer.cornerRadius, y: 0, width: t_view_width, height: main_view.bounds.height))
         let f_sz = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: 0.7*main_view.bounds.height))
         t_view.font = UIFont(name: font, size: f_sz)
+        t_view.adjustsFontSizeToFitWidth = true
+        t_view.lineBreakMode = .byClipping
         t_view.textColor = UIColor.white
         t_view.text = text
         t_view.baselineAdjustment = .alignCenters
@@ -172,13 +174,15 @@ class CustomTableViewCell: UIView{
         view.layer.borderWidth = 2
         view.layer.cornerRadius = view.bounds.height / 2
         view.layer.borderColor = UIColor.white.cgColor
-        let t_view = UILabel(frame: CGRect(x: view.layer.cornerRadius, y: 0, width: view.bounds.width - 2*view.layer.cornerRadius, height: view.bounds.height))
+        let t_view = UILabel(frame: CGRect(x: 0.8*view.layer.cornerRadius, y: 0, width: view.bounds.width - 1.6*view.layer.cornerRadius, height: view.bounds.height))
         let f_sz = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: 0.7*view.bounds.height))
         t_view.font = UIFont(name: font, size: f_sz)
         t_view.textColor = UIColor.white
         t_view.text = word.english
         t_view.baselineAdjustment = .alignCenters
         t_view.tag = -1
+        t_view.adjustsFontSizeToFitWidth = true
+        t_view.lineBreakMode = .byClipping
         view.addSubview(t_view)
         
         self.addSubview(view)
