@@ -54,6 +54,9 @@ class GraphicBuilder: NSObject{
             ed_text.textColor = UIColor.white
             ed_text.attributedPlaceholder = NSAttributedString(string: ((i == 0) ? russian_field_placeholder : english_field_placeholder),
                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.init(white: 1.0, alpha: 0.5)])
+            let font_sz = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: 0.8*ed_text.bounds.height))
+            ed_text.font = UIFont(name: font, size: font_sz)
+            
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:ed_text.frame.height - 1), size: CGSize(width: ed_text.frame.width, height: 2))
             bottomLine.backgroundColor = UIColor.init(white: 1, alpha: 0.8).cgColor
@@ -266,6 +269,10 @@ class GraphicBuilder: NSObject{
             ed_text.textColor = UIColor.white
             ed_text.attributedPlaceholder = NSAttributedString(string: ((i == 0) ? russian_field_placeholder : english_field_placeholder),
                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.init(white: 1.0, alpha: 0.5)])
+            
+            let font_sz = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: 0.8*ed_text.bounds.height))
+            ed_text.font = UIFont(name: font, size: font_sz)
+            
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:ed_text.frame.height - 1), size: CGSize(width: ed_text.frame.width, height: 2))
             bottomLine.backgroundColor = UIColor.init(white: 1, alpha: 0.8).cgColor

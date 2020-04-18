@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -11,28 +11,28 @@
         <!--Log In View Controller-->
         <scene sceneID="O1D-nL-0Az">
             <objects>
-                <viewController storyboardIdentifier="loginvc" id="4xn-Xc-lk7" customClass="LogInViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginvc" modalPresentationStyle="fullScreen" id="4xn-Xc-lk7" customClass="LogInViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SBT-Bq-6OQ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="EMo-0w-jkJ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="EMo-0w-jkJ" firstAttribute="leading" secondItem="EtK-IW-hdY" secondAttribute="leading" id="iCj-af-iSO"/>
-                            <constraint firstItem="EtK-IW-hdY" firstAttribute="trailing" secondItem="EMo-0w-jkJ" secondAttribute="trailing" id="pA5-9L-W9d"/>
-                            <constraint firstItem="EMo-0w-jkJ" firstAttribute="top" secondItem="EtK-IW-hdY" secondAttribute="top" id="usz-ju-J50"/>
-                            <constraint firstItem="EtK-IW-hdY" firstAttribute="bottom" secondItem="EMo-0w-jkJ" secondAttribute="bottom" id="xwa-s7-FoG"/>
+                            <constraint firstItem="EMo-0w-jkJ" firstAttribute="leading" secondItem="SBT-Bq-6OQ" secondAttribute="leading" id="iCj-af-iSO"/>
+                            <constraint firstAttribute="trailing" secondItem="EMo-0w-jkJ" secondAttribute="trailing" id="pA5-9L-W9d"/>
+                            <constraint firstItem="EMo-0w-jkJ" firstAttribute="top" secondItem="SBT-Bq-6OQ" secondAttribute="top" id="usz-ju-J50"/>
+                            <constraint firstAttribute="bottom" secondItem="EMo-0w-jkJ" secondAttribute="bottom" id="xwa-s7-FoG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="EtK-IW-hdY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ou8-cn-zq6"/>
                     <connections>
-                        <segue destination="8t7-Eg-gat" kind="custom" identifier="move_to_sign_up" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="lIL-sD-mjY"/>
-                        <segue destination="H1Z-6T-ZjC" kind="custom" identifier="to_main" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="2F2-0l-pKk"/>
+                        <segue destination="8t7-Eg-gat" kind="custom" identifier="move_to_sign_up" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="lIL-sD-mjY"/>
+                        <segue destination="H1Z-6T-ZjC" kind="custom" identifier="to_main" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="2F2-0l-pKk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="htS-g5-eQi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -52,28 +52,28 @@
         <!--Register View Controller-->
         <scene sceneID="daz-WP-vja">
             <objects>
-                <viewController id="8t7-Eg-gat" customClass="RegisterViewController" customModule="testing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="8t7-Eg-gat" customClass="RegisterViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BwT-uE-yTf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="3UX-bY-RdV">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="hKt-9m-PPa" firstAttribute="bottom" secondItem="3UX-bY-RdV" secondAttribute="bottom" id="YNb-OB-8lL"/>
-                            <constraint firstItem="3UX-bY-RdV" firstAttribute="leading" secondItem="hKt-9m-PPa" secondAttribute="leading" id="blk-1A-IzA"/>
-                            <constraint firstItem="hKt-9m-PPa" firstAttribute="trailing" secondItem="3UX-bY-RdV" secondAttribute="trailing" id="oBw-6w-RbJ"/>
-                            <constraint firstItem="3UX-bY-RdV" firstAttribute="top" secondItem="hKt-9m-PPa" secondAttribute="top" id="xIw-Tx-H7S"/>
+                            <constraint firstAttribute="bottom" secondItem="3UX-bY-RdV" secondAttribute="bottom" id="YNb-OB-8lL"/>
+                            <constraint firstItem="3UX-bY-RdV" firstAttribute="leading" secondItem="BwT-uE-yTf" secondAttribute="leading" id="blk-1A-IzA"/>
+                            <constraint firstAttribute="trailing" secondItem="3UX-bY-RdV" secondAttribute="trailing" id="oBw-6w-RbJ"/>
+                            <constraint firstItem="3UX-bY-RdV" firstAttribute="top" secondItem="BwT-uE-yTf" secondAttribute="top" id="xIw-Tx-H7S"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hKt-9m-PPa"/>
                     </view>
                     <navigationItem key="navigationItem" id="5n3-bn-512"/>
                     <connections>
-                        <segue destination="Dwd-RA-8FH" kind="custom" identifier="to_log_in_segue" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="bYd-ET-mOO"/>
-                        <segue destination="H1Z-6T-ZjC" kind="custom" identifier="to_main_from_sign_up" customClass="SmoothSegue" customModule="testing" customModuleProvider="target" id="l8H-LA-G7m"/>
+                        <segue destination="Dwd-RA-8FH" kind="custom" identifier="to_log_in_segue" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="bYd-ET-mOO"/>
+                        <segue destination="H1Z-6T-ZjC" kind="custom" identifier="to_main_from_sign_up" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="l8H-LA-G7m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5o-HW-0WR" userLabel="First Responder" sceneMemberID="firstResponder"/>

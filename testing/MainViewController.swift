@@ -18,6 +18,8 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     @IBOutlet weak var sign_out_btn: UIButton!
     @IBOutlet weak var btn_top_constraint: NSLayoutConstraint!
+    @IBOutlet weak var pager_view: CustomPageControl!
+    @IBOutlet weak var main_v: UIView!
     
     var currentPageIndex:Int = 1 // holds the current page index
     var pageviewcontroller:UIPageViewController! // self explanatory
@@ -27,7 +29,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     var lastPendingViewControllerIndex = 0
     
-    let pager_view = CustomPageControl()
+    
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = ViewControllers.index(of: viewController) else {
@@ -71,8 +73,36 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         main_vc = self
+    }
+    var was_layout_set = false
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if(was_layout_set){return}
+        was_layout_set = true
+        pager_view.set(width: self.view.frame.width, height: 0.05*self.view.frame.height, tabs: 3, start: 1, color: UIColor.white)
+        
+        let padding = 0.02*view.bounds.height
+        btn_top_constraint.constant = padding
+        self.pageviewcontroller = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        self.pageviewcontroller.dataSource = self
+        self.pageviewcontroller.delegate = self
+        
+        self.pageviewcontroller.view.frame = CGRect(x: 0, y: 0, width: main_v.bounds.width, height: 0.9*main_v.bounds.height)
+        self.pageviewcontroller.view.center = main_v.center
+
+        ViewControllers.append(ArchiveViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
+        ViewControllers.append(ViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
+        ViewControllers.append(NewWordViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
+        self.pageviewcontroller.setViewControllers([ViewControllers[1]], direction: .forward, animated: true, completion: nil)
+        
+        self.addChild(self.pageviewcontroller)
+        self.view.addSubview(self.pageviewcontroller.view)
+        self.pageviewcontroller.didMove(toParent: self)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         if(UserDefaults.isFirstLaunch()){
             print("First launch")
             DispatchQueue.main.async(){
@@ -87,48 +117,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
             }
             return
         }
-        
         user = Auth.auth().currentUser!
-        
-        pager_view.set(width: self.view.frame.width, height: 0.05*self.view.frame.height, tabs: 3, start: 1, color: UIColor.white)
-        if #available(iOS 11.0, *) {
-            NSLayoutConstraint.activate([
-                pager_view.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.bottomAnchor, multiplier: 1),
-                pager_view.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
-                pager_view.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 1),
-                pager_view.heightAnchor.constraint(equalToConstant: 0.05*self.view.frame.height)
-            ])
-        } else {
-            pager_view.center = CGPoint(x: self.view.frame.width / 2, y: self.view.frame.height - pager_view.frame.height / 2)
-        }
-        view.addSubview(pager_view)
-        
-        let padding = 0.02*view.bounds.height
-        btn_top_constraint.constant = padding
-        
-        self.pageviewcontroller = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        self.pageviewcontroller.dataSource = self
-        self.pageviewcontroller.delegate = self
-        let top = sign_out_btn.frame.maxY + padding
-        self.pageviewcontroller.view.frame = CGRect(x: 0, y: top, width: self.view.frame.width, height: self.pager_view.frame.minY - top)
-        ViewControllers.append(ArchiveViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
-        ViewControllers.append(ViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
-        ViewControllers.append(NewWordViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
-        self.pageviewcontroller.setViewControllers([ViewControllers[1]], direction: .forward, animated: true, completion: nil)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if(UserDefaults.isFirstLaunch()){
-            return
-        }
-        if(Auth.auth().currentUser == nil){
-            os_log("Signing out...")
-            DispatchQueue.main.async(){
-                self.performSegue(withIdentifier: "signing_out", sender: self)
-            }
-            return
-        }
         print("Main view did appear")
         let v = LoadingView()
         v.tag = 54321
@@ -137,9 +126,6 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         v.show()
         updateWordsFromDatabase(completion: {(finished: Bool) in
             v.removeFromSuperview()
-            self.addChild(self.pageviewcontroller)
-            self.view.addSubview(self.pageviewcontroller.view)
-            self.pageviewcontroller.didMove(toParent: self)
             (self.ViewControllers[1] as! ViewController).checkWordsUpdate()
         })
     }

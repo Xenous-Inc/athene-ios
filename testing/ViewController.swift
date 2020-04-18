@@ -100,10 +100,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func Next() {
-        for i in words{
-            print(i.english, terminator: "  ")
-        }
-        print("")
         words.remove(at: 0)
         if(answering == false){
             answering = true
