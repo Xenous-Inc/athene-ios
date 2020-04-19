@@ -100,21 +100,21 @@ var english_list: [String] = []
 
 func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     user_id = Auth.auth().currentUser!.uid
-    archive = []
-    words = []
+    var _archive: [Word] = []
+    var _words: [Word] = []
+    var _russian_list: [String] = []
+    var _english_list: [String] = []
+    var _categories_words: [String: [Word]] = [:]
+    var _categories: [String] = default_categories + [no_category]
     number_of_words = 0
-    categories_words = [:]
     SetDates()
-    russian_list = []
-    english_list = []
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
     ref = Database.database().reference().child("users").child(user_id)
     ref.observeSingleEvent(of: .value, with: { (snp) in
-        categories = default_categories + [no_category]
         let en = snp.childSnapshot(forPath: "categories").children
         while let snap = en.nextObject() as? DataSnapshot{
-            categories.append(snap.value as! String)
+            _categories.append(snap.value as! String)
         }
         let snapshot = snp.childSnapshot(forPath: "words")
         number_of_words = Int(snapshot.childrenCount)
@@ -128,31 +128,41 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
             let category = snap.childSnapshot(forPath: "category").value as? String ?? ""
             var level = snap.childSnapshot(forPath: "level").value as? Int ?? 0
-            russian_list.append(rus)
-            english_list.append(eng)
+            _russian_list.append(rus)
+            _english_list.append(eng)
             if(category != no_category){
-                if(categories_words[category] != nil){
-                    categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+                if(_categories_words[category] != nil){
+                    _categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
                 }else{
-                    categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!)]
+                    _categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!)]
                 }
             }
             if(level == -1){
-                archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, ind: Int(snap.key)!))
+                _archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, ind: Int(snap.key)!))
             }else if(level != -2 && count > 0){
                 ref.child("words").child(snap.key).child("date").setValue(now_date)
                 if(count >= 3 && (level == 1 || level == 2)){
                     level = 0
                 }
                 ref.child("words").child(snap.key).child("level").setValue(level)
-                words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+                _words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
             }else if(level != -2 && count == 0){
-                words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+                _words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
             }
         }
+        archive = _archive
+        words = _words
+        russian_list = _russian_list
+        english_list = _english_list
+        categories_words = _categories_words
+        categories = _categories
         if let comp = completion{
             comp(true)
-            print(words.count)
+            for i in categories_words{
+                for j in i.value{
+                    print(j.english, terminator: " ")
+                }
+            }
         }
     })
 }

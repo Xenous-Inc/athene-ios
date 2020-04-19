@@ -127,6 +127,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         updateWordsFromDatabase(completion: {(finished: Bool) in
             v.removeFromSuperview()
             (self.ViewControllers[1] as! ViewController).checkWordsUpdate()
+            print(words.count)
         })
     }
     

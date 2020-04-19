@@ -287,6 +287,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func checkWordsUpdate(){
+        print("Checking for words, count = \(words.count)")
         if(words.count > 0){
             self.text.text = words[0].russian
             self.submit_btn.isEnabled = true
