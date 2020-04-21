@@ -18,7 +18,11 @@ class CustomPageControl: UIView{
     
     var color = UIColor()
     
+    var was_set = false
+    
     func set(width: CGFloat, height: CGFloat, tabs: Int, start: Int, color: UIColor){
+        if(was_set){return}
+        was_set = true
         self.bounds = CGRect(x: 0, y: 0, width: width, height: height)
         self.backgroundColor = UIColor.clear
         self.color = color
