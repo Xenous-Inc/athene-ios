@@ -22,10 +22,10 @@
 		DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95513424339A0300357808 /* AuthGraphicBuilder.swift */; };
 		DA9551372435E61900357808 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9551362435E61500357808 /* LoadingView.swift */; };
 		DAC38FA6243B29360035C5BE /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC38FA5243B29360035C5BE /* CustomTableView.swift */; };
-		DAC38FA9243EE9B00035C5BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAC38FA8243EE9B00035C5BE /* GoogleService-Info.plist */; };
 		DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E422423A71F00675EEA /* GraphicBuilder.swift */; };
 		DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E442423AA1D00675EEA /* FontHelper.swift */; };
 		DAC96E472423AA9100675EEA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E462423AA9100675EEA /* Strings.swift */; };
+		DACE93A3244EAEA4003B9DCF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE93A2244EAEA3003B9DCF /* GoogleService-Info.plist */; };
 		DAE37194223D0AD300F6E5E1 /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */; };
 		DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */; };
 		DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */; };
@@ -41,7 +41,7 @@
 		CDC2F386D1A34A1D7D7E2148 /* Pods-testing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testing.release.xcconfig"; path = "Target Support Files/Pods-testing/Pods-testing.release.xcconfig"; sourceTree = "<group>"; };
 		DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmoothSegue.swift; sourceTree = "<group>"; };
 		DA60BA2B24247AAE00146E87 /* ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext.swift; sourceTree = "<group>"; };
-		DA670923222D73F600595D5E /* Lett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lett.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA670923222D73F600595D5E /* Athene.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Athene.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA670926222D73F600595D5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA670928222D73F600595D5E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DA67092B222D73F600595D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -56,10 +56,10 @@
 		DA9551362435E61500357808 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DAC38FA5243B29360035C5BE /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		DAC38FA7243E46DD0035C5BE /* testing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = testing.entitlements; sourceTree = "<group>"; };
-		DAC38FA8243EE9B00035C5BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DAC96E422423A71F00675EEA /* GraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicBuilder.swift; sourceTree = "<group>"; };
 		DAC96E442423AA1D00675EEA /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		DAC96E462423AA9100675EEA /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		DACE93A2244EAEA3003B9DCF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordViewController.swift; sourceTree = "<group>"; };
 		DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWordViewController.swift; sourceTree = "<group>"; };
 		DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
@@ -111,7 +111,7 @@
 		DA670924222D73F600595D5E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA670923222D73F600595D5E /* Lett.app */,
+				DA670923222D73F600595D5E /* Athene.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,7 +131,7 @@
 				DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */,
 				DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */,
 				DA67092D222D740300595D5E /* Assets.xcassets */,
-				DAC38FA8243EE9B00035C5BE /* GoogleService-Info.plist */,
+				DACE93A2244EAEA3003B9DCF /* GoogleService-Info.plist */,
 				DA670932222D740300595D5E /* Info.plist */,
 				DAF1847A2420EA600031B68C /* Word.swift */,
 				DAC96E462423AA9100675EEA /* Strings.swift */,
@@ -201,7 +201,7 @@
 			);
 			name = testing;
 			productName = testing;
-			productReference = DA670923222D73F600595D5E /* Lett.app */;
+			productReference = DA670923222D73F600595D5E /* Athene.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -244,7 +244,7 @@
 			files = (
 				DA670931222D740300595D5E /* LaunchScreen.storyboard in Resources */,
 				DAEC4193242F1E7700944B7F /* Auth.storyboard in Resources */,
-				DAC38FA9243EE9B00035C5BE /* GoogleService-Info.plist in Resources */,
+				DACE93A3244EAEA4003B9DCF /* GoogleService-Info.plist in Resources */,
 				DA67092E222D740300595D5E /* Assets.xcassets in Resources */,
 				DA67092C222D73F600595D5E /* Main.storyboard in Resources */,
 			);
@@ -493,8 +493,8 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xenous.lett;
-				PRODUCT_NAME = Lett;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xenous.athene;
+				PRODUCT_NAME = Athene;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_VERSION = 4.2;
@@ -539,8 +539,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.xenous.lett;
-				PRODUCT_NAME = Lett;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xenous.athene;
+				PRODUCT_NAME = Athene;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_VERSION = 4.2;

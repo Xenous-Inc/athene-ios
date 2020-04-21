@@ -110,8 +110,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Yr-pK-e6y">
-                                <rect key="frame" x="347.5" y="54" width="54" height="50"/>
-                                <state key="normal" title="Выйти"/>
+                                <rect key="frame" x="350.5" y="59" width="38.5" height="38.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1Yr-pK-e6y" secondAttribute="height" id="gJf-f5-Pkd"/>
+                                </constraints>
+                                <state key="normal" image="logout"/>
                                 <connections>
                                     <action selector="logOut:" destination="oQX-Oz-feE" eventType="touchUpInside" id="SuZ-Tc-ZiP"/>
                                 </connections>
@@ -120,12 +123,12 @@
                                 <rect key="frame" x="0.0" y="821" width="414" height="41"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hGv-5Y-mub">
-                                <rect key="frame" x="0.0" y="104" width="414" height="717"/>
+                                <rect key="frame" x="0.0" y="97.5" width="414" height="723.5"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="top" secondItem="2mc-gx-UUc" secondAttribute="top" constant="10" id="7pP-VG-i9A"/>
+                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="top" secondItem="2mc-gx-UUc" secondAttribute="top" constant="15" id="7pP-VG-i9A"/>
                             <constraint firstItem="hGv-5Y-mub" firstAttribute="leading" secondItem="2mc-gx-UUc" secondAttribute="leading" id="BvE-Hf-AMB"/>
                             <constraint firstItem="jfD-38-ycE" firstAttribute="leading" secondItem="J9j-fP-QJE" secondAttribute="leading" id="Dy3-Ql-p6t"/>
                             <constraint firstItem="bGc-Ww-cUl" firstAttribute="top" secondItem="hGv-5Y-mub" secondAttribute="bottom" id="EY0-vP-EIR"/>
@@ -138,8 +141,8 @@
                             <constraint firstItem="bGc-Ww-cUl" firstAttribute="leading" secondItem="2mc-gx-UUc" secondAttribute="leading" id="kBj-PO-zVZ"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="trailing" secondItem="hGv-5Y-mub" secondAttribute="trailing" id="mTM-yh-fCg"/>
                             <constraint firstAttribute="trailing" secondItem="jfD-38-ycE" secondAttribute="trailing" id="mfb-Ch-qAH"/>
-                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="height" secondItem="J9j-fP-QJE" secondAttribute="height" multiplier="0.056" id="tDt-xn-1yF"/>
-                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="trailing" secondItem="2mc-gx-UUc" secondAttribute="trailing" multiplier="0.97" id="wLN-OI-eRw"/>
+                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="height" secondItem="J9j-fP-QJE" secondAttribute="height" multiplier="0.043" id="tDt-xn-1yF"/>
+                            <constraint firstItem="1Yr-pK-e6y" firstAttribute="trailing" secondItem="2mc-gx-UUc" secondAttribute="trailing" multiplier="0.94" id="wLN-OI-eRw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2mc-gx-UUc"/>
                     </view>
@@ -171,8 +174,9 @@
     </scenes>
     <resources>
         <image name="bg" width="207" height="368"/>
+        <image name="logout" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5xT-hb-EGh"/>
+        <segue reference="4Yq-xe-kbz"/>
     </inferredMetricsTieBreakers>
 </document>

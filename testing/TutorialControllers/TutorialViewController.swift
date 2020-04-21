@@ -63,12 +63,10 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource, 
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         tutorial_vc = self
         print("Reached tutorial")
-        container.layoutIfNeeded()
-        pager_view.layoutIfNeeded()
         
         pager_view.set(width: container.frame.width, height: 0.05*container.frame.height, tabs: tutorial_images.count, start: 0, color: UIColor.init(rgb: colors[2]))
         

@@ -100,7 +100,7 @@ class ArchiveViewController: UIViewController{
         
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "www.lett.xenous.ru"
+        components.host = "www.athene.xenous.ru"
         components.path = "/category"
         
         let userIdQueryItem = URLQueryItem(name: "user", value: Auth.auth().currentUser!.uid)
@@ -112,7 +112,7 @@ class ArchiveViewController: UIViewController{
         print("Sharing \(linkParameter.absoluteString)")
         
         //Actual link
-        guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://sharelett.page.link") else {
+        guard let shareLink = DynamicLinkComponents.init(link: linkParameter, domainURIPrefix: "https://athene.page.link") else {
             print("Couldn't create FDL components")
             return
         }
