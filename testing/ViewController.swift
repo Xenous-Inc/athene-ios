@@ -13,7 +13,7 @@ import os
 var ref: DatabaseReference!
 var user_id = ""
 
-var next_date: String = ""
+var next_date: Date = Date()
 var number_of_words = 0
 
 var archive : [Word] = []
@@ -22,11 +22,11 @@ var words: [Word] = []
 
 var user : User? = nil
 
-var now_date: String = ""
-var week_date: String = ""
-var month_date: String = ""
-var three_month_date: String = ""
-var six_month_date: String = ""
+var now_date: Date = Date()
+var week_date: Date = Date()
+var month_date: Date = Date()
+var three_month_date: Date = Date()
+var six_month_date: Date = Date()
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
@@ -215,8 +215,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //Database
     
-    func UpdateCard(ind: Int, date: String, level: Int){
-        ref.child("words").child(String(ind)).child("date").setValue(date)
+    func UpdateCard(ind: Int, date: Date, level: Int){
+        ref.child("words").child(String(ind)).child("date").setValue(date.toDatabaseFormat())
         ref.child("words").child(String(ind)).child("level").setValue(level)
     }
     

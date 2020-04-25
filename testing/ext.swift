@@ -13,10 +13,12 @@ import Firebase
 import UserNotifications
 
 extension Date {
-    func string(format: String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
-        return formatter.string(from: self)
+    func toDatabaseFormat() -> Int64{
+        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+    
+    init(milliseconds: Int64) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
     }
 }
 
@@ -87,12 +89,12 @@ func drawLine(view: UIView, start: CGPoint, end: CGPoint, color: CGColor, width:
 }
 
 func SetDates(){
-    now_date = Date().string(format: "yyyy-MM-dd")
-    next_date = (Calendar.current.date(byAdding: .day, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
-    week_date = (Calendar.current.date(byAdding: .day, value: 7, to: Date())!).string(format: "yyyy-MM-dd")
-    month_date = (Calendar.current.date(byAdding: .month, value: 1, to: Date())!).string(format: "yyyy-MM-dd")
-    three_month_date = (Calendar.current.date(byAdding: .month, value: 3, to: Date())!).string(format: "yyyy-MM-dd")
-    six_month_date = (Calendar.current.date(byAdding: .month, value: 6, to: Date())!).string(format: "yyyy-MM-dd")
+    now_date = Calendar.current.startOfDay(for: Date())
+    next_date = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: 1, to: Date())!)
+    week_date = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: 7, to: Date())!)
+    month_date = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .month, value: 1, to: Date())!)
+    three_month_date = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .month, value: 3, to: Date())!)
+    six_month_date = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .month, value: 6, to: Date())!)
 }
 
 var russian_list: [String] = []
@@ -121,9 +123,8 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
         var date: Date, count: Int
         let enumerator = snapshot.children
         while let snap = enumerator.nextObject() as? DataSnapshot{
-            date = dateFormatter.date(from: snap.childSnapshot(forPath: "date").value as? String ?? "")!
-            let n_date = dateFormatter.date(from: now_date)!
-            count = Calendar.current.dateComponents([.day], from: date, to: n_date).day!
+            date = Date(milliseconds: snap.childSnapshot(forPath: "date").value as? Int64 ?? 0)
+            count = Calendar.current.dateComponents([.day], from: date, to: now_date).day!
             let eng = snap.childSnapshot(forPath: "English").value as? String ?? ""
             let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
             let category = snap.childSnapshot(forPath: "category").value as? String ?? ""
@@ -188,7 +189,7 @@ func downloadCategory(completion: ((Bool) -> Void)?){
                     ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
                     ref.child("words").child(String(number_of_words)).child("category").setValue(cat)
                     ref.child("words").child(String(number_of_words)).child("level").setValue(-2)
-                    ref.child("words").child(String(number_of_words)).child("date").setValue(now_date)
+                    ref.child("words").child(String(number_of_words)).child("date").setValue(now_date.toDatabaseFormat())
                     if(categories_words[category] != nil){
                         categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: -2, ind: number_of_words))
                     }else{

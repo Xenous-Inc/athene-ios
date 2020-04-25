@@ -163,7 +163,7 @@ class ArchiveViewController: UIViewController{
                 let word = i.1
                 if(word.level == -2){
                     ref.child("words").child(String(word.db_index)).child("level").setValue(0)
-                    ref.child("words").child(String(word.db_index)).child("date").setValue(next_date)
+                    ref.child("words").child(String(word.db_index)).child("date").setValue(next_date.toDatabaseFormat())
                 }
             }
         }))
@@ -183,7 +183,7 @@ class ArchiveViewController: UIViewController{
                 let word = cell.subcells[ind!].1
                 if(word.level == -2){
                     ref.child("words").child(String(word.db_index)).child("level").setValue(0)
-                    ref.child("words").child(String(word.db_index)).child("date").setValue(next_date)
+                    ref.child("words").child(String(word.db_index)).child("date").setValue(next_date.toDatabaseFormat())
                 }
             }))
             

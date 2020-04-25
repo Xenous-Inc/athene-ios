@@ -177,7 +177,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         guard let rus = ed_text_russian.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
         ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
-        ref.child("words").child(String(number_of_words)).child("date").setValue(next_date)
+        ref.child("words").child(String(number_of_words)).child("date").setValue(next_date.toDatabaseFormat())
         ref.child("words").child(String(number_of_words)).child("level").setValue(0)
         ref.child("words").child(String(number_of_words)).child("category").setValue(category_label.text!)
         
