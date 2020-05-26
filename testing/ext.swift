@@ -141,7 +141,7 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             if(level == -1){
                 _archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, ind: Int(snap.key)!))
             }else if(level != -2 && count > 0){
-                ref.child("words").child(snap.key).child("date").setValue(now_date)
+                ref.child("words").child(snap.key).child("date").setValue(now_date.toDatabaseFormat())
                 if(count >= 3 && (level == 1 || level == 2)){
                     level = 0
                 }

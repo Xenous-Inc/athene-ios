@@ -69,13 +69,13 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         view.addSubview(v)
         v.show()
         
-        Auth.auth().signIn(with: credentials, completion: {(user, error) in
+        Auth.auth().signIn(with: credentials, completion: {(res, error) in
             v.removeFromSuperview()
             if let e = error{
                 print("Failed to log in Firebase using Google: ", e)
             }
             self.performSegue(withIdentifier: "to_main", sender: self)
-            print("Successfully logged in Firebase", user!.uid)
+            print("Successfully logged in Firebase", res!.user.uid)
         })
         
         print("Successfully logged into Google ", user)

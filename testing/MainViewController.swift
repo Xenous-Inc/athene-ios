@@ -99,6 +99,10 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         self.addChild(self.pageviewcontroller)
         self.view.addSubview(self.pageviewcontroller.view)
         self.pageviewcontroller.didMove(toParent: self)
+        
+        if let loading_v = view.viewWithTag(54321){
+            view.bringSubviewToFront(loading_v)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,6 +127,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         v.tag = 54321
         v.set(frame: view.frame)
         view.addSubview(v)
+        view.bringSubviewToFront(v)
         v.show()
         updateWordsFromDatabase(completion: {(finished: Bool) in
             v.removeFromSuperview()

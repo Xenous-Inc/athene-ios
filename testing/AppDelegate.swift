@@ -70,6 +70,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 v.set(frame: v_controller.view.frame)
                 if let loading_v = v_controller.view.viewWithTag(54321){
                     v = loading_v as! LoadingView
+                }else{
+                    v_controller.view.addSubview(v)
+                    v_controller.view.bringSubviewToFront(v)
                 }
                 v.show()
                 downloadCategory(completion: {(finished: Bool) in

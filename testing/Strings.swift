@@ -92,6 +92,6 @@ let notification_title = "Проверьте слова на сегодня"
 let notification_text = "Проверьте новую подборку слов на сегодня, чтобы изучение слов было максимально эффективным!"
 let notification_time = "12:00:00.000"
 
-let promo_text = "Посмотрите список слов, которым с вами поделились в приложении Lett!"
+let promo_text = "Посмотрите список слов, которым с вами поделились в приложении Athene!"
 
 let tutorial_images = ["new.png", "main.png", "cat1.png", "cat2.png", "cat3.png", "arch.png"]
