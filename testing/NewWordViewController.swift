@@ -144,13 +144,9 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     
     func setView(){
         view.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height / 2)
-        let category_view = view.viewWithTag(300)!
-        let rec1 = UITapGestureRecognizer(target: self, action: #selector(expandBottomBar(gesture: )))
-        category_view.addGestureRecognizer(rec1)
         
-        //cross_btn = view.viewWithTag(500) as! UIButton
-        //cross_btn.addTarget(self, action: #selector(shrinkBottomBar(_:)), for: .touchUpInside)
-        //cross_btn.isUserInteractionEnabled = false
+        mainView.categoryView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(expandBottomBar(gesture: ))))
+        
         mainView.categoryLabel.text = no_category
         
         mainView.finishButton.addTarget(self, action: #selector(submit(_:)), for: .touchUpInside)
@@ -232,7 +228,12 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        view.endEditing(true)
+        let touch = touches.first
+        guard let location = touch?.location(in: view) else { return }
+        if !mainView.categoryLabel.frame.contains(location) {
+             shrinkBottomBar(nil)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -242,9 +243,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func expandBottomBar(gesture: UITapGestureRecognizer){
-        if(opened){
-            return
-        }
+        if(opened) {return}
         print("test")
         opened = true
         let v = gesture.view!
@@ -254,8 +253,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         }
         let add_btn = v.viewWithTag(600) as! UIButton
         UIView.animate(withDuration: 0.5, animations: {
-            v.bounds = CGRect(x: 0, y: 0, width: self.mainView.bottom_bar_width, height: self.mainView.bottom_bar_height)
-            v.center = CGPoint(x: 0.5 * self.mainView.frame.width, y: self.mainView.frame.height - (self.mainView.frame.width - self.mainView.bottom_bar_width) / 2 - v.bounds.height / 2)
+            v.frame = CGRect(x: (self.view.bounds.width - self.mainView.bottom_bar_width) / 2, y: v.frame.minY, width: self.mainView.bottom_bar_width, height: self.mainView.bottom_bar_height)
             v.alpha = 1
             add_btn.center = CGPoint(x: self.mainView.bottom_bar_width / 2, y: add_btn.center.y)
             add_btn.alpha = 1
@@ -278,13 +276,13 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func shrinkBottomBar(_ sender: UIButton?){
+        if(!opened) {return}
         opened = false
         let scroll = mainView.categoryView.viewWithTag(400) as! UIScrollView
         scroll.isScrollEnabled = false
         mainView.addButton.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.5, animations: {
-            self.mainView.categoryView.bounds = CGRect(x: 0, y: 0, width: self.mainView.bottom_bar_width_small, height: self.mainView.bottom_bar_height_small)
-            self.mainView.categoryView.center = CGPoint(x: 0.5 * self.mainView.frame.width, y: self.mainView.frame.height - (self.mainView.frame.width - self.mainView.bottom_bar_width) / 2 - self.mainView.bottom_bar_height + self.mainView.bottom_bar_height_small / 2)
+            self.mainView.categoryView.frame = CGRect(x: (self.view.bounds.width - self.mainView.bottom_bar_width_small) / 2, y: self.mainView.categoryView.frame.minY, width: self.mainView.bottom_bar_width_small, height: self.mainView.bottom_bar_height_small)
             self.mainView.categoryView.alpha = 0.5
             self.mainView.addButton.alpha = 0
             self.mainView.addButton.center = CGPoint(x: self.mainView.bottom_bar_width_small / 2, y: self.mainView.addButton.center.y)

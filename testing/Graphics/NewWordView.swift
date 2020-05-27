@@ -36,7 +36,7 @@ class NewWordView: UIView {
         let titleLabel: UILabel = {
             let title_label = UILabel()
             title_label.bounds = CGRect(x: 0, y: 0, width: 0.8*frame.width, height: 0.07*frame.height)
-            title_label.center = CGPoint(x: 0.5*frame.width, y: 0.1*frame.height)
+            title_label.center = CGPoint(x: 0.5*frame.width, y: title_label.bounds.height / 2)
             title_label.text = add_word_title
             title_label.textAlignment = .center
             let f_size = FontHelper().getFontSize(strings: [add_word_title, choose_category], font: font, maxFontSize: 120, width: title_label.bounds.width, height: title_label.bounds.height)
@@ -51,7 +51,7 @@ class NewWordView: UIView {
         for i in 0..<2{
             let ed_text = UITextField()
             ed_text.bounds =  CGRect(x: 0, y: 0, width: 0.6*frame.width, height: 0.07*frame.height)
-            ed_text.center = CGPoint(x: 0.5*frame.width, y: CGFloat(3 + 2*i) * 0.07*frame.height)
+            ed_text.center = CGPoint(x: 0.5*frame.width, y: CGFloat(2 + 2*i) * 0.07*frame.height)
             ed_text.textColor = UIColor.white
             ed_text.attributedPlaceholder = NSAttributedString(string: ((i == 0) ? russian_field_placeholder : english_field_placeholder),
                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.init(white: 1.0, alpha: 0.5)])
@@ -71,7 +71,7 @@ class NewWordView: UIView {
         let chooseCategoryLabel: UILabel = {
             let cat_label = UILabel()
             cat_label.bounds = CGRect(x: 0, y: 0, width: titleLabel.bounds.width, height: titleLabel.bounds.height)
-            cat_label.center = CGPoint(x: 0.5*frame.width, y: 0.5*frame.height)
+            cat_label.center = CGPoint(x: 0.5*frame.width, y: 0.4*frame.height)
             cat_label.text = choose_category
             cat_label.textAlignment = .center
             cat_label.font = titleLabel.font
@@ -84,7 +84,7 @@ class NewWordView: UIView {
         let categoriesDescriptionLabel: UILabel = {
             let describtion_label = UILabel()
             describtion_label.bounds = CGRect(x: 0, y: 0, width: chooseCategoryLabel.bounds.width, height: 3 * chooseCategoryLabel.bounds.height / 4)
-            describtion_label.center = CGPoint(x: 0.5*frame.width, y: 0.5*frame.height + chooseCategoryLabel.bounds.height / 2 + describtion_label.bounds.height / 2)
+            describtion_label.center = CGPoint(x: 0.5*frame.width, y: chooseCategoryLabel.frame.maxY + describtion_label.bounds.height / 2)
             describtion_label.text = choose_cat_describtion
             describtion_label.textAlignment = .center
             let f_size_small = FontHelper().getFontSize(strings: [choose_cat_describtion], font: font, maxFontSize: 120, width: describtion_label.bounds.width, height: describtion_label.bounds.height)
@@ -150,7 +150,8 @@ class NewWordView: UIView {
             cat_label.textAlignment = .center
             cat_label.textColor = UIColor.white
             cat_label.bounds = CGRect(x: 0, y: 0, width: bottom_bar_width_small, height: bottom_bar_height_small)
-            cat_label.center = CGPoint(x: 0.5*frame.width, y: categoriesDescriptionLabel.center.y + categoriesDescriptionLabel.bounds.height / 2 + cat_label.bounds.height / 2 + 0.015*frame.height)
+            cat_label.center = CGPoint(x: 0.5*frame.width, y: categoriesDescriptionLabel.center.y + categoriesDescriptionLabel.bounds.height / 2 + cat_label.bounds.height / 2 + 0.03*frame.height)
+            cat_label.font = small_font
             cat_label.backgroundColor = UIColor.clear
             cat_label.tag = 700
             
@@ -160,8 +161,7 @@ class NewWordView: UIView {
         
         categoryView = {
             let category_view = UIView()
-            category_view.bounds = CGRect(x: 0, y: 0, width: bottom_bar_width_small, height: bottom_bar_height_small)
-            category_view.center = CGPoint(x: 0.5*frame.width, y: categoriesDescriptionLabel.center.y + categoriesDescriptionLabel.bounds.height / 2 + category_view.bounds.height / 2 + 0.015*frame.height)
+            category_view.frame = categoryLabel.frame
             category_view.backgroundColor = UIColor.white
             category_view.alpha = 0.5
             category_view.tag = 300
@@ -171,8 +171,8 @@ class NewWordView: UIView {
         }()
         self.addSubview(categoryView)
         
-        bottom_bar_width = 0.8*frame.width
-        bottom_bar_height = frame.height - categoryView.center.y + categoryView.bounds.height / 2 - ((frame.width - bottom_bar_width) / 2)
+        bottom_bar_width = 0.85*frame.width
+        bottom_bar_height = frame.height - categoryView.frame.minY
         
         let d = [NSAttributedString.Key.font: small_font!]
         let block_height = (categories[0] as NSString).size(withAttributes: d).height + 0.015*frame.height

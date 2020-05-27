@@ -88,7 +88,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         self.pageviewcontroller.dataSource = self
         self.pageviewcontroller.delegate = self
         
-        self.pageviewcontroller.view.frame = CGRect(x: 0, y: 0, width: main_v.bounds.width, height: 0.9*main_v.bounds.height)
+        self.pageviewcontroller.view.frame = CGRect(x: 0, y: 0, width: main_v.bounds.width, height: 0.97*main_v.bounds.height)
         self.pageviewcontroller.view.center = main_v.center
 
         ViewControllers.append(ArchiveViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
