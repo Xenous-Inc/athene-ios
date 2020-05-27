@@ -14,11 +14,13 @@ class CustomPageControl: UIView{
     var current: Int = 0
     var cords: [CGRect] = []
     
-    var current_tab = UIView()
+    var current_tab = UIView(), next_tab = UIView()
     
     var color = UIColor()
     
     var was_set = false
+    
+    var tab_w: CGFloat = 0
     
     func set(width: CGFloat, height: CGFloat, tabs: Int, start: Int, color: UIColor){
         if(was_set){return}
@@ -30,7 +32,7 @@ class CustomPageControl: UIView{
         let pd = 0.2*(width / CGFloat(tabs))
         var x = pd
         
-        let tab_w = (width - CGFloat(tabs + 1)*pd) / CGFloat(tabs)
+        tab_w = (width - CGFloat(tabs + 1)*pd) / CGFloat(tabs)
         let tab_h = 0.3*height
         
         for _ in 0..<tabs{
@@ -49,33 +51,25 @@ class CustomPageControl: UIView{
         current_tab.backgroundColor = self.color
         current_tab.layer.cornerRadius = current_tab.bounds.height / 2
         
+        next_tab = UIView(frame: CGRect(x: current_tab.frame.minX, y: current_tab.frame.minY, width: 0, height: current_tab.frame.height))
+        next_tab.backgroundColor = self.color
+        next_tab.layer.cornerRadius = next_tab.frame.height / 2
+        
         self.addSubview(current_tab)
+        self.addSubview(next_tab)
     }
     
-    func moveTo(tab: Int) {
-        if(tab == current){
-            return
-        }
-        let new_cur = UIView()
-        var new_x: CGFloat = 0
-        if(tab < current){
-            new_cur.frame = CGRect(x: cords[tab].maxX, y: cords[tab].minY, width: 0, height: cords[tab].height)
-            new_x = current_tab.frame.minX
+    func updateState(from first: Int, to second: Int, progress: CGFloat){
+        let firstWidth = (1 - progress)*tab_w
+        let secondWidth = progress*tab_w
+        
+        if(first < second){
+            current_tab.frame = CGRect(x: cords[first].maxX - firstWidth, y: cords[first].minY, width: firstWidth, height: cords[first].height)
+            next_tab.frame = CGRect(x: cords[second].minX, y: cords[second].minY, width: secondWidth, height: cords[second].height)
         }else{
-            new_cur.frame = CGRect(x: cords[tab].minX, y: cords[tab].minY, width: 0, height: cords[tab].height)
-            new_x = current_tab.frame.maxX
+            current_tab.frame = CGRect(x: cords[first].minX, y: cords[first].minY, width: firstWidth, height: cords[first].height)
+            next_tab.frame = CGRect(x: cords[second].maxX - secondWidth, y: cords[second].minY, width: secondWidth, height: cords[second].height)
         }
-        new_cur.backgroundColor = color
-        new_cur.layer.cornerRadius = new_cur.bounds.height / 2
-        self.addSubview(new_cur)
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            new_cur.frame = self.cords[tab]
-            self.current_tab.frame = CGRect(x: new_x, y: self.current_tab.frame.minY, width: 0, height: self.current_tab.frame.height)
-        }, completion: {(finished: Bool) in
-            self.current = tab
-            self.current_tab.frame = new_cur.frame
-            new_cur.removeFromSuperview()
-        })
     }
     
 }

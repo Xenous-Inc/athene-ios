@@ -10,7 +10,7 @@ import UIKit
 
 var tutorial_vc = TutorialViewController()
 
-class TutorialViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate, UIPageViewControllerDelegate {
+class TutorialViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var container: UIView!
     
@@ -59,7 +59,6 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource, 
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed{
             currentPageIndex = lastPendingViewControllerIndex
-            pager_view.moveTo(tab: currentPageIndex)
         }
     }
     
@@ -92,6 +91,20 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource, 
         self.addChild(self.pageviewcontroller)
         container.addSubview(self.pageviewcontroller.view)
         self.pageviewcontroller.didMove(toParent: self)
+        
+        for subview in self.pageviewcontroller.view.subviews {
+            if let scrollView = subview as? UIScrollView {
+                scrollView.delegate = self
+            }
+        }
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if(currentPageIndex == lastPendingViewControllerIndex) {return}
+        let point = scrollView.contentOffset
+        var percentComplete: CGFloat
+        percentComplete = abs(point.x - view.frame.size.width)/view.frame.size.width
+        pager_view.updateState(from: currentPageIndex, to: lastPendingViewControllerIndex, progress: percentComplete)
     }
 
 }

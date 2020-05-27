@@ -13,7 +13,7 @@ import Firebase
 
 var main_vc = MainViewController()
 
-class MainViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate, UIPageViewControllerDelegate {
+class MainViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
     
     @IBOutlet weak var sign_out_btn: UIButton!
@@ -28,8 +28,6 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     let dateFormatter = DateFormatter()
     
     var lastPendingViewControllerIndex = 0
-    
-    
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = ViewControllers.index(of: viewController) else {
@@ -68,13 +66,13 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed{
             currentPageIndex = lastPendingViewControllerIndex
-            pager_view.moveTo(tab: currentPageIndex)
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         main_vc = self
     }
+    
     var was_layout_set = false
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -100,9 +98,23 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         self.view.addSubview(self.pageviewcontroller.view)
         self.pageviewcontroller.didMove(toParent: self)
         
+        for subview in self.pageviewcontroller.view.subviews {
+            if let scrollView = subview as? UIScrollView {
+                scrollView.delegate = self
+            }
+        }
+        
         if let loading_v = view.viewWithTag(54321){
             view.bringSubviewToFront(loading_v)
         }
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if(currentPageIndex == lastPendingViewControllerIndex) {return}
+        let point = scrollView.contentOffset
+        var percentComplete: CGFloat
+        percentComplete = abs(point.x - view.frame.size.width)/view.frame.size.width
+        pager_view.updateState(from: currentPageIndex, to: lastPendingViewControllerIndex, progress: percentComplete)
     }
     
     override func viewDidAppear(_ animated: Bool) {
