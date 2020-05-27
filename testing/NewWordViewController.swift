@@ -15,14 +15,12 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
 
     var ed_text_english: UITextField!
     var ed_text_russian: UITextField!
-  
-    var cross_btn = UIButton()
-    var category_label = UILabel()
-    var submit_btn = UIButton()
     
     var cat_count = 0
     
     var frame: CGRect? = nil
+    
+    var mainView = NewWordView(frame: CGRect.init(), categories: [])
     
     init(frame: CGRect)   {
         print("init nibName style")
@@ -38,22 +36,19 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     var opened = false
-    var gb = GraphicBuilder(width: 0, height: 0)
     override func viewDidLoad() {
         super.viewDidLoad()
         if(frame != nil){
             view.frame = frame!
         }
-        print("test")
-        gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
         cat_count = categories.count - default_categories.count - 1
         initialSetting()
     }
     
     func initialSetting(){
-        let v = self.gb.buildCreateWord(categories: categories)
-        v.tag = 12345
-        self.view.addSubview(v)
+        mainView = NewWordView(frame: view.bounds, categories: categories)
+        mainView.tag = 12345
+        self.view.addSubview(mainView)
         self.setView()
     }
     
@@ -73,7 +68,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 self.shrinkBottomBar(nil)
                 self.cat_count += 1
                 categories.append(cat)
-                self.category_label.text = cat
+                self.mainView.categoryLabel.text = cat
                 print("SUCCESS")
                 
                 var m: CGFloat = 0
@@ -81,11 +76,11 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 var cnt = 0
                 let scroll = self.view.viewWithTag(400) as! UIScrollView
                 for i in 0..<(categories.count - 1){
-                    if(self.gb.categories_centers[i].y > m){
-                        m = self.gb.categories_centers[i].y
+                    if(self.mainView.categories_centers[i].y > m){
+                        m = self.mainView.categories_centers[i].y
                         s = scroll.viewWithTag(i + 1)!.bounds.width
                         cnt = 1
-                    }else if(abs(Int(self.gb.categories_centers[i].y) - Int(m)) <= 2){
+                    }else if(abs(Int(self.mainView.categories_centers[i].y) - Int(m)) <= 2){
                         s += scroll.viewWithTag(i + 1)!.bounds.width
                         cnt += 1
                     }
@@ -94,8 +89,8 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 let comp_btn = scroll.viewWithTag(1) as! UIButton
                 
                 let d = [NSAttributedString.Key.font:comp_btn.titleLabel?.font!]
-                let l1 = 2*self.gb.padding + (cat as NSString).size(withAttributes: d as [NSAttributedString.Key : Any]).width
-                let len = min(max(l1, self.gb.min_len), scroll.bounds.width)
+                let l1 = 2*self.mainView.padding + (cat as NSString).size(withAttributes: d as [NSAttributedString.Key : Any]).width
+                let len = min(max(l1, self.mainView.min_len), scroll.bounds.width)
                 
                 let cur = UIButton()
                 cur.bounds = CGRect(x: 0, y: 0, width: len, height: comp_btn.bounds.height)
@@ -111,26 +106,26 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 cur.isUserInteractionEnabled = false
                 scroll.addSubview(cur)
                 
-                if(s + CGFloat(cnt)*self.gb.padding + cur.bounds.width <= scroll.bounds.width){
+                if(s + CGFloat(cnt)*self.mainView.padding + cur.bounds.width <= scroll.bounds.width){
                     var actual_pd = (scroll.bounds.width - (s + cur.bounds.width)) / CGFloat(cnt + 2)
                     var border_pd = actual_pd
-                    if(actual_pd < self.gb.padding){
-                        actual_pd = self.gb.padding
-                        border_pd = (scroll.bounds.width - s - CGFloat(cnt)*self.gb.padding - cur.bounds.width) / 2
+                    if(actual_pd < self.mainView.padding){
+                        actual_pd = self.mainView.padding
+                        border_pd = (scroll.bounds.width - s - CGFloat(cnt)*self.mainView.padding - cur.bounds.width) / 2
                     }
                     var x = border_pd
                     for j in 0..<(categories.count - 1){
-                        if(self.gb.categories_centers[j].y < m - 1){
+                        if(self.mainView.categories_centers[j].y < m - 1){
                             continue
                         }
                         let v = scroll.viewWithTag(j + 1)!
-                        self.gb.categories_centers[j] = CGPoint(x: x + v.bounds.width / 2, y: m)
+                        self.mainView.categories_centers[j] = CGPoint(x: x + v.bounds.width / 2, y: m)
                         x += v.bounds.width + actual_pd
                     }
-                    self.gb.categories_centers.append(CGPoint(x: x + cur.bounds.width / 2, y: m))
+                    self.mainView.categories_centers.append(CGPoint(x: x + cur.bounds.width / 2, y: m))
                 }else{
-                    self.gb.categories_centers.append(CGPoint(x: scroll.bounds.width / 2, y: m + self.gb.padding + cur.bounds.height))
-                    scroll.contentSize = CGSize(width: scroll.bounds.width, height: m + self.gb.padding + 1.5*cur.bounds.height)
+                    self.mainView.categories_centers.append(CGPoint(x: scroll.bounds.width / 2, y: m + self.mainView.padding + cur.bounds.height))
+                    scroll.contentSize = CGSize(width: scroll.bounds.width, height: m + self.mainView.padding + 1.5*cur.bounds.height)
                 }
             }
         }))
@@ -153,18 +148,14 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         let rec1 = UITapGestureRecognizer(target: self, action: #selector(expandBottomBar(gesture: )))
         category_view.addGestureRecognizer(rec1)
         
-        cross_btn = view.viewWithTag(500) as! UIButton
-        cross_btn.addTarget(self, action: #selector(shrinkBottomBar(_:)), for: .touchUpInside)
-        cross_btn.isUserInteractionEnabled = false
+        //cross_btn = view.viewWithTag(500) as! UIButton
+        //cross_btn.addTarget(self, action: #selector(shrinkBottomBar(_:)), for: .touchUpInside)
+        //cross_btn.isUserInteractionEnabled = false
+        mainView.categoryLabel.text = no_category
         
-        category_label = view.viewWithTag(700) as! UILabel
-        category_label.text = no_category
+        mainView.finishButton.addTarget(self, action: #selector(submit(_:)), for: .touchUpInside)
         
-        submit_btn = view.viewWithTag(800) as! UIButton
-        submit_btn.addTarget(self, action: #selector(submit(_:)), for: .touchUpInside)
-        
-        let add_btn = view.viewWithTag(600) as! UIButton
-        add_btn.addTarget(self, action: #selector(createCategory(_:)), for: .touchUpInside)
+        mainView.addButton.addTarget(self, action: #selector(createCategory(_:)), for: .touchUpInside)
         
         ed_text_russian = (view.viewWithTag(100) as! UITextField)
         ed_text_english = (view.viewWithTag(101) as! UITextField)
@@ -179,32 +170,32 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
         ref.child("words").child(String(number_of_words)).child("date").setValue(next_date.toDatabaseFormat())
         ref.child("words").child(String(number_of_words)).child("level").setValue(0)
-        ref.child("words").child(String(number_of_words)).child("category").setValue(category_label.text!)
+        ref.child("words").child(String(number_of_words)).child("category").setValue(mainView.categoryLabel.text!)
         
         number_of_words += 1
         print(number_of_words)
         self.view.isUserInteractionEnabled = false
-        let oldValue = submit_btn.layer.cornerRadius
-        submit_btn.setTitle("", for: .normal)
+        let oldValue = mainView.finishButton.layer.cornerRadius
+        mainView.finishButton.setTitle("", for: .normal)
         CATransaction.begin()
         CATransaction.setAnimationDuration(0.8)
         CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
 
         UIView.animate(withDuration: 0.8, animations: {
-            for i in self.submit_btn.superview!.subviews{
-                if(i.tag != self.submit_btn.tag){
+            for i in self.mainView.finishButton.superview!.subviews{
+                if(i.tag != self.mainView.finishButton.tag){
                     i.alpha = 0
                     i.isUserInteractionEnabled = false
                 }
             }
-            self.submit_btn.bounds = CGRect(x: 0, y: 0, width: 0.35*self.gb.window_width, height: 0.35*self.gb.window_width)
-            self.submit_btn.center = CGPoint(x: self.gb.window_width / 2, y: self.gb.window_height / 2)
+            self.mainView.finishButton.bounds = CGRect(x: 0, y: 0, width: 0.35*self.mainView.frame.width, height: 0.35*self.mainView.frame.width)
+            self.mainView.finishButton.center = CGPoint(x: self.mainView.frame.width / 2, y: self.mainView.frame.height / 2)
         }, completion: {(finished: Bool) in
             let s_img = UIImageView(image: UIImage(named: "checkmark"))
-            s_img.bounds = CGRect(x: 0, y: 0, width: 0.4*self.submit_btn.bounds.width, height: 0.23*self.submit_btn.bounds.width)
-            s_img.center = self.submit_btn.center
+            s_img.bounds = CGRect(x: 0, y: 0, width: 0.4*self.mainView.finishButton.bounds.width, height: 0.23*self.mainView.finishButton.bounds.width)
+            s_img.center = self.mainView.finishButton.center
             s_img.alpha = 0
-            self.submit_btn.superview!.addSubview(s_img)
+            self.mainView.finishButton.superview!.addSubview(s_img)
             UIView.animate(withDuration: 0.2, animations: {
                 s_img.alpha = 1
             }, completion: {(finished: Bool) in
@@ -212,7 +203,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                     UIView.animate(withDuration: 0.3, animations: {
                         self.view.alpha = 0
                     }, completion: {(finished: Bool) in
-                        let v = self.gb.buildCreateWord(categories: categories)
+                        let v = NewWordView(frame: self.view.frame, categories: categories)
                         v.tag = 12345
                         for subview in self.view.subviews{
                             subview.removeFromSuperview()
@@ -231,10 +222,10 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         
         let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
         cornerAnimation.fromValue = oldValue
-        cornerAnimation.toValue = submit_btn.bounds.height / 2
+        cornerAnimation.toValue = mainView.finishButton.bounds.height / 2
 
-        submit_btn.layer.cornerRadius = submit_btn.bounds.height / 2
-        submit_btn.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
+        mainView.finishButton.layer.cornerRadius = mainView.finishButton.bounds.height / 2
+        mainView.finishButton.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
 
         CATransaction.commit()
  
@@ -262,57 +253,48 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
             scroll.isScrollEnabled = true
         }
         let add_btn = v.viewWithTag(600) as! UIButton
-        let change_cross_pos = (gb.bottom_bar_width - v.bounds.width) / 2
         UIView.animate(withDuration: 0.5, animations: {
-            v.bounds = CGRect(x: 0, y: 0, width: self.gb.bottom_bar_width, height: self.gb.bottom_bar_height)
-            v.center = CGPoint(x: 0.5 * self.gb.window_width, y: self.gb.window_height - (self.gb.window_width - self.gb.bottom_bar_width) / 2 - v.bounds.height / 2)
+            v.bounds = CGRect(x: 0, y: 0, width: self.mainView.bottom_bar_width, height: self.mainView.bottom_bar_height)
+            v.center = CGPoint(x: 0.5 * self.mainView.frame.width, y: self.mainView.frame.height - (self.mainView.frame.width - self.mainView.bottom_bar_width) / 2 - v.bounds.height / 2)
             v.alpha = 1
-            add_btn.center = CGPoint(x: self.gb.bottom_bar_width / 2, y: add_btn.center.y)
+            add_btn.center = CGPoint(x: self.mainView.bottom_bar_width / 2, y: add_btn.center.y)
             add_btn.alpha = 1
-            self.cross_btn.alpha = 1
-            self.cross_btn.center = CGPoint(x: self.cross_btn.center.x + change_cross_pos, y: self.cross_btn.center.y)
             for i in 0..<categories.count{
                 let cat = scroll.viewWithTag(i + 1) as! UIButton
                 cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
                 cat.isUserInteractionEnabled = true
-                cat.center = self.gb.categories_centers[i]
+                cat.center = self.mainView.categories_centers[i]
                 cat.alpha = 1
             }
         }, completion: {(finished: Bool) in
             add_btn.isUserInteractionEnabled = true
-            self.cross_btn.isUserInteractionEnabled = true
         })
     }
     
     @objc func chooseCategory(sender: UIButton){
         print("nice")
-        category_label.text = sender.title(for: .normal)
+        mainView.categoryLabel.text = sender.title(for: .normal)
         shrinkBottomBar(nil)
     }
     
     @objc func shrinkBottomBar(_ sender: UIButton?){
         opened = false
-        let v = cross_btn.superview!
-        let scroll = v.viewWithTag(400) as! UIScrollView
+        let scroll = mainView.categoryView.viewWithTag(400) as! UIScrollView
         scroll.isScrollEnabled = false
-        let change_cross_pos = (gb.bottom_bar_width - gb.bottom_bar_width_small) / 2
-        let add_btn = v.viewWithTag(600) as! UIButton
-        add_btn.isUserInteractionEnabled = false
+        mainView.addButton.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.5, animations: {
-            v.bounds = CGRect(x: 0, y: 0, width: self.gb.bottom_bar_width_small, height: self.gb.bottom_bar_height_small)
-            v.center = CGPoint(x: 0.5 * self.gb.window_width, y: self.gb.window_height - (self.gb.window_width - self.gb.bottom_bar_width) / 2 - self.gb.bottom_bar_height + self.gb.bottom_bar_height_small / 2)
-            v.alpha = 0.5
-            add_btn.alpha = 0
-            add_btn.center = CGPoint(x: self.gb.bottom_bar_width_small / 2, y: add_btn.center.y)
-            self.cross_btn.alpha = 0
-            self.cross_btn.center = CGPoint(x: self.cross_btn.center.x - change_cross_pos, y: self.cross_btn.center.y)
+            self.mainView.categoryView.bounds = CGRect(x: 0, y: 0, width: self.mainView.bottom_bar_width_small, height: self.mainView.bottom_bar_height_small)
+            self.mainView.categoryView.center = CGPoint(x: 0.5 * self.mainView.frame.width, y: self.mainView.frame.height - (self.mainView.frame.width - self.mainView.bottom_bar_width) / 2 - self.mainView.bottom_bar_height + self.mainView.bottom_bar_height_small / 2)
+            self.mainView.categoryView.alpha = 0.5
+            self.mainView.addButton.alpha = 0
+            self.mainView.addButton.center = CGPoint(x: self.mainView.bottom_bar_width_small / 2, y: self.mainView.addButton.center.y)
             for i in 0..<categories.count{
                 let cat = scroll.viewWithTag(i + 1) as! UIButton
                 cat.center = CGPoint(x: scroll.bounds.width / 2, y: cat.bounds.height / 2)
                 cat.alpha = 0
             }
         }, completion: {(finished: Bool) in
-            v.isUserInteractionEnabled = true
+            self.mainView.isUserInteractionEnabled = true
         })
     }
 
