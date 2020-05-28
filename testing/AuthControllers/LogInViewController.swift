@@ -25,11 +25,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         super.viewDidLoad()
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance().signIn()
+        //GIDSignIn.sharedInstance().signIn()
         GIDSignIn.sharedInstance()?.delegate = self
-        
-        let gb = AuthGraphicBuilder(width: view.frame.width, height: view.frame.height)
-        view.addSubview(gb.buildBuildLogInView())
+
+        view.addSubview(LoginView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)))
         
         (view.viewWithTag(802) as! UIButton).addTarget(self, action: #selector(googleAuth(_sender:)), for: .touchUpInside)
         

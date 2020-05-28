@@ -21,11 +21,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
     override func viewDidLoad() {
         super.viewDidLoad()
         email = ""
-        let gb = AuthGraphicBuilder(width: view.bounds.width, height: view.bounds.height)
-        view.addSubview(gb.buildSignUpView())
+        view.addSubview(SignupView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)))
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance().signIn()
+        //GIDSignIn.sharedInstance().signIn()
         GIDSignIn.sharedInstance()?.delegate = self
         
         (view.viewWithTag(800) as! UIButton).addTarget(self, action: #selector(Register(_:)), for: .touchUpInside)

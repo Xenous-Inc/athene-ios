@@ -11,6 +11,8 @@
 		9E24A0F1247F95E6006CEA1D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E24A0F0247F95E6006CEA1D /* MainView.swift */; };
 		9E336F6A247E583D005CA112 /* NewWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E336F69247E583D005CA112 /* NewWordView.swift */; };
 		9E336F6C247E967F005CA112 /* ChangeWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E336F6B247E967F005CA112 /* ChangeWordView.swift */; };
+		9E942CAC247FACF500C8C164 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E942CAB247FACF500C8C164 /* LoginView.swift */; };
+		9E942CAE247FAEA800C8C164 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E942CAD247FAEA800C8C164 /* SignupView.swift */; };
 		DA5AEAA424323FC0009DC286 /* SmoothSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */; };
 		DA60BA2C24247AAE00146E87 /* ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60BA2B24247AAE00146E87 /* ext.swift */; };
 		DA670927222D73F600595D5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA670926222D73F600595D5E /* AppDelegate.swift */; };
@@ -22,7 +24,6 @@
 		DA8042A8244627870012F3D0 /* TutorialSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8042A7244627870012F3D0 /* TutorialSegmentViewController.swift */; };
 		DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB94622531B4400D40849 /* LogInViewController.swift */; };
 		DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB9482253252E00D40849 /* RegisterViewController.swift */; };
-		DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95513424339A0300357808 /* AuthGraphicBuilder.swift */; };
 		DA9551372435E61900357808 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9551362435E61500357808 /* LoadingView.swift */; };
 		DAC38FA6243B29360035C5BE /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC38FA5243B29360035C5BE /* CustomTableView.swift */; };
 		DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E442423AA1D00675EEA /* FontHelper.swift */; };
@@ -43,6 +44,8 @@
 		9E2FE5C3247D8DA900DCD8E5 /* libleveldb-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libleveldb-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E336F69247E583D005CA112 /* NewWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordView.swift; sourceTree = "<group>"; };
 		9E336F6B247E967F005CA112 /* ChangeWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWordView.swift; sourceTree = "<group>"; };
+		9E942CAB247FACF500C8C164 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		9E942CAD247FAEA800C8C164 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		BFCA890537D4CBDA96447174 /* Pods_testing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmoothSegue.swift; sourceTree = "<group>"; };
 		DA60BA2B24247AAE00146E87 /* ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext.swift; sourceTree = "<group>"; };
@@ -57,7 +60,6 @@
 		DA8042A7244627870012F3D0 /* TutorialSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSegmentViewController.swift; sourceTree = "<group>"; };
 		DA8CB94622531B4400D40849 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		DA8CB9482253252E00D40849 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		DA95513424339A0300357808 /* AuthGraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGraphicBuilder.swift; sourceTree = "<group>"; };
 		DA9551362435E61500357808 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DAC38FA5243B29360035C5BE /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		DAC38FA7243E46DD0035C5BE /* testing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = testing.entitlements; sourceTree = "<group>"; };
@@ -105,6 +107,15 @@
 			path = MainPageViews;
 			sourceTree = "<group>";
 		};
+		9E942CAF247FB1FA00C8C164 /* AuthViews */ = {
+			isa = PBXGroup;
+			children = (
+				9E942CAB247FACF500C8C164 /* LoginView.swift */,
+				9E942CAD247FAEA800C8C164 /* SignupView.swift */,
+			);
+			path = AuthViews;
+			sourceTree = "<group>";
+		};
 		B7EF8E043566619C51C1D854 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,15 +146,16 @@
 		DA670925222D73F600595D5E /* testing */ = {
 			isa = PBXGroup;
 			children = (
-				9E24A0F2247FA489006CEA1D /* MainPageViews */,
 				DAC38FA7243E46DD0035C5BE /* testing.entitlements */,
 				DAEC4197242F916200944B7F /* Graphics */,
-				DAEC4191242F1D5100944B7F /* Storyboards */,
+				9E24A0F2247FA489006CEA1D /* MainPageViews */,
+				9E942CAF247FB1FA00C8C164 /* AuthViews */,
 				DAEC4196242F913900944B7F /* AuthControllers */,
 				DAC38FAE244620FF0035C5BE /* TutorialControllers */,
 				DA670926222D73F600595D5E /* AppDelegate.swift */,
 				DAEC4194242F38E300944B7F /* MainViewController.swift */,
 				DA670928222D73F600595D5E /* ViewController.swift */,
+				DAEC4191242F1D5100944B7F /* Storyboards */,
 				DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */,
 				DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */,
 				DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */,
@@ -191,7 +203,6 @@
 			children = (
 				DAC96E442423AA1D00675EEA /* FontHelper.swift */,
 				DAEC4198242F91AF00944B7F /* CustomPageControl.swift */,
-				DA95513424339A0300357808 /* AuthGraphicBuilder.swift */,
 				DA9551362435E61500357808 /* LoadingView.swift */,
 				DAC38FA5243B29360035C5BE /* CustomTableView.swift */,
 			);
@@ -337,6 +348,7 @@
 				DA60BA2C24247AAE00146E87 /* ext.swift in Sources */,
 				DA9551372435E61900357808 /* LoadingView.swift in Sources */,
 				DA670929222D73F600595D5E /* ViewController.swift in Sources */,
+				9E942CAC247FACF500C8C164 /* LoginView.swift in Sources */,
 				DAF1847B2420EA600031B68C /* Word.swift in Sources */,
 				DAE37198223E7DEE00F6E5E1 /* ArchiveViewController.swift in Sources */,
 				9E336F6C247E967F005CA112 /* ChangeWordView.swift in Sources */,
@@ -344,10 +356,10 @@
 				DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */,
 				DA8042A8244627870012F3D0 /* TutorialSegmentViewController.swift in Sources */,
 				DA8042A6244627140012F3D0 /* TutorialViewController.swift in Sources */,
+				9E942CAE247FAEA800C8C164 /* SignupView.swift in Sources */,
 				9E336F6A247E583D005CA112 /* NewWordView.swift in Sources */,
 				DAEC4195242F38E300944B7F /* MainViewController.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
-				DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */,
 				DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */,
 				DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */,
 				DAC38FA6243B29360035C5BE /* CustomTableView.swift in Sources */,
