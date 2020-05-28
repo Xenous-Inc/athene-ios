@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		86A3E13B32A4C34AAE7ECDA4 /* Pods_testing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFCA890537D4CBDA96447174 /* Pods_testing.framework */; };
+		9E24A0F1247F95E6006CEA1D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E24A0F0247F95E6006CEA1D /* MainView.swift */; };
 		9E336F6A247E583D005CA112 /* NewWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E336F69247E583D005CA112 /* NewWordView.swift */; };
 		9E336F6C247E967F005CA112 /* ChangeWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E336F6B247E967F005CA112 /* ChangeWordView.swift */; };
 		DA5AEAA424323FC0009DC286 /* SmoothSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */; };
@@ -24,7 +25,6 @@
 		DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95513424339A0300357808 /* AuthGraphicBuilder.swift */; };
 		DA9551372435E61900357808 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9551362435E61500357808 /* LoadingView.swift */; };
 		DAC38FA6243B29360035C5BE /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC38FA5243B29360035C5BE /* CustomTableView.swift */; };
-		DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E422423A71F00675EEA /* GraphicBuilder.swift */; };
 		DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E442423AA1D00675EEA /* FontHelper.swift */; };
 		DAC96E472423AA9100675EEA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC96E462423AA9100675EEA /* Strings.swift */; };
 		DACE93A3244EAEA4003B9DCF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE93A2244EAEA3003B9DCF /* GoogleService-Info.plist */; };
@@ -39,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		68D074D3B249FCFF7F36A6D4 /* Pods-testing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testing.debug.xcconfig"; path = "Target Support Files/Pods-testing/Pods-testing.debug.xcconfig"; sourceTree = "<group>"; };
+		9E24A0F0247F95E6006CEA1D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9E2FE5C3247D8DA900DCD8E5 /* libleveldb-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libleveldb-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E336F69247E583D005CA112 /* NewWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordView.swift; sourceTree = "<group>"; };
 		9E336F6B247E967F005CA112 /* ChangeWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWordView.swift; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		DA9551362435E61500357808 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DAC38FA5243B29360035C5BE /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		DAC38FA7243E46DD0035C5BE /* testing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = testing.entitlements; sourceTree = "<group>"; };
-		DAC96E422423A71F00675EEA /* GraphicBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicBuilder.swift; sourceTree = "<group>"; };
 		DAC96E442423AA1D00675EEA /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		DAC96E462423AA9100675EEA /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DACE93A2244EAEA3003B9DCF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -95,6 +95,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		9E24A0F2247FA489006CEA1D /* MainPageViews */ = {
+			isa = PBXGroup;
+			children = (
+				9E24A0F0247F95E6006CEA1D /* MainView.swift */,
+				9E336F69247E583D005CA112 /* NewWordView.swift */,
+				9E336F6B247E967F005CA112 /* ChangeWordView.swift */,
+			);
+			path = MainPageViews;
+			sourceTree = "<group>";
+		};
 		B7EF8E043566619C51C1D854 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +135,7 @@
 		DA670925222D73F600595D5E /* testing */ = {
 			isa = PBXGroup;
 			children = (
+				9E24A0F2247FA489006CEA1D /* MainPageViews */,
 				DAC38FA7243E46DD0035C5BE /* testing.entitlements */,
 				DAEC4197242F916200944B7F /* Graphics */,
 				DAEC4191242F1D5100944B7F /* Storyboards */,
@@ -178,14 +189,11 @@
 		DAEC4197242F916200944B7F /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				DAC96E422423A71F00675EEA /* GraphicBuilder.swift */,
 				DAC96E442423AA1D00675EEA /* FontHelper.swift */,
 				DAEC4198242F91AF00944B7F /* CustomPageControl.swift */,
 				DA95513424339A0300357808 /* AuthGraphicBuilder.swift */,
 				DA9551362435E61500357808 /* LoadingView.swift */,
 				DAC38FA5243B29360035C5BE /* CustomTableView.swift */,
-				9E336F69247E583D005CA112 /* NewWordView.swift */,
-				9E336F6B247E967F005CA112 /* ChangeWordView.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -339,11 +347,11 @@
 				9E336F6A247E583D005CA112 /* NewWordView.swift in Sources */,
 				DAEC4195242F38E300944B7F /* MainViewController.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
-				DAC96E432423A71F00675EEA /* GraphicBuilder.swift in Sources */,
 				DA95513524339A0300357808 /* AuthGraphicBuilder.swift in Sources */,
 				DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */,
 				DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */,
 				DAC38FA6243B29360035C5BE /* CustomTableView.swift in Sources */,
+				9E24A0F1247F95E6006CEA1D /* MainView.swift in Sources */,
 				DAC96E472423AA9100675EEA /* Strings.swift in Sources */,
 				DAE37194223D0AD300F6E5E1 /* NewWordViewController.swift in Sources */,
 				DA5AEAA424323FC0009DC286 /* SmoothSegue.swift in Sources */,

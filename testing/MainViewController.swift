@@ -114,7 +114,9 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         let point = scrollView.contentOffset
         var percentComplete: CGFloat
         percentComplete = abs(point.x - view.frame.size.width)/view.frame.size.width
-        pager_view.updateState(from: currentPageIndex, to: lastPendingViewControllerIndex, progress: percentComplete)
+        if(percentComplete >= 0 && percentComplete <= 1){
+            pager_view.updateState(from: currentPageIndex, to: lastPendingViewControllerIndex, progress: percentComplete)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

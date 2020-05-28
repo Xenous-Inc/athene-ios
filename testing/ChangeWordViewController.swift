@@ -13,6 +13,9 @@ class ChangeWordViewController: NewWordViewController {
     
     override func initialSetting() {
         mainView = ChangeWordView(frame: view.bounds, categories: categories)
+        for cat in mainView.categoriesButtons{
+            cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
+        }
         mainView.tag = 12345
         view.addSubview(mainView)
         setView()

@@ -47,6 +47,9 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     
     func initialSetting(){
         mainView = NewWordView(frame: view.bounds, categories: categories)
+        for cat in mainView.categoriesButtons{
+            cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
+        }
         mainView.tag = 12345
         self.view.addSubview(mainView)
         self.setView()
@@ -65,7 +68,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
             if let cat = alert.textFields?.first?.text {
                 ref.child("categories").child(String(self.cat_count)).setValue(cat)
                 
-                self.shrinkBottomBar(nil)
+                self.mainView.shrinkBottomBar(nil)
                 self.cat_count += 1
                 categories.append(cat)
                 self.mainView.categoryLabel.text = cat
@@ -144,8 +147,6 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     
     func setView(){
         view.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height / 2)
-        
-        mainView.categoryView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(expandBottomBar(gesture: ))))
         
         mainView.categoryLabel.text = no_category
         
@@ -232,7 +233,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         let touch = touches.first
         guard let location = touch?.location(in: view) else { return }
         if !mainView.categoryLabel.frame.contains(location) {
-             shrinkBottomBar(nil)
+            mainView.shrinkBottomBar(nil)
         }
     }
     
@@ -242,58 +243,10 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    @objc func expandBottomBar(gesture: UITapGestureRecognizer){
-        if(opened) {return}
-        print("test")
-        opened = true
-        let v = gesture.view!
-        let scroll = v.viewWithTag(400) as! UIScrollView
-        if(scroll.contentSize.height > scroll.bounds.height){
-            scroll.isScrollEnabled = true
-        }
-        let add_btn = v.viewWithTag(600) as! UIButton
-        UIView.animate(withDuration: 0.5, animations: {
-            v.frame = CGRect(x: (self.view.bounds.width - self.mainView.bottom_bar_width) / 2, y: v.frame.minY, width: self.mainView.bottom_bar_width, height: self.mainView.bottom_bar_height)
-            v.alpha = 1
-            add_btn.center = CGPoint(x: self.mainView.bottom_bar_width / 2, y: add_btn.center.y)
-            add_btn.alpha = 1
-            for i in 0..<categories.count{
-                let cat = scroll.viewWithTag(i + 1) as! UIButton
-                cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
-                cat.isUserInteractionEnabled = true
-                cat.center = self.mainView.categories_centers[i]
-                cat.alpha = 1
-            }
-        }, completion: {(finished: Bool) in
-            add_btn.isUserInteractionEnabled = true
-        })
-    }
-    
     @objc func chooseCategory(sender: UIButton){
         print("nice")
         mainView.categoryLabel.text = sender.title(for: .normal)
-        shrinkBottomBar(nil)
-    }
-    
-    @objc func shrinkBottomBar(_ sender: UIButton?){
-        if(!opened) {return}
-        opened = false
-        let scroll = mainView.categoryView.viewWithTag(400) as! UIScrollView
-        scroll.isScrollEnabled = false
-        mainView.addButton.isUserInteractionEnabled = false
-        UIView.animate(withDuration: 0.5, animations: {
-            self.mainView.categoryView.frame = CGRect(x: (self.view.bounds.width - self.mainView.bottom_bar_width_small) / 2, y: self.mainView.categoryView.frame.minY, width: self.mainView.bottom_bar_width_small, height: self.mainView.bottom_bar_height_small)
-            self.mainView.categoryView.alpha = 0.5
-            self.mainView.addButton.alpha = 0
-            self.mainView.addButton.center = CGPoint(x: self.mainView.bottom_bar_width_small / 2, y: self.mainView.addButton.center.y)
-            for i in 0..<categories.count{
-                let cat = scroll.viewWithTag(i + 1) as! UIButton
-                cat.center = CGPoint(x: scroll.bounds.width / 2, y: cat.bounds.height / 2)
-                cat.alpha = 0
-            }
-        }, completion: {(finished: Bool) in
-            self.mainView.isUserInteractionEnabled = true
-        })
+        mainView.shrinkBottomBar(nil)
     }
 
 }

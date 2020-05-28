@@ -51,7 +51,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.frame = frame
     }
 
-    // note slightly new syntax for 2017
     required init?(coder aDecoder: NSCoder) {
         print("init coder style")
         super.init(coder: aDecoder)
@@ -135,7 +134,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let d = self.view.viewWithTag(102) as! UILabel
             d.center = CGPoint(x: self.view.center.x, y: self.submit_btn.frame.maxY + d.bounds.height)
             d.text = main_page_next_text
-            for i in self.view.subviews{
+            for i in self.contentView.subviews{
                 if([201, 202].contains(i.tag)){
                     i.alpha = 0.8
                 }else if(i.tag >= 200){
@@ -181,7 +180,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let d = self.view.viewWithTag(102) as! UILabel
             d.center = CGPoint(x: self.view.center.x, y: self.submit_btn.frame.maxY + d.bounds.height)
             d.text = main_page_describtion_check
-            for i in self.view.subviews{
+            for i in self.contentView.subviews{
                 if(i.tag >= 200){
                     i.alpha = 0
                     i.isUserInteractionEnabled = false
@@ -259,23 +258,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
+    var contentView = MainView(frame: CGRect.init(x: 0, y: 0, width: 1, height: 1))
     override func viewDidLoad() {
         super.viewDidLoad()
         if(frame != nil){
             view.frame = frame!
         }
-        let gb = GraphicBuilder(width: view.frame.size.width, height: view.frame.size.height)
-        view = gb.buildMainView()
-        edit_text = view.viewWithTag(2) as? UITextField
-        text = view.viewWithTag(1) as? UITextField
-        submit_btn = view.viewWithTag(100) as? UIButton
+        contentView = MainView(frame: view.frame)
+        contentView.center = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
+        view.addSubview(contentView)
+        
+        edit_text = contentView.editTextSecond
+        text = contentView.editTextFirst
+        
+        submit_btn = contentView.nextButton
         submit_btn_old_frame = submit_btn.frame
         submit_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
-        forgot_btn = view.viewWithTag(103) as? UIButton
+        forgot_btn = contentView.forgotButton
         forgot_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
         
-        (view.viewWithTag(206) as! UIButton).addTarget(self, action: #selector(Delete(_:)), for: .touchUpInside)
-        (view.viewWithTag(205) as! UIButton).addTarget(self, action: #selector(ChangeWord(_:)), for: .touchUpInside)
+        contentView.deleteButton.addTarget(self, action: #selector(Delete(_:)), for: .touchUpInside)
+        contentView.editButton.addTarget(self, action: #selector(ChangeWord(_:)), for: .touchUpInside)
         
         self.edit_text.delegate = self
     }

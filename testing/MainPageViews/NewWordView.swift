@@ -26,6 +26,10 @@ class NewWordView: UIView {
     var categoryView = UIView()
     var categoryLabel = UILabel()
     
+    var opened = false
+    
+    var categoriesButtons: [UIButton] = []
+    
     init(frame: CGRect, categories: [String]){
         super.init(frame: frame)
         if(categories.count == 0) {return};
@@ -170,6 +174,7 @@ class NewWordView: UIView {
             return category_view
         }()
         self.addSubview(categoryView)
+        categoryView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(expandBottomBar(gesture: ))))
         
         bottom_bar_width = 0.85*frame.width
         bottom_bar_height = frame.height - categoryView.frame.minY
@@ -248,6 +253,7 @@ class NewWordView: UIView {
             cur.tag = i + 1
             cur.isUserInteractionEnabled = false
             scroll.addSubview(cur)
+            categoriesButtons.append(cur)
         }
         
         scroll.contentSize.height = categories_centers.last!.y + block_height / 2
@@ -278,6 +284,54 @@ class NewWordView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func expandBottomBar(gesture: UITapGestureRecognizer){
+        if(opened) {return}
+        print("test")
+        opened = true
+        let v = gesture.view!
+        let scroll = v.viewWithTag(400) as! UIScrollView
+        if(scroll.contentSize.height > scroll.bounds.height){
+            scroll.isScrollEnabled = true
+        }
+        let add_btn = v.viewWithTag(600) as! UIButton
+        UIView.animate(withDuration: 0.5, animations: {
+            v.frame = CGRect(x: (self.bounds.width - self.bottom_bar_width) / 2, y: v.frame.minY, width: self.bottom_bar_width, height: self.bottom_bar_height)
+            v.alpha = 1
+            add_btn.center = CGPoint(x: self.bottom_bar_width / 2, y: add_btn.center.y)
+            add_btn.alpha = 1
+            for i in 0..<categories.count{
+                let cat = scroll.viewWithTag(i + 1) as! UIButton
+                //cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
+                cat.isUserInteractionEnabled = true
+                cat.center = self.categories_centers[i]
+                cat.alpha = 1
+            }
+        }, completion: {(finished: Bool) in
+            add_btn.isUserInteractionEnabled = true
+        })
+    }
     
+    @objc func shrinkBottomBar(_ sender: UIButton?){
+        if(!opened) {return}
+        opened = false
+        let scroll = categoryView.viewWithTag(400) as! UIScrollView
+        scroll.isScrollEnabled = false
+        addButton.isUserInteractionEnabled = false
+        isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.5, animations: {
+            self.categoryView.frame = CGRect(x: (self.bounds.width - self.bottom_bar_width_small) / 2, y: self.categoryView.frame.minY, width: self.bottom_bar_width_small, height: self.bottom_bar_height_small)
+            self.categoryView.alpha = 0.5
+            self.addButton.alpha = 0
+            self.addButton.center = CGPoint(x: self.bottom_bar_width_small / 2, y: self.addButton.center.y)
+            for i in 0..<categories.count{
+                let cat = scroll.viewWithTag(i + 1) as! UIButton
+                cat.center = CGPoint(x: scroll.bounds.width / 2, y: cat.bounds.height / 2)
+                cat.alpha = 0
+                cat.isUserInteractionEnabled = false
+            }
+        }, completion: {(finished: Bool) in
+            self.isUserInteractionEnabled = true
+        })
+    }
 
 }
