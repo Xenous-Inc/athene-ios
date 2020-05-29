@@ -173,11 +173,20 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     @objc func submit(_ sender: Any) {
         guard let eng = ed_text_english.text?.formatted() else { return }
         guard let rus = ed_text_russian.text?.formatted() else { return }
+        guard let category = mainView.categoryLabel.text?.formatted() else { return }
         ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
         ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
         ref.child("words").child(String(number_of_words)).child("date").setValue(next_date.toDatabaseFormat())
         ref.child("words").child(String(number_of_words)).child("level").setValue(0)
-        ref.child("words").child(String(number_of_words)).child("category").setValue(mainView.categoryLabel.text!)
+        ref.child("words").child(String(number_of_words)).child("category").setValue(category)
+        
+        if(category != no_category){
+            if(categories_words[category] != nil){
+                categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: 0, ind: number_of_words))
+            }else{
+                categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: 0, ind: number_of_words)]
+            }
+        }
         
         number_of_words += 1
         print(number_of_words)
