@@ -5,6 +5,7 @@
 //  Created by Vadim on 19/03/2020.
 //  Copyright © 2020 Vadim Zaripov. All rights reserved.
 //
+import UIKit
 
 let add_word_title = "Впишите слово"
 let russian_field_placeholder = "Русский"
@@ -37,8 +38,9 @@ let main_page_img_describtions = ["Изменить слово", "Удалить
 let main_page_next_text = "Следующее слово"
 
 let loading_text = "загрузка..."
-let end_of_words_text = "Слова закончились"
-let no_words_for_today = "Сегодня без слов"
+let end_of_words_text = "Поздравляем!\nВы изучили все слова на сегодня"
+let no_words_for_today = "Слов на сегодня нет :("
+
 
 let delete_alert_question = "Удалить слово?"
 let delete_alert_warning = "Слово будет удалено из вашего аккаунта"

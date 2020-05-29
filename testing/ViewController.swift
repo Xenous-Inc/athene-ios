@@ -105,9 +105,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             animateNextWord()
         }
         if(words.count == 0){
-            text.text = end_of_words_text
-            submit_btn.isEnabled = false
-            forgot_btn.isEnabled = false
+            contentView.removeFromSuperview()
+            view.addSubview(endOfWordsView)
+            endOfWordsView.text = end_of_words_text
         }else{
             text.text = words[0].russian
             submit_btn.isEnabled = true
@@ -259,6 +259,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     var contentView = MainView(frame: CGRect.init(x: 0, y: 0, width: 1, height: 1))
+    var endOfWordsView = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         if(frame != nil){
@@ -281,6 +282,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
         contentView.editButton.addTarget(self, action: #selector(ChangeWord(_:)), for: .touchUpInside)
         
         self.edit_text.delegate = self
+        
+        endOfWordsView = {
+            let field = UILabel(frame: CGRect(x: 0, y: 0, width: 0.85*view.frame.width, height: 0.4*view.frame.height))
+            field.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
+            field.backgroundColor = .clear
+            field.textColor = .white
+            field.font = UIFont(name: "Helvetica", size: 42)
+            field.textAlignment = .center
+            field.numberOfLines = 3
+            field.adjustsFontSizeToFitWidth = true
+            field.tag = 1010101010101
+            
+            return field
+        }()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -291,14 +308,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func checkWordsUpdate(){
         print("Checking for words, count = \(words.count)")
+        contentView.removeFromSuperview()
+        endOfWordsView.removeFromSuperview()
         if(words.count > 0){
             self.text.text = words[0].russian
             self.submit_btn.isEnabled = true
             self.forgot_btn.isEnabled = true
+            view.addSubview(contentView)
         }else{
-            self.text.text = no_words_for_today
-            submit_btn.isEnabled = false
-            forgot_btn.isEnabled = false
+            print("No words for today")
+            view.addSubview(endOfWordsView)
+            endOfWordsView.text = no_words_for_today
         }
     }
     
