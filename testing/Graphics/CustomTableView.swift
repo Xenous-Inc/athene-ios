@@ -21,6 +21,23 @@ class CustomTableView: UIScrollView {
         super.init(frame: frame)
         self.content = content
         
+        if(content.count == 0){
+            let placeholder: UILabel = {
+                let label = UILabel(frame: CGRect(x: 0.05*self.bounds.width, y: 0, width: 0.9*self.bounds.width, height: 0.5*self.bounds.height))
+                    label.text = empty_categories_placeholder
+                    label.backgroundColor = .clear
+                    label.textColor = .white
+                    label.font = UIFont(name: "Helvetica", size: 30)
+                    label.textAlignment = .left
+                    label.numberOfLines = 3
+                    label.adjustsFontSizeToFitWidth = true
+                    label.sizeToFit()
+                    label.alpha = 0.9
+                    return label
+            }()
+            self.addSubview(placeholder)
+            return
+        }
         
         self.padding = 0.03*frame.width
         
@@ -45,6 +62,25 @@ class CustomTableView: UIScrollView {
     
     init(frame: CGRect, content: [Word]){
         super.init(frame: frame)
+        
+        if(content.count == 0){
+            let placeholder: UILabel = {
+                let label = UILabel(frame: CGRect(x: 0.05*self.bounds.width, y: 0, width: 0.9*self.bounds.width, height: 0.5*self.bounds.height))
+                label.text = empty_archive_placeholder
+                label.backgroundColor = .clear
+                label.textColor = .white
+                label.font = UIFont(name: "Helvetica", size: 30)
+                label.textAlignment = .left
+                label.numberOfLines = 3
+                label.adjustsFontSizeToFitWidth = true
+                label.sizeToFit()
+                label.alpha = 0.9
+                return label
+            }()
+            self.addSubview(placeholder)
+            return
+        }
+        
         self.padding = 0.03*frame.width
         
         var y = padding

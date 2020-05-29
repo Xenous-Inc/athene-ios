@@ -103,3 +103,6 @@ let alert_no_word_description = "Вы ничего не ввели"
 
 let already_learning_word_message = "Вы уже изучаете это слово"
 let already_learning_word_description = "Это слово уже встречается в ваших подборках"
+
+let empty_categories_placeholder = "У вас еще нет категорий, содержащих слова"
+let empty_archive_placeholder = "Пока что ни одно слово не прошло весь цикл обучения"
