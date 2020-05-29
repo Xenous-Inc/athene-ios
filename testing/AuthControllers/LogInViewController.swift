@@ -97,11 +97,11 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                 let err_code = AuthErrorCode(rawValue: error._code)
                 switch err_code{
                 case .wrongPassword?:
-                    self.messageAlert(message: error_title, text_error: error_texts[0])
+                    messageAlert(vc: self, message: error_title, text_error: error_texts[0])
                 case .invalidEmail?:
-                    self.messageAlert(message: error_title, text_error: error_texts[1])
+                    messageAlert(vc: self, message: error_title, text_error: error_texts[1])
                 default:
-                    self.messageAlert(message: error_title, text_error: error_texts[2])
+                    messageAlert(vc: self, message: error_title, text_error: error_texts[2])
                 }
             }else{
                 os_log("NO ERROR")
@@ -109,24 +109,17 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                 if(user!.isEmailVerified){
                     self.performSegue(withIdentifier: "to_main", sender: LogInViewController.self)
                 }else{
-                    self.messageAlert(message: error_title, text_error: error_texts[3])
+                    messageAlert(vc: self, message: error_title, text_error: error_texts[3])
                 }
             }
         })
-    }
-    
-    func messageAlert(message: String, text_error: String){
-        let alert = UIAlertController(title: message, message: text_error, preferredStyle: UIAlertController.Style.alert)
-        
-        alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func Reset(_ sender: Any) {
         if(ed_text_email.text != ""){
             Auth.auth().sendPasswordReset(withEmail: ed_text_email.text!, completion: nil)
             self.reset_password.isEnabled = false
-            self.messageAlert(message: reset_password_title, text_error: reset_password_describtion)
+            messageAlert(vc: self, message: reset_password_title, text_error: reset_password_describtion)
         }
     }
     

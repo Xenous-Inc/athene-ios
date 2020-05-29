@@ -10,12 +10,14 @@ import Foundation
 import UIKit
 import os
 import Firebase
+import Cheers
 
 var main_vc = MainViewController()
 
 class MainViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
     
+    @IBOutlet weak var cheerView: CheerView!
     @IBOutlet weak var sign_out_btn: UIButton!
     @IBOutlet weak var btn_top_constraint: NSLayoutConstraint!
     @IBOutlet weak var pager_view: CustomPageControl!
@@ -58,6 +60,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]){
+        cheerView.stop()
         if pendingViewControllers.count > 0 {
             lastPendingViewControllerIndex = ViewControllers.index(of: pendingViewControllers.first!)!
         }
@@ -107,6 +110,8 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         if let loading_v = view.viewWithTag(54321){
             view.bringSubviewToFront(loading_v)
         }
+        
+        cheerView.config.particle = .confetti(allowedShapes: [.circle, .rectangle])
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {

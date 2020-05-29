@@ -4,6 +4,7 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.3.0)
   - AppAuth/Core (1.3.0)
   - AppAuth/ExternalUserAgent (1.3.0)
+  - Cheers (2.3.0)
   - Firebase/Auth (6.25.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.5.3)
@@ -109,6 +110,7 @@ PODS:
   - PromisesObjC (1.2.8)
 
 DEPENDENCIES:
+  - Cheers
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -118,6 +120,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
+    - Cheers
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -142,6 +145,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
+  Cheers: 7e42fc09e1ca5059870b979131136d17b50ccc9c
   Firebase: 5719b4f965f76643241a1bb8244483ff6117db39
   FirebaseAnalytics: 93565f3f0f0f50a5d8770850bfe6a82eaba5db27
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
@@ -164,6 +168,6 @@ SPEC CHECKSUMS:
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
 
-PODFILE CHECKSUM: 17810c9f339a8ae79013f90f71a45de8efd68ffe
+PODFILE CHECKSUM: 61f3f9c950fcf0f7421ac0d037cef2ce7ed183e2
 
 COCOAPODS: 1.9.2

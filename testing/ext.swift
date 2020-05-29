@@ -97,6 +97,13 @@ func SetDates(){
     six_month_date = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .month, value: 6, to: Date())!)
 }
 
+func messageAlert(vc: UIViewController, message: String, text_error: String){
+    let alert = UIAlertController(title: message, message: text_error, preferredStyle: UIAlertController.Style.alert)
+    
+    alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: nil))
+    vc.present(alert, animated: true, completion: nil)
+}
+
 var russian_list: [String] = []
 var english_list: [String] = []
 

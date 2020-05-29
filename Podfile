@@ -12,4 +12,5 @@ pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'Firebase/DynamicLinks'
 pod 'GoogleSignIn'
+pod 'Cheers'
 end

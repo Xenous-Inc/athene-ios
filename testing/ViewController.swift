@@ -72,6 +72,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var deadline = DispatchTime.now()
     func Submit(sender: Int) {
+        if (sender == submit_btn.tag && (edit_text.text == "" || edit_text.text == " ")){
+            messageAlert(vc: self, message: message_no_word, text_error: alert_no_word_description)
+            submit_btn.isEnabled = true
+            forgot_btn.isEnabled = true
+            return
+        }
         guard let eng = edit_text.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         deadline = .now()
         if (sender == submit_btn.tag) && (eng == words[0].english.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)) {
@@ -108,6 +114,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             contentView.removeFromSuperview()
             view.addSubview(endOfWordsView)
             endOfWordsView.text = end_of_words_text
+            main_vc.cheerView.start()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                main_vc.cheerView.stop()
+            }
         }else{
             text.text = words[0].russian
             submit_btn.isEnabled = true

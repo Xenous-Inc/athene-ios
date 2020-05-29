@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oQX-Oz-feE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oQX-Oz-feE">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--Change Word View Controller-->
         <scene sceneID="fhb-Ag-FmF">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="OEw-I6-jdo" customClass="ChangeWordViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="OEw-I6-jdo" customClass="ChangeWordViewController" customModule="Athene" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kxt-AX-9Nf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,7 +31,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="yG1-m9-m2j"/>
                     <connections>
-                        <segue destination="y1e-ek-3Vd" kind="custom" identifier="back_from_word_edit" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="Yvl-CU-ogc"/>
+                        <segue destination="y1e-ek-3Vd" kind="custom" identifier="back_from_word_edit" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="Yvl-CU-ogc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SuN-pP-tBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -61,7 +61,7 @@
         <!--Tutorial View Controller-->
         <scene sceneID="a7m-no-UIr">
             <objects>
-                <viewController storyboardIdentifier="tutorialVC" modalPresentationStyle="fullScreen" id="Yf6-9o-jav" customClass="TutorialViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="tutorialVC" modalPresentationStyle="fullScreen" id="Yf6-9o-jav" customClass="TutorialViewController" customModule="Athene" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ct7-vA-9wz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -70,7 +70,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="777"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M7O-K1-hr2" customClass="CustomPageControl" customModule="Lett" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M7O-K1-hr2" customClass="CustomPageControl" customModule="Athene" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="821" width="414" height="41"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
@@ -91,7 +91,7 @@
                     <connections>
                         <outlet property="container" destination="cqu-iB-uDe" id="h7T-db-CFE"/>
                         <outlet property="pager_view" destination="M7O-K1-hr2" id="wZG-NS-RrW"/>
-                        <segue destination="zjN-e2-0KL" kind="custom" identifier="finished_tutorial" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="5xT-hb-EGh"/>
+                        <segue destination="zjN-e2-0KL" kind="custom" identifier="finished_tutorial" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="5xT-hb-EGh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NPT-bs-xHW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -101,7 +101,7 @@
         <!--Main View Controller-->
         <scene sceneID="yrM-vQ-p8v">
             <objects>
-                <viewController storyboardIdentifier="MainVC" modalPresentationStyle="fullScreen" id="oQX-Oz-feE" customClass="MainViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainVC" modalPresentationStyle="fullScreen" id="oQX-Oz-feE" customClass="MainViewController" customModule="Athene" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J9j-fP-QJE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -109,6 +109,9 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="jfD-38-ycE">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fjc-sl-wVI" customClass="CheerView" customModule="Cheers">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Yr-pK-e6y">
                                 <rect key="frame" x="350.5" y="59" width="38.5" height="38.5"/>
                                 <constraints>
@@ -119,7 +122,7 @@
                                     <action selector="logOut:" destination="oQX-Oz-feE" eventType="touchUpInside" id="SuZ-Tc-ZiP"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGc-Ww-cUl" customClass="CustomPageControl" customModule="Lett" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGc-Ww-cUl" customClass="CustomPageControl" customModule="Athene" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="821" width="414" height="41"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hGv-5Y-mub">
@@ -132,29 +135,34 @@
                             <constraint firstItem="hGv-5Y-mub" firstAttribute="leading" secondItem="2mc-gx-UUc" secondAttribute="leading" id="BvE-Hf-AMB"/>
                             <constraint firstItem="jfD-38-ycE" firstAttribute="leading" secondItem="J9j-fP-QJE" secondAttribute="leading" id="Dy3-Ql-p6t"/>
                             <constraint firstItem="bGc-Ww-cUl" firstAttribute="top" secondItem="hGv-5Y-mub" secondAttribute="bottom" id="EY0-vP-EIR"/>
+                            <constraint firstItem="Fjc-sl-wVI" firstAttribute="leading" secondItem="J9j-fP-QJE" secondAttribute="leading" id="Kpv-VM-k35"/>
                             <constraint firstItem="hGv-5Y-mub" firstAttribute="top" secondItem="1Yr-pK-e6y" secondAttribute="bottom" id="N78-yV-drd"/>
+                            <constraint firstAttribute="bottom" secondItem="Fjc-sl-wVI" secondAttribute="bottom" id="QAX-5f-enx"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="bottom" secondItem="bGc-Ww-cUl" secondAttribute="bottom" id="RW3-6w-60o"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="trailing" secondItem="bGc-Ww-cUl" secondAttribute="trailing" id="WMc-I1-e8g"/>
                             <constraint firstAttribute="bottom" secondItem="jfD-38-ycE" secondAttribute="bottom" id="Z8g-TI-cpF"/>
                             <constraint firstItem="bGc-Ww-cUl" firstAttribute="height" secondItem="2mc-gx-UUc" secondAttribute="height" multiplier="0.05" id="eeb-nX-D3t"/>
+                            <constraint firstAttribute="trailing" secondItem="Fjc-sl-wVI" secondAttribute="trailing" id="gKI-qe-HfF"/>
                             <constraint firstItem="jfD-38-ycE" firstAttribute="top" secondItem="J9j-fP-QJE" secondAttribute="top" id="htZ-SO-pgq"/>
                             <constraint firstItem="bGc-Ww-cUl" firstAttribute="leading" secondItem="2mc-gx-UUc" secondAttribute="leading" id="kBj-PO-zVZ"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="trailing" secondItem="hGv-5Y-mub" secondAttribute="trailing" id="mTM-yh-fCg"/>
                             <constraint firstAttribute="trailing" secondItem="jfD-38-ycE" secondAttribute="trailing" id="mfb-Ch-qAH"/>
                             <constraint firstItem="1Yr-pK-e6y" firstAttribute="height" secondItem="J9j-fP-QJE" secondAttribute="height" multiplier="0.043" id="tDt-xn-1yF"/>
                             <constraint firstItem="1Yr-pK-e6y" firstAttribute="trailing" secondItem="2mc-gx-UUc" secondAttribute="trailing" multiplier="0.94" id="wLN-OI-eRw"/>
+                            <constraint firstAttribute="top" secondItem="Fjc-sl-wVI" secondAttribute="top" id="x0H-Pc-LUU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2mc-gx-UUc"/>
                     </view>
                     <navigationItem key="navigationItem" id="Hm1-Tr-cZS"/>
                     <connections>
                         <outlet property="btn_top_constraint" destination="7pP-VG-i9A" id="f2s-DK-MlQ"/>
+                        <outlet property="cheerView" destination="Fjc-sl-wVI" id="KM1-S0-ZBG"/>
                         <outlet property="main_v" destination="hGv-5Y-mub" id="hSw-wc-dx9"/>
                         <outlet property="pager_view" destination="bGc-Ww-cUl" id="mo4-Mp-ycf"/>
                         <outlet property="sign_out_btn" destination="1Yr-pK-e6y" id="RXH-3l-ZNL"/>
-                        <segue destination="zjN-e2-0KL" kind="custom" identifier="signing_out" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="4Yq-xe-kbz"/>
-                        <segue destination="OEw-I6-jdo" kind="show" identifier="create_word_segue" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="gRe-sj-1m1"/>
-                        <segue destination="Bxu-2S-TjA" kind="custom" identifier="move_to_tutorial" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="FMd-R5-uMt"/>
+                        <segue destination="zjN-e2-0KL" kind="custom" identifier="signing_out" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="4Yq-xe-kbz"/>
+                        <segue destination="OEw-I6-jdo" kind="show" identifier="create_word_segue" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="gRe-sj-1m1"/>
+                        <segue destination="Bxu-2S-TjA" kind="custom" identifier="move_to_tutorial" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="FMd-R5-uMt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ojR-if-kKx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -172,11 +180,11 @@
             <point key="canvasLocation" x="1746" y="130"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="4Yq-xe-kbz"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="bg" width="207" height="368"/>
         <image name="logout" width="512" height="512"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="4Yq-xe-kbz"/>
-    </inferredMetricsTieBreakers>
 </document>
