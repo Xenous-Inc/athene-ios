@@ -66,12 +66,17 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         
         alert.addAction(UIAlertAction(title: save_category, style: .default, handler: { action in
             if let cat = alert.textFields?.first?.text {
-                ref.child("categories").child(String(self.cat_count)).setValue(cat)
+                self.mainView.shrinkBottomBar(nil)
+                self.mainView.categoryLabel.text = cat.formatted()
+                
+                if(categories.contains(cat.formatted())){ return }
+                
+                ref.child("categories").child(String(self.cat_count)).setValue(cat.formatted())
                 
                 self.mainView.shrinkBottomBar(nil)
                 self.cat_count += 1
-                categories.append(cat)
-                self.mainView.categoryLabel.text = cat
+                categories.append(cat.formatted())
+                self.mainView.categoryLabel.text = cat.formatted()
                 print("SUCCESS")
                 
                 var m: CGFloat = 0
@@ -161,8 +166,8 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func submit(_ sender: Any) {
-        guard let eng = ed_text_english.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-        guard let rus = ed_text_russian.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        guard let eng = ed_text_english.text?.formatted() else { return }
+        guard let rus = ed_text_russian.text?.formatted() else { return }
         ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
         ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
         ref.child("words").child(String(number_of_words)).child("date").setValue(next_date.toDatabaseFormat())

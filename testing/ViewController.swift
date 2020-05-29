@@ -78,9 +78,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             forgot_btn.isEnabled = true
             return
         }
-        guard let eng = edit_text.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        guard let eng = edit_text.text?.formatted() else { return }
         deadline = .now()
-        if (sender == submit_btn.tag) && (eng == words[0].english.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)) {
+        if (sender == submit_btn.tag) && (eng == words[0].english.formatted()) {
             (view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.init(rgb: green_clr)
             edit_text.textColor = UIColor.init(rgb: green_clr)
             deadline = .now() + 0.9

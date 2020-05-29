@@ -55,7 +55,7 @@ class NewWordView: UIView {
         for i in 0..<2{
             let ed_text = UITextField()
             ed_text.bounds =  CGRect(x: 0, y: 0, width: 0.6*frame.width, height: 0.07*frame.height)
-            ed_text.center = CGPoint(x: 0.5*frame.width, y: CGFloat(2 + 2*i) * 0.07*frame.height)
+            ed_text.center = CGPoint(x: 0.5*frame.width, y: CGFloat(4 - 2*i) * 0.07*frame.height)
             ed_text.textColor = UIColor.white
             ed_text.attributedPlaceholder = NSAttributedString(string: ((i == 0) ? russian_field_placeholder : english_field_placeholder),
                                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.init(white: 1.0, alpha: 0.5)])

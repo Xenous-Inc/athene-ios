@@ -11,6 +11,7 @@
 		9E24A0F1247F95E6006CEA1D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E24A0F0247F95E6006CEA1D /* MainView.swift */; };
 		9E336F6A247E583D005CA112 /* NewWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E336F69247E583D005CA112 /* NewWordView.swift */; };
 		9E336F6C247E967F005CA112 /* ChangeWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E336F6B247E967F005CA112 /* ChangeWordView.swift */; };
+		9E8D57F1248126270032655B /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8D57F0248126270032655B /* database.swift */; };
 		9E942CAC247FACF500C8C164 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E942CAB247FACF500C8C164 /* LoginView.swift */; };
 		9E942CAE247FAEA800C8C164 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E942CAD247FAEA800C8C164 /* SignupView.swift */; };
 		DA5AEAA424323FC0009DC286 /* SmoothSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */; };
@@ -44,6 +45,7 @@
 		9E2FE5C3247D8DA900DCD8E5 /* libleveldb-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libleveldb-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E336F69247E583D005CA112 /* NewWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordView.swift; sourceTree = "<group>"; };
 		9E336F6B247E967F005CA112 /* ChangeWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWordView.swift; sourceTree = "<group>"; };
+		9E8D57F0248126270032655B /* database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		9E942CAB247FACF500C8C164 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9E942CAD247FAEA800C8C164 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		BFCA890537D4CBDA96447174 /* Pods_testing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,10 +154,10 @@
 				9E942CAF247FB1FA00C8C164 /* AuthViews */,
 				DAEC4196242F913900944B7F /* AuthControllers */,
 				DAC38FAE244620FF0035C5BE /* TutorialControllers */,
+				DAEC4191242F1D5100944B7F /* Storyboards */,
 				DA670926222D73F600595D5E /* AppDelegate.swift */,
 				DAEC4194242F38E300944B7F /* MainViewController.swift */,
 				DA670928222D73F600595D5E /* ViewController.swift */,
-				DAEC4191242F1D5100944B7F /* Storyboards */,
 				DAE37193223D0AD300F6E5E1 /* NewWordViewController.swift */,
 				DAE37195223D1BF800F6E5E1 /* ChangeWordViewController.swift */,
 				DAE37197223E7DEE00F6E5E1 /* ArchiveViewController.swift */,
@@ -165,6 +167,7 @@
 				DAF1847A2420EA600031B68C /* Word.swift */,
 				DAC96E462423AA9100675EEA /* Strings.swift */,
 				DA60BA2B24247AAE00146E87 /* ext.swift */,
+				9E8D57F0248126270032655B /* database.swift */,
 				DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */,
 			);
 			path = testing;
@@ -358,6 +361,7 @@
 				DA8042A6244627140012F3D0 /* TutorialViewController.swift in Sources */,
 				9E942CAE247FAEA800C8C164 /* SignupView.swift in Sources */,
 				9E336F6A247E583D005CA112 /* NewWordView.swift in Sources */,
+				9E8D57F1248126270032655B /* database.swift in Sources */,
 				DAEC4195242F38E300944B7F /* MainViewController.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
 				DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */,
