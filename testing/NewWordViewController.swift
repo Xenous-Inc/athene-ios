@@ -50,7 +50,9 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     func initialSetting(){
         print("NEW WORD VIEW")
         print(categories)
-        mainView.removeFromSuperview()
+        for subview in self.view.subviews{
+            subview.removeFromSuperview()
+        }
         mainView = NewWordView(frame: view.bounds, categories: categories)
         for cat in mainView.categoriesButtons{
             cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
@@ -219,17 +221,11 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                     UIView.animate(withDuration: 0.3, animations: {
                         self.view.alpha = 0
                     }, completion: {(finished: Bool) in
-                        let v = NewWordView(frame: self.view.frame, categories: categories)
-                        v.tag = 12345
-                        for subview in self.view.subviews{
-                            subview.removeFromSuperview()
-                        }
-                        self.view.addSubview(v)
+                        self.initialSetting()
                         UIView.animate(withDuration: 0.3, animations: {
                             self.view.alpha = 1
                         }, completion: {(finished: Bool) in
                             self.view.isUserInteractionEnabled = true
-                            self.setView()
                         })
                     })
                 })
