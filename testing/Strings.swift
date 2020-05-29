@@ -83,7 +83,7 @@ let categories_title = "Категории"
 let share_category_text = "Поделиться"
 let add_category_to_main_thread_text  = "Изучить"
 
-let add_alert_title = "Добавить слова к изучению?"
+let add_alert_title = ["Добавить слова (", " из ", ") к изучению?"]
 let add_alert_describtion = "Слова начнут появляться в ежедневных подборках для их успешного изучения"
 
 let add_alert_title_single = "Добавить слово к изучению?"
@@ -100,3 +100,6 @@ let tutorial_images = ["new.png", "main.png", "cat1.png", "cat2.png", "cat3.png"
 
 let message_no_word = "Введите слово"
 let alert_no_word_description = "Вы ничего не ввели"
+
+let already_learning_word_message = "Вы уже изучаете это слово"
+let already_learning_word_description = "Это слово уже встречается в ваших подборках"

@@ -155,10 +155,21 @@ class ArchiveViewController: UIViewController{
     }
     
     @objc func learnCategory(sender: UIButton){
-        let alert = UIAlertController(title: add_alert_title, message: add_alert_describtion, preferredStyle: .actionSheet)
+        let cell = sender.superview?.superview as! CustomTableViewCell
+        var k = 0
+        let n = cell.subcells.count
+        for i in cell.subcells{
+            let word = i.1
+            if(word.level == -2){
+                k += 1
+            }
+        }
+        let alert = UIAlertController(
+            title: add_alert_title[0] + String(k) + add_alert_title[1] + String(n) + add_alert_title[2],
+            message: add_alert_describtion,
+            preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
-            let cell = sender.superview?.superview as! CustomTableViewCell
             for i in cell.subcells{
                 let word = i.1
                 if(word.level == -2){
@@ -175,21 +186,30 @@ class ArchiveViewController: UIViewController{
     
     @objc func learnWord(gesture: UILongPressGestureRecognizer){
         if(gesture.state == .began){
-            let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: .actionSheet)
-            
-            alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
-                let cell = gesture.view?.superview as! CustomTableViewCell
-                let ind = gesture.view?.tag
-                let word = cell.subcells[ind!].1
-                if(word.level == -2){
+            let cell = gesture.view?.superview as! CustomTableViewCell
+            let ind = gesture.view?.tag
+            let word = cell.subcells[ind!].1
+            if(word.level == -2){
+                let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: .actionSheet)
+                
+                alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
                     ref.child("words").child(String(word.db_index)).child("level").setValue(0)
                     ref.child("words").child(String(word.db_index)).child("date").setValue(next_date.toDatabaseFormat())
+                }))
+                
+                alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+            }else{
+                let alert = UIAlertController(
+                    title: already_learning_word_message,
+                    message: already_learning_word_description,
+                    preferredStyle: .actionSheet)
+                self.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+                    alert.dismiss(animated: true, completion: nil)
                 }
-            }))
-            
-            alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
-            
-            self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
