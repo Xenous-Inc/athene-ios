@@ -10,24 +10,6 @@ import UIKit
 import Firebase
 import os
 
-var ref: DatabaseReference!
-var user_id = ""
-
-var next_date: Date = Date()
-var number_of_words = 0
-
-var archive : [Word] = []
-
-var words: [Word] = []
-
-var user : User? = nil
-
-var now_date: Date = Date()
-var week_date: Date = Date()
-var month_date: Date = Date()
-var three_month_date: Date = Date()
-var six_month_date: Date = Date()
-
 class ViewController: UIViewController, UITextFieldDelegate {
 
     var edit_text: UITextField!

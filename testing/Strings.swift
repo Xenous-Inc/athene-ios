@@ -106,3 +106,6 @@ let already_learning_word_description = "Это слово уже встреча
 
 let empty_categories_placeholder = "У вас еще нет категорий, содержащих слова"
 let empty_archive_placeholder = "Пока что ни одно слово не прошло весь цикл обучения"
+
+let delete_category_title = "Расформировать категорию?"
+let delete_category_description = "Слова данной категории сохранятся, однако сама категория удалится"

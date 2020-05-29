@@ -9,6 +9,27 @@
 import Foundation
 import Firebase
 
+var ref: DatabaseReference!
+var user_id = ""
+
+var next_date: Date = Date()
+var number_of_words = 0
+
+var archive : [Word] = []
+
+var words: [Word] = []
+
+var user : User? = nil
+
+var now_date: Date = Date()
+var week_date: Date = Date()
+var month_date: Date = Date()
+var three_month_date: Date = Date()
+var six_month_date: Date = Date()
+
+var categories_words: [String: [Word]] = [:]
+var categories: [String] = []
+
 var russian_list: [String] = []
 var english_list: [String] = []
 

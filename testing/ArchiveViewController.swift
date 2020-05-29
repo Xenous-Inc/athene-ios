@@ -9,8 +9,6 @@
 import UIKit
 import Firebase
 
-var categories_words: [String: [Word]] = [:]
-
 class ArchiveViewController: UIViewController{
     
 
@@ -75,6 +73,7 @@ class ArchiveViewController: UIViewController{
         }
         let v = CustomTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories_words)
         for cell in v.cells{
+            cell.main_view.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(deleteCategory(gesture:))))
             cell.button_add.addTarget(self, action: #selector(learnCategory(sender:)), for: .touchUpInside)
             cell.button_share.addTarget(self, action: #selector(shareCategory(sender:)), for: .touchUpInside)
             for subcell in cell.subcells{
@@ -91,6 +90,33 @@ class ArchiveViewController: UIViewController{
             view.addSubview(views[0])
         }else{
             view.addSubview(views[1])
+        }
+    }
+    
+    @objc func deleteCategory(gesture: UILongPressGestureRecognizer){
+        if(gesture.state == .began){
+            let alert = UIAlertController(title: delete_category_title, message: delete_category_description, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: alert_cancel, style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: alert_ok, style: .default, handler: { (action) in
+                let cell = gesture.view?.superview as! CustomTableViewCell
+                for w in cell.subcells{
+                    let word = w.1
+                    ref.child("words").child(String(word.db_index)).child("category").setValue(no_category)
+                }
+                let catInd = categories.firstIndex(of: cell.title)! - 1 - default_categories.count
+                if(catInd >= 0){
+                    let maxInd = (categories.count - 1 - default_categories.count) - 1
+                    ref.child("categories").child(String(catInd)).setValue(categories.last!)
+                    ref.child("categories").child(String(maxInd)).removeValue()
+                    print(cell.title, categories.firstIndex(of: cell.title)!)
+                    print(categories)
+                    categories.remove(at: categories.firstIndex(of: cell.title)!)
+                    print(categories)
+                }
+                categories_words.removeValue(forKey: cell.title)
+                self.viewWillAppear(false)
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     

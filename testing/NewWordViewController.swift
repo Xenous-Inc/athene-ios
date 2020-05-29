@@ -9,8 +9,6 @@
 import UIKit
 import Firebase
 
-var categories: [String] = []
-
 class NewWordViewController: UIViewController, UITextFieldDelegate {
 
     var ed_text_english: UITextField!
@@ -45,7 +43,14 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         initialSetting()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        initialSetting()
+    }
+    
     func initialSetting(){
+        print("NEW WORD VIEW")
+        print(categories)
+        mainView.removeFromSuperview()
         mainView = NewWordView(frame: view.bounds, categories: categories)
         for cat in mainView.categoriesButtons{
             cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
