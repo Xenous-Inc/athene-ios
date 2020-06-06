@@ -64,11 +64,11 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             var level = snap.childSnapshot(forPath: "level").value as? Int ?? 0
             _russian_list.append(rus)
             _english_list.append(eng)
-            if(category != no_category){
+            if(category.formatted() != no_category){
                 if(_categories_words[category] != nil){
-                    _categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+                    _categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, ind: Int(snap.key)!))
                 }else{
-                    _categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!)]
+                    _categories_words[category] = [Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, ind: Int(snap.key)!)]
                 }
             }
             if(level == -1){

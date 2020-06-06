@@ -74,6 +74,10 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: save_category, style: .default, handler: { action in
             if let cat = alert.textFields?.first?.text {
                 self.mainView.shrinkBottomBar(nil)
+                if(cat == "" || cat == " "){
+                    self.mainView.categoryLabel.text = no_category
+                    return
+                }
                 self.mainView.categoryLabel.text = cat.formatted()
                 
                 if(categories.contains(cat.formatted())){ return }
@@ -176,6 +180,9 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         guard let eng = ed_text_english.text?.formatted() else { return }
         guard let rus = ed_text_russian.text?.formatted() else { return }
         guard let category = mainView.categoryLabel.text?.formatted() else { return }
+        
+        if(eng == "" || eng == " " || rus == " " || rus == "") { return }
+        
         ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
         ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
         ref.child("words").child(String(number_of_words)).child("date").setValue(next_date.toDatabaseFormat())
