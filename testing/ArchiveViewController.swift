@@ -151,8 +151,8 @@ class ArchiveViewController: UIViewController{
         shareLink.androidParameters = DynamicLinkAndroidParameters(packageName: "com.develop.vadim.english")
         
         shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
-        shareLink.socialMetaTagParameters?.title = "Кажется кто-то хочет поделиться с вами списком слов в приложении Lett!"
-        shareLink.socialMetaTagParameters?.descriptionText = "Скачайте Lett, чтобы получить доступ к списку слов."
+        shareLink.socialMetaTagParameters?.title = "Кажется кто-то хочет поделиться с вами списком слов в приложении Athene!"
+        shareLink.socialMetaTagParameters?.descriptionText = "Скачайте Athene, чтобы получить доступ к списку слов."
         
         guard let longURL = shareLink.url else {return}
         print("Long url: \(longURL)")
@@ -199,8 +199,8 @@ class ArchiveViewController: UIViewController{
             for i in cell.subcells{
                 let word = i.1
                 if(word.level == -2){
-                    ref.child("words").child(String(word.db_index)).child("level").setValue(0)
-                    ref.child("words").child(String(word.db_index)).child("date").setValue(next_date.toDatabaseFormat())
+                    ref.child("words").child(word.db_index).child("level").setValue(0)
+                    ref.child("words").child(word.db_index).child("date").setValue(next_date.toDatabaseFormat())
                 }
             }
         }))
@@ -219,8 +219,8 @@ class ArchiveViewController: UIViewController{
                 let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: .actionSheet)
                 
                 alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
-                    ref.child("words").child(String(word.db_index)).child("level").setValue(0)
-                    ref.child("words").child(String(word.db_index)).child("date").setValue(next_date.toDatabaseFormat())
+                    ref.child("words").child(word.db_index).child("level").setValue(0)
+                    ref.child("words").child(word.db_index).child("date").setValue(next_date.toDatabaseFormat())
                 }))
                 
                 alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))

@@ -14,8 +14,6 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     var ed_text_english: UITextField!
     var ed_text_russian: UITextField!
     
-    var cat_count = 0
-    
     var frame: CGRect? = nil
     
     var mainView = NewWordView(frame: CGRect.init(), categories: [])
@@ -39,11 +37,6 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         if(frame != nil){
             view.frame = frame!
         }
-        cat_count = categories.count - default_categories.count - 1
-        initialSetting()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         initialSetting()
     }
     
@@ -82,10 +75,9 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 
                 if(categories.contains(cat.formatted())){ return }
                 
-                ref.child("categories").child(String(self.cat_count)).setValue(cat.formatted())
+                ref.child("categories").childByAutoId().setValue(cat.formatted())
                 
                 self.mainView.shrinkBottomBar(nil)
-                self.cat_count += 1
                 categories.append(cat.formatted())
                 self.mainView.categoryLabel.text = cat.formatted()
                 print("SUCCESS")
@@ -123,6 +115,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 cur.layer.cornerRadius = cur.bounds.height / 2
                 cur.tag = categories.count
                 cur.isUserInteractionEnabled = false
+                cur.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
                 scroll.addSubview(cur)
                 
                 if(s + CGFloat(cnt)*self.mainView.padding + cur.bounds.width <= scroll.bounds.width){
@@ -183,22 +176,20 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         
         if(eng == "" || eng == " " || rus == " " || rus == "") { return }
         
-        ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
-        ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
-        ref.child("words").child(String(number_of_words)).child("date").setValue(next_date.toDatabaseFormat())
-        ref.child("words").child(String(number_of_words)).child("level").setValue(0)
-        ref.child("words").child(String(number_of_words)).child("category").setValue(category)
+        let newWordRef = ref.child("words").childByAutoId()
+        newWordRef.child("English").setValue(eng)
+        newWordRef.child("Russian").setValue(rus)
+        newWordRef.child("date").setValue(next_date.toDatabaseFormat())
+        newWordRef.child("level").setValue(0)
+        newWordRef.child("category").setValue(category)
         
         if(category != no_category){
             if(categories_words[category] != nil){
-                categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: 0, ind: number_of_words))
+                categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: 0, id: newWordRef.key!))
             }else{
-                categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: 0, ind: number_of_words)]
+                categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: 0, id: newWordRef.key!)]
             }
         }
-        
-        number_of_words += 1
-        print(number_of_words)
         self.view.isUserInteractionEnabled = false
         let oldValue = mainView.finishButton.layer.cornerRadius
         mainView.finishButton.setTitle("", for: .normal)

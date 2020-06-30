@@ -13,8 +13,6 @@ var ref: DatabaseReference!
 var user_id = ""
 
 var next_date: Date = Date()
-var number_of_words = 0
-
 var archive : [Word] = []
 
 var words: [Word] = []
@@ -41,7 +39,6 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     var _english_list: [String] = []
     var _categories_words: [String: [Word]] = [:]
     var _categories: [String] = [no_category] + default_categories
-    number_of_words = 0
     SetDates()
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -52,7 +49,6 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             _categories.append(snap.value as! String)
         }
         let snapshot = snp.childSnapshot(forPath: "words")
-        number_of_words = Int(snapshot.childrenCount)
         var date: Date, count: Int
         let enumerator = snapshot.children
         while let snap = enumerator.nextObject() as? DataSnapshot{
@@ -66,22 +62,22 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             _english_list.append(eng)
             if(category.formatted() != no_category){
                 if(_categories_words[category] != nil){
-                    _categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, ind: Int(snap.key)!))
+                    _categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, id: snap.key))
                 }else{
-                    _categories_words[category] = [Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, ind: Int(snap.key)!)]
+                    _categories_words[category] = [Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, id: snap.key)]
                 }
             }
             if(level == -1){
-                _archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, ind: Int(snap.key)!))
+                _archive.append(Word(eng: eng, rus: rus, ct: category, lvl: -1, id: snap.key))
             }else if(level != -2 && count > 0){
                 ref.child("words").child(snap.key).child("date").setValue(now_date.toDatabaseFormat())
                 if(count >= 3 && (level == 1 || level == 2)){
                     level = 0
                 }
                 ref.child("words").child(snap.key).child("level").setValue(level)
-                _words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+                _words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, id: snap.key))
             }else if(level != -2 && count == 0){
-                _words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, ind: Int(snap.key)!))
+                _words.append(Word(eng: eng, rus: rus, ct: category, lvl: level, id: snap.key))
             }
         }
         archive = _archive
@@ -91,13 +87,7 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
         categories_words = _categories_words
         categories = _categories
         if let comp = completion{
-            comp(true)
-            for i in categories_words{
-                for j in i.value{
-                    print(j.english, terminator: " ")
-                }
-            }
-        }
+            comp(true)        }
     })
 }
 
@@ -118,18 +108,17 @@ func downloadCategory(completion: ((Bool) -> Void)?){
                 let cat = snap.childSnapshot(forPath: "category").value as? String ?? ""
                 if(english_list.contains(eng) || russian_list.contains(rus)){continue}
                 if(cat.elementsEqual(category)){
-                    ref.child("words").child(String(number_of_words)).child("English").setValue(eng)
-                    ref.child("words").child(String(number_of_words)).child("Russian").setValue(rus)
-                    ref.child("words").child(String(number_of_words)).child("category").setValue(cat)
-                    ref.child("words").child(String(number_of_words)).child("level").setValue(-2)
-                    ref.child("words").child(String(number_of_words)).child("date").setValue(now_date.toDatabaseFormat())
+                    let wordRef = ref.child("words").childByAutoId()
+                    wordRef.child("English").setValue(eng)
+                    wordRef.child("Russian").setValue(rus)
+                    wordRef.child("category").setValue(cat)
+                    wordRef.child("level").setValue(-2)
+                    wordRef.child("date").setValue(now_date.toDatabaseFormat())
                     if(categories_words[category] != nil){
-                        categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: -2, ind: number_of_words))
+                        categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: -2, id: wordRef.key!))
                     }else{
-                        categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: -2, ind: number_of_words)]
-                    }
-                    number_of_words += 1
-                }
+                        categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: -2, id: wordRef.key!)]
+                    }                }
             }
             if let comp = completion{
                 comp(true)

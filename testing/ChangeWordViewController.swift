@@ -33,9 +33,9 @@ class ChangeWordViewController: NewWordViewController {
     override func submit(_ sender: Any) {
         guard let eng = ed_text_english.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         guard let rus = ed_text_russian.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-        ref.child("words").child(String(words[0].db_index)).child("English").setValue(eng)
-        ref.child("words").child(String(words[0].db_index)).child("Russian").setValue(rus)
-        ref.child("words").child(String(words[0].db_index)).child("category").setValue(mainView.categoryLabel.text!)
+        ref.child("words").child(words[0].db_index).child("English").setValue(eng)
+        ref.child("words").child(words[0].db_index).child("Russian").setValue(rus)
+        ref.child("words").child(words[0].db_index).child("category").setValue(mainView.categoryLabel.text!)
         
         performSegue(withIdentifier: "back_from_word_edit", sender: self)
     }

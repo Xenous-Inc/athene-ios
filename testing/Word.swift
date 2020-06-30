@@ -10,13 +10,13 @@ import Foundation
 
 
 class Word{
-    var english, russian, category: String;
-    var level, db_index: Int
-    init(eng: String, rus: String, ct: String, lvl: Int, ind: Int) {
+    var english, russian, category, db_index: String
+    var level: Int
+    init(eng: String, rus: String, ct: String, lvl: Int, id: String) {
         english = eng
         russian = rus
         category = ct
         level = lvl
-        db_index = ind
+        db_index = id
     }
 }

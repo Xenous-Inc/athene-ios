@@ -68,20 +68,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
             deadline = .now() + 0.9
             switch words[0].level{
             case 0:
-                UpdateCard(ind: words[0].db_index, date: week_date, level: words[0].level + 1)
+                UpdateCard(id: words[0].db_index, date: week_date, level: words[0].level + 1)
             case 1:
-                UpdateCard(ind: words[0].db_index, date: month_date, level: words[0].level + 1)
+                UpdateCard(id: words[0].db_index, date: month_date, level: words[0].level + 1)
             case 2:
-                UpdateCard(ind: words[0].db_index, date: three_month_date, level: words[0].level + 1)
+                UpdateCard(id: words[0].db_index, date: three_month_date, level: words[0].level + 1)
             case 3:
-                UpdateCard(ind: words[0].db_index, date: six_month_date, level: words[0].level + 1)
+                UpdateCard(id: words[0].db_index, date: six_month_date, level: words[0].level + 1)
             default:
-                MoveCardToArchive(ind: words[0].db_index)
+                MoveCardToArchive(id: words[0].db_index)
             }
             resetTint()
         }else{
             answering = false
-            UpdateCard(ind: words[0].db_index, date: next_date, level: 0)
+            UpdateCard(id: words[0].db_index, date: next_date, level: 0)
             animateIncorrectAnswer(ans: edit_text.text!, correct: words[0].english, status: sender)
         }
     }
@@ -206,13 +206,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //Database
     
-    func UpdateCard(ind: Int, date: Date, level: Int){
-        ref.child("words").child(String(ind)).child("date").setValue(date.toDatabaseFormat())
-        ref.child("words").child(String(ind)).child("level").setValue(level)
+    func UpdateCard(id: String, date: Date, level: Int){
+        ref.child("words").child(id).child("date").setValue(date.toDatabaseFormat())
+        ref.child("words").child(id).child("level").setValue(level)
     }
     
-    func MoveCardToArchive(ind: Int){
-        ref.child("words").child(String(ind)).child("level").setValue(-1)
+    func MoveCardToArchive(id: String){
+        ref.child("words").child(id).child("level").setValue(-1)
     }
     
     @objc func Delete(_ sender: Any) {
@@ -220,27 +220,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         alert.addAction(UIAlertAction(title: delete_alert_delete, style: UIAlertAction.Style.default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
-            let ind = words[0].db_index
-            number_of_words -= 1
-            ref.child("words").observeSingleEvent(of: .value, with: { (snap) in
-                let last = snap.childrenCount - 1
-                ref.child("words").child(String(ind)).child("English").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "English").value)
-                ref.child("words").child(String(ind)).child("Russian").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "Russian").value)
-                ref.child("words").child(String(ind)).child("date").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "date").value)
-                ref.child("words").child(String(ind)).child("level").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "level").value)
-                ref.child("words").child(String(ind)).child("category").setValue(snap.childSnapshot(forPath: String(last)).childSnapshot(forPath: "category").value)
-                
-                for i in words{
-                    if(i.db_index == last){
-                        i.db_index = ind
-                        break
-                    }
-                }
-                
-                ref.child("words").child(String(last)).removeValue()
-                
-                self.Next()
-            })
+            ref.child("words").child(words[0].db_index).removeValue()
+            self.Next()
         }))
         
         alert.addAction(UIAlertAction(title: delete_alert_cancel, style: UIAlertAction.Style.default, handler: {(action) in
@@ -284,7 +265,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             field.textAlignment = .center
             field.numberOfLines = 3
             field.adjustsFontSizeToFitWidth = true
-            field.tag = 1010101010101
+            field.tag = 1010101010
             
             return field
         }()
