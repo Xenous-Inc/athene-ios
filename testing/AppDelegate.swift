@@ -54,14 +54,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print("Your incoming link parameter is \(url.absoluteString)")
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryitems = components.queryItems else {return}
-        for i in queryitems{
-            if(i.name == "user"){
-                user_shared_id = i.value
-            }else if(i.name == "category"){
-                category_shared = i.value
+        print(url.path)
+        
+        if(Auth.auth().currentUser == nil) {return}
+        
+        if(url.path == "/invite"){
+            print("new invite")
+            var teacherId: String? = nil, classId: String? = nil
+            for i in queryitems{
+                if(i.name == "teacherId"){
+                    teacherId = i.value
+                }else if(i.name == "classId"){
+                    classId = i.value
+                }
             }
-        }
-        if(Auth.auth().currentUser != nil && user_shared_id != nil && category_shared != nil){
+            if(teacherId == nil || classId == nil) {return}
+            
+            let teacherRef = Database.database().reference().child("teachers").child(teacherId!)
+            teacherRef.observeSingleEvent(of: .value) { (snapshot) in
+                let en = snapshot.childSnapshot(forPath: "classes").childSnapshot(forPath: classId!).childSnapshot(forPath: "students").children
+                var isInClass = false
+                while let snap = en.nextObject() as? DataSnapshot{
+                    if(snap.childSnapshot(forPath: "id").value as! String == Auth.auth().currentUser!.uid){
+                        isInClass = true
+                        break
+                    }
+                }
+                guard let v_controller = self.window?.rootViewController else {return}
+                if(isInClass){
+                    messageAlert(vc: v_controller, message: "Вы уже добавлены в этот класс", text_error: nil)
+                }else{
+                    let alertController  = UIAlertController(
+                        title: "\(snapshot.childSnapshot(forPath: "name").value as! String) приглашает вас в класс \"\(snapshot.childSnapshot(forPath: "classes").childSnapshot(forPath: classId!).childSnapshot(forPath: "name").value as! String)\" ",
+                        message: nil,
+                        preferredStyle: .alert)
+                    
+                    alertController.addTextField { textField in
+                        textField.placeholder = "Ваше имя (для учителя)"
+                        textField.borderStyle = .roundedRect
+                    }
+                    alertController.addAction(UIAlertAction(title: "Принять", style: .default, handler: { (action) in
+                        let newStudentRef = teacherRef.child("classes").child(classId!).child("students").childByAutoId()
+                        newStudentRef.child("id").setValue(Auth.auth().currentUser!.uid)
+                        newStudentRef.child("name").setValue(alertController.textFields?.first?.text!)
+                    }))
+                    alertController.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
+                    
+                    v_controller.present(alertController, animated: true, completion: nil)
+                    if let textFields = alertController.textFields {
+                        if textFields.count > 0{
+                            textFields[0].superview!.superview!.subviews[0].removeFromSuperview()
+                            textFields[0].superview!.backgroundColor = UIColor.clear
+                        }
+                    }
+                }
+            }
+        }else{
+            print("new category")
+            for i in queryitems{
+                if(i.name == "user"){
+                    user_shared_id = i.value
+                }else if(i.name == "category"){
+                    category_shared = i.value
+                }
+            }
+            if(user_shared_id == nil || category_shared == nil) {return}
             let alertController = UIAlertController(title: "Добавить слова категории \(category_shared!)?", message: nil, preferredStyle: .actionSheet)
             guard let v_controller = self.window?.rootViewController else {return}
             alertController.addAction(UIAlertAction(title: alert_yes, style: .default, handler: { (action) in
