@@ -11,6 +11,7 @@ import UIKit
 class MainView: UIView {
 
     let font = "Helvetica"
+    var submit_btn_old_frame = CGRect()
     
     var editTextFirst = UITextField(), editTextSecond = UITextField()
     var nextButton = UIButton(), forgotButton = UIButton()
@@ -174,10 +175,105 @@ class MainView: UIView {
             descr.tag = 201 + i
             self.addSubview(descr)
         }
+        
+        submit_btn_old_frame = nextButton.frame
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func animateIncorrectAnswer(ans: String, correct: String, status: Int){
+        let oldValue = nextButton.layer.cornerRadius
+        let new_height = 2*nextButton.bounds.height
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.4)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.nextButton.bounds = CGRect(x: 0, y: 0, width: 2*self.nextButton.bounds.height, height: new_height)
+            self.nextButton.center = CGPoint(x: self.frame.width / 2, y: 0.9*self.frame.height - self.nextButton.bounds.height / 2)
+            let img = self.viewWithTag(101)!
+            img.center = self.nextButton.center
+            img.bounds = CGRect(x: 0, y: 0, width: 0.5*self.nextButton.bounds.width, height: img.bounds.height)
+            let d = self.viewWithTag(102) as! UILabel
+            d.center = CGPoint(x: self.center.x, y: self.nextButton.frame.maxY + d.bounds.height)
+            d.text = main_page_next_text
+            for i in self.subviews{
+                if([201, 202].contains(i.tag)){
+                    i.alpha = 0.8
+                }else if(i.tag >= 200){
+                    i.alpha = 1
+                    if([205, 206].contains(i.tag)){i.isUserInteractionEnabled = true}
+                }else if([0, 103].contains(i.tag)){
+                    i.alpha = 0
+                    i.isUserInteractionEnabled = false
+                }
+            }
+            if(status == self.nextButton.tag){
+                self.editTextFirst.text = ans
+                self.editTextFirst.textColor = UIColor.magenta
+            }
+            self.editTextSecond.text = correct
+            self.editTextSecond.textColor = UIColor.init(rgb: green_clr)
+            self.editTextSecond.isUserInteractionEnabled = false
+        }, completion: {(finished: Bool) in
+            self.nextButton.isEnabled = true
+        })
+        
+        let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
+        cornerAnimation.fromValue = oldValue
+        cornerAnimation.toValue = new_height / 2
+        nextButton.layer.cornerRadius = new_height / 2
+        nextButton.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
+
+        CATransaction.commit()
+    }
+    
+    func animateNextWord(){
+        let oldValue = nextButton.layer.cornerRadius
+        let new_height = nextButton.bounds.height / 2
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.4)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.nextButton.frame = self.submit_btn_old_frame
+            let img = self.viewWithTag(101)!
+            img.center = self.nextButton.center
+            img.bounds = CGRect(x: 0, y: 0, width: 0.33*self.nextButton.bounds.width, height: img.bounds.height)
+            let d = self.viewWithTag(102) as! UILabel
+            d.center = CGPoint(x: self.center.x, y: self.nextButton.frame.maxY + d.bounds.height)
+            d.text = main_page_describtion_check
+            for i in self.subviews{
+                if(i.tag >= 200){
+                    i.alpha = 0
+                    i.isUserInteractionEnabled = false
+                }else if([0, 103].contains(i.tag)){
+                    i.alpha = 1
+                    if(i.tag == 103){i.isUserInteractionEnabled = true}
+                }
+            }
+            self.editTextFirst.textColor = UIColor.white
+            self.editTextSecond.text = ""
+            self.editTextSecond.textColor = UIColor.white
+            self.editTextSecond.isUserInteractionEnabled = true
+        })
+               
+        let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
+        cornerAnimation.fromValue = oldValue
+        cornerAnimation.toValue = new_height / 2
+        nextButton.layer.cornerRadius = new_height / 2
+        nextButton.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
+
+        CATransaction.commit()
+    }
+    
+    func resetTint(deadline: DispatchTime, completion: @escaping () -> Void){
+        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
+            (self.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.white
+            self.editTextSecond.textColor = UIColor.white
+            completion()
+        })
+    }
 }

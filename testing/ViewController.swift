@@ -23,8 +23,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var answering = true
     
-    var submit_btn_old_frame = CGRect()
-    
     var frame: CGRect? = nil
     
     init(frame: CGRect)   {
@@ -52,7 +50,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    var deadline = DispatchTime.now()
     func Submit(sender: Int) {
         if (sender == submit_btn.tag && (edit_text.text == "" || edit_text.text == " ")){
             messageAlert(vc: self, message: message_no_word, text_error: alert_no_word_description)
@@ -61,11 +58,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             return
         }
         guard let eng = edit_text.text?.formatted() else { return }
-        deadline = .now()
         if (sender == submit_btn.tag) && (eng == words[0].english.formatted()) {
             (view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.init(rgb: green_clr)
             edit_text.textColor = UIColor.init(rgb: green_clr)
-            deadline = .now() + 0.9
             switch words[0].level{
             case 0:
                 UpdateCard(id: words[0].db_index, date: week_date, level: words[0].level + 1)
@@ -78,11 +73,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
             default:
                 MoveCardToArchive(id: words[0].db_index)
             }
-            resetTint()
+            contentView.resetTint(deadline: .now() + 0.9) {
+                self.Next()
+            }
         }else{
             answering = false
             UpdateCard(id: words[0].db_index, date: next_date, level: 0)
-            animateIncorrectAnswer(ans: edit_text.text!, correct: words[0].english, status: sender)
+            contentView.animateIncorrectAnswer(ans: edit_text.text!, correct: words[0].english, status: sender)
         }
     }
     
@@ -90,7 +87,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         words.remove(at: 0)
         if(answering == false){
             answering = true
-            animateNextWord()
+            contentView.animateNextWord()
         }
         if(words.count == 0){
             contentView.removeFromSuperview()
@@ -106,102 +103,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             forgot_btn.isEnabled = true
         }
         edit_text.text = ""
-    }
-    
-    //Graphics
-    
-    func animateIncorrectAnswer(ans: String, correct: String, status: Int){
-        let oldValue = submit_btn.layer.cornerRadius
-        let new_height = 2*submit_btn.bounds.height
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(0.4)
-        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.submit_btn.bounds = CGRect(x: 0, y: 0, width: 2*self.submit_btn.bounds.height, height: new_height)
-            self.submit_btn.center = CGPoint(x: self.view.frame.width / 2, y: 0.9*self.view.frame.height - self.submit_btn.bounds.height / 2)
-            let img = self.view.viewWithTag(101)!
-            img.center = self.submit_btn.center
-            img.bounds = CGRect(x: 0, y: 0, width: 0.5*self.submit_btn.bounds.width, height: img.bounds.height)
-            let d = self.view.viewWithTag(102) as! UILabel
-            d.center = CGPoint(x: self.view.center.x, y: self.submit_btn.frame.maxY + d.bounds.height)
-            d.text = main_page_next_text
-            for i in self.contentView.subviews{
-                if([201, 202].contains(i.tag)){
-                    i.alpha = 0.8
-                }else if(i.tag >= 200){
-                    i.alpha = 1
-                    if([205, 206].contains(i.tag)){i.isUserInteractionEnabled = true}
-                }else if([0, 103].contains(i.tag)){
-                    i.alpha = 0
-                    i.isUserInteractionEnabled = false
-                }
-            }
-            if(status == self.submit_btn.tag){
-                self.text.text = ans
-                self.text.textColor = UIColor.magenta
-            }
-            self.edit_text.text = correct
-            self.edit_text.textColor = UIColor.init(rgb: green_clr)
-            self.edit_text.isUserInteractionEnabled = false
-        }, completion: {(finished: Bool) in
-            self.submit_btn.isEnabled = true
-        })
-        
-        let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
-        cornerAnimation.fromValue = oldValue
-        cornerAnimation.toValue = new_height / 2
-        submit_btn.layer.cornerRadius = new_height / 2
-        submit_btn.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
-
-        CATransaction.commit()
-    }
-    
-    func animateNextWord(){
-        let oldValue = submit_btn.layer.cornerRadius
-        let new_height = submit_btn.bounds.height / 2
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(0.4)
-        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.submit_btn.frame = self.submit_btn_old_frame
-            let img = self.view.viewWithTag(101)!
-            img.center = self.submit_btn.center
-            img.bounds = CGRect(x: 0, y: 0, width: 0.33*self.submit_btn.bounds.width, height: img.bounds.height)
-            let d = self.view.viewWithTag(102) as! UILabel
-            d.center = CGPoint(x: self.view.center.x, y: self.submit_btn.frame.maxY + d.bounds.height)
-            d.text = main_page_describtion_check
-            for i in self.contentView.subviews{
-                if(i.tag >= 200){
-                    i.alpha = 0
-                    i.isUserInteractionEnabled = false
-                }else if([0, 103].contains(i.tag)){
-                    i.alpha = 1
-                    if(i.tag == 103){i.isUserInteractionEnabled = true}
-                }
-            }
-            self.text.textColor = UIColor.white
-            self.edit_text.text = ""
-            self.edit_text.textColor = UIColor.white
-            self.edit_text.isUserInteractionEnabled = true
-        })
-               
-        let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
-        cornerAnimation.fromValue = oldValue
-        cornerAnimation.toValue = new_height / 2
-        submit_btn.layer.cornerRadius = new_height / 2
-        submit_btn.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
-
-        CATransaction.commit()
-    }
-    
-    @objc func resetTint(){
-        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
-            (self.view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.white
-            self.edit_text.textColor = UIColor.white
-            self.Next()
-        })
     }
     
     //Database
@@ -246,7 +147,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         text = contentView.editTextFirst
         
         submit_btn = contentView.nextButton
-        submit_btn_old_frame = submit_btn.frame
         submit_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
         forgot_btn = contentView.forgotButton
         forgot_btn.addTarget(self, action: #selector(next_btn_pressed(_:)), for: .touchUpInside)
