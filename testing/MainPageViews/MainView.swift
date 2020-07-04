@@ -13,12 +13,17 @@ class MainView: UIView {
     let font = "Helvetica"
     var submit_btn_old_frame = CGRect()
     
-    var editTextFirst = UITextField(), editTextSecond = UITextField()
-    var nextButton = UIButton(), forgotButton = UIButton()
-    var editButton = UIButton(), deleteButton = UIButton()
+    var editTextFirst, editTextSecond: UITextField!
+    var nextButton, forgotButton: UIButton!
+    var editButton, deleteButton: UIButton!
+    var containerView: UIView!
+    var endOfWordsView: UILabel!
     
     override init(frame: CGRect){
         super.init(frame: frame)
+        containerView = UIView(frame: bounds)
+        containerView.backgroundColor = .clear
+        addSubview(containerView)
         
         let height = 0.07*frame.height
         let font_sz = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: height))
@@ -32,7 +37,7 @@ class MainView: UIView {
             
             return title_label
         }()
-        self.addSubview(titleLabel)
+        containerView.addSubview(titleLabel)
         
         for i in 0..<2{
             let y = 0.45*frame.height + ((i == 0) ? -1.5*height : 0.5*height)
@@ -61,7 +66,7 @@ class MainView: UIView {
             }else{
                 editTextFirst = ed_text
             }
-            self.addSubview(ed_text)
+            containerView.addSubview(ed_text)
         }
         
         nextButton = {
@@ -97,8 +102,8 @@ class MainView: UIView {
         }()
         arrowImage.tag = 101
         
-        self.addSubview(arrowImage)
-        self.addSubview(nextButton)
+        containerView.addSubview(arrowImage)
+        containerView.addSubview(nextButton)
         
         let descriptionLabel: UILabel = {
             let describtionlabel = UILabel(frame: CGRect(x: 0, y: 0, width: nextButton.bounds.width, height: 0.35*nextButton.bounds.height))
@@ -113,7 +118,7 @@ class MainView: UIView {
             
             return describtionlabel
         }()
-        self.addSubview(descriptionLabel)
+        containerView.addSubview(descriptionLabel)
         
         forgotButton = {
             let forgot_btn = UIButton(frame: CGRect(x: 0, y: 0, width: 0.45*frame.width, height: height))
@@ -129,7 +134,7 @@ class MainView: UIView {
             
             return forgot_btn
         }()
-        self.addSubview(forgotButton)
+        containerView.addSubview(forgotButton)
         
         //Incorrect answer
         let incorrectAnswerLabel: UILabel = {
@@ -144,7 +149,7 @@ class MainView: UIView {
             
             return incorrect_label
         }()
-        self.addSubview(incorrectAnswerLabel)
+        containerView.addSubview(incorrectAnswerLabel)
         
         for i in 0..<2{
             let btn = UIButton(frame: CGRect(x: frame.width / 2 + CGFloat(3*i - 2)*height, y: 0.45*frame.height + 2.1*height, width: height, height: height))
@@ -154,7 +159,7 @@ class MainView: UIView {
             btn.tag = 205 + i
             btn.isUserInteractionEnabled = false
             btn.alpha = 0
-            self.addSubview(btn)
+            containerView.addSubview(btn)
             
             if(i == 0){
                 editButton = btn
@@ -173,14 +178,114 @@ class MainView: UIView {
             descr.alpha = 0
             descr.isUserInteractionEnabled = false
             descr.tag = 201 + i
-            self.addSubview(descr)
+            containerView.addSubview(descr)
         }
         
         submit_btn_old_frame = nextButton.frame
+        
+        endOfWordsView = {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 0.85*frame.width, height: 0.4*frame.height))
+            label.center = CGPoint(x: frame.width / 2, y: frame.height / 2)
+            label.backgroundColor = .clear
+            label.textColor = .white
+            label.font = UIFont(name: "Helvetica", size: 42)
+            label.textAlignment = .center
+            label.numberOfLines = 3
+            label.adjustsFontSizeToFitWidth = true
+            
+            return label
+        }()
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func showEndOfWordsView(animated: Bool, completion: @escaping () -> Void = { }){
+        if(!animated){
+            containerView.removeFromSuperview()
+            addSubview(endOfWordsView)
+            completion()
+            return
+        }
+        UIView.animate(withDuration: 0.2, animations: {
+            self.containerView.alpha = 0
+        }, completion: {(finished: Bool) in
+            self.containerView.removeFromSuperview()
+            self.endOfWordsView.alpha = 0
+            self.endOfWordsView.text = end_of_words_text
+            self.addSubview(self.endOfWordsView)
+            UIView.animate(withDuration: 0.2) {
+                self.endOfWordsView.alpha = 1
+            }
+            completion()
+        })
+    }
+    
+    func showContainerView(){
+        endOfWordsView.removeFromSuperview()
+        addSubview(containerView)
+    }
+    
+    func switchTextFields(text: String){
+        let height = 0.07*frame.height
+        let font_sz = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: height))
+        var newFirst = UITextField(), newSecond = UITextField()
+        for i in 0..<2{
+            let y = 0.45*frame.height + ((i == 0) ? -1.5*height : 0.5*height)
+            let ed_text = UITextField(frame: CGRect(x: 0.9*frame.width, y: y, width: 0.8*frame.width, height: height))
+            ed_text.text = (i == 0) ? loading_text : ""
+            ed_text.font = UIFont(name: font, size: font_sz)
+            ed_text.textColor = UIColor.white
+            
+            ed_text.adjustsFontSizeToFitWidth = true
+            
+            ed_text.autocorrectionType = .no
+            
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(origin: CGPoint(x: 0, y:ed_text.frame.height - 1), size: CGSize(width: ed_text.frame.width, height: 2))
+            bottomLine.backgroundColor = UIColor.white.cgColor
+            ed_text.borderStyle = .none
+            ed_text.layer.addSublayer(bottomLine)
+            
+            ed_text.tag = i + 1
+            ed_text.backgroundColor = UIColor.clear
+            ed_text.isUserInteractionEnabled = (i == 1)
+            ed_text.textAlignment = .center
+            if(i == 1){
+                ed_text.attributedPlaceholder = NSAttributedString(string: main_page_placeholders[i], attributes: [NSAttributedString.Key.foregroundColor: UIColor.init(white: 1.0, alpha: 0.5)])
+                newSecond = ed_text
+            }else{
+                ed_text.text = text
+                newFirst = ed_text
+            }
+            ed_text.alpha = 1
+            self.addSubview(ed_text)
+        }
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.editTextFirst.center = CGPoint(x: self.editTextFirst.center.x - self.editTextFirst.bounds.width, y: self.editTextFirst.center.y)
+            self.editTextSecond.center = CGPoint(x: self.editTextSecond.center.x - self.editTextSecond.bounds.width, y: self.editTextSecond.center.y)
+            
+            newFirst.center = CGPoint(x: newFirst.center.x - newFirst.bounds.width, y: newFirst.center.y)
+            newSecond.center = CGPoint(x: newSecond.center.x - newSecond.bounds.width, y: newSecond.center.y)
+            
+            self.editTextFirst.alpha = 0
+            self.editTextSecond.alpha = 0
+            newFirst.alpha = 1
+            newSecond.alpha = 1
+            
+            newFirst.delegate = self.editTextFirst.delegate
+            newSecond.delegate = self.editTextSecond.delegate
+        }, completion: {(finished: Bool) in
+            self.editTextFirst.removeFromSuperview()
+            self.editTextSecond.removeFromSuperview()
+            
+            self.editTextFirst = newFirst
+            self.editTextSecond = newSecond
+        })
+
     }
     
     func animateIncorrectAnswer(ans: String, correct: String, status: Int){
@@ -199,7 +304,7 @@ class MainView: UIView {
             let d = self.viewWithTag(102) as! UILabel
             d.center = CGPoint(x: self.center.x, y: self.nextButton.frame.maxY + d.bounds.height)
             d.text = main_page_next_text
-            for i in self.subviews{
+            for i in self.containerView.subviews{
                 if([201, 202].contains(i.tag)){
                     i.alpha = 0.8
                 }else if(i.tag >= 200){
@@ -230,7 +335,7 @@ class MainView: UIView {
         CATransaction.commit()
     }
     
-    func animateNextWord(){
+    func animateNextWord(nextWord: String?, completion: (() -> Void)?){
         let oldValue = nextButton.layer.cornerRadius
         let new_height = nextButton.bounds.height / 2
         CATransaction.begin()
@@ -245,7 +350,7 @@ class MainView: UIView {
             let d = self.viewWithTag(102) as! UILabel
             d.center = CGPoint(x: self.center.x, y: self.nextButton.frame.maxY + d.bounds.height)
             d.text = main_page_describtion_check
-            for i in self.subviews{
+            for i in self.containerView.subviews{
                 if(i.tag >= 200){
                     i.alpha = 0
                     i.isUserInteractionEnabled = false
@@ -254,10 +359,16 @@ class MainView: UIView {
                     if(i.tag == 103){i.isUserInteractionEnabled = true}
                 }
             }
-            self.editTextFirst.textColor = UIColor.white
-            self.editTextSecond.text = ""
-            self.editTextSecond.textColor = UIColor.white
             self.editTextSecond.isUserInteractionEnabled = true
+        }, completion: {(finished: Bool) in
+            if let word = nextWord{
+                self.switchTextFields(text: word)
+                self.nextButton.isEnabled = true
+                self.forgotButton.isEnabled = true
+            }
+            if let compl = completion{
+                compl()
+            }
         })
                
         let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
@@ -272,8 +383,12 @@ class MainView: UIView {
     func resetTint(deadline: DispatchTime, completion: @escaping () -> Void){
         DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
             (self.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.white
-            self.editTextSecond.textColor = UIColor.white
             completion()
         })
+    }
+    
+    func clear() {
+        containerView.removeFromSuperview()
+        endOfWordsView.removeFromSuperview()
     }
 }
