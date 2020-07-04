@@ -4,7 +4,6 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - Cheers (2.3.0)
   - Firebase/Auth (6.27.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.6.0)
@@ -119,7 +118,6 @@ PODS:
   - Protobuf (3.12.0)
 
 DEPENDENCIES:
-  - Cheers
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -130,7 +128,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
-    - Cheers
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -155,7 +152,6 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  Cheers: 7e42fc09e1ca5059870b979131136d17b50ccc9c
   Firebase: fc4cbf6f1592636431821ef9a3c557e4dfd9f268
   FirebaseAnalytics: 0ea640473474f036cabbc2576e20c2d63671c92f
   FirebaseAuth: b85c064e0ac60f82486728d50a4803f235687302
@@ -178,6 +174,6 @@ SPEC CHECKSUMS:
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
 
-PODFILE CHECKSUM: 4d9139d569c4b80d0bf6d85216693b6247909251
+PODFILE CHECKSUM: 021d0f1d34b28d0ac16a11aaeb74ea1b227e8ab1
 
 COCOAPODS: 1.9.3

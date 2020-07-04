@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		86A3E13B32A4C34AAE7ECDA4 /* Pods_testing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFCA890537D4CBDA96447174 /* Pods_testing.framework */; };
+		9E0EADD624B0D35200FF0765 /* SAConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0EADD524B0D35200FF0765 /* SAConfettiView.swift */; };
 		9E24A0F1247F95E6006CEA1D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E24A0F0247F95E6006CEA1D /* MainView.swift */; };
 		9E336F6A247E583D005CA112 /* NewWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E336F69247E583D005CA112 /* NewWordView.swift */; };
 		9E336F6C247E967F005CA112 /* ChangeWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E336F6B247E967F005CA112 /* ChangeWordView.swift */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		68D074D3B249FCFF7F36A6D4 /* Pods-testing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testing.debug.xcconfig"; path = "Target Support Files/Pods-testing/Pods-testing.debug.xcconfig"; sourceTree = "<group>"; };
+		9E0EADD524B0D35200FF0765 /* SAConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SAConfettiView.swift; sourceTree = "<group>"; };
 		9E24A0F0247F95E6006CEA1D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9E2FE5C3247D8DA900DCD8E5 /* libleveldb-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libleveldb-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E336F69247E583D005CA112 /* NewWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordView.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				DAEC4198242F91AF00944B7F /* CustomPageControl.swift */,
 				DA9551362435E61500357808 /* LoadingView.swift */,
 				DAC38FA5243B29360035C5BE /* CustomTableView.swift */,
+				9E0EADD524B0D35200FF0765 /* SAConfettiView.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E0EADD624B0D35200FF0765 /* SAConfettiView.swift in Sources */,
 				DA8CB9492253252E00D40849 /* RegisterViewController.swift in Sources */,
 				DA60BA2C24247AAE00146E87 /* ext.swift in Sources */,
 				DA9551372435E61900357808 /* LoadingView.swift in Sources */,

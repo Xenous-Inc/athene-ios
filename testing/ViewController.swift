@@ -83,18 +83,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
             contentView.animateNextWord(nextWord: words.first?.russian, completion: {
                 if(words.count == 0){
                     self.contentView.showEndOfWordsView(animated: true){
-                        main_vc.cheerView.start()
+                        main_vc.cheerView.startConfetti()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            main_vc.cheerView.stop()
+                            main_vc.cheerView.stopConfetti()
                         }
                     }
                 }
             })
         }else if(words.count == 0){
             contentView.showEndOfWordsView(animated: true){
-                main_vc.cheerView.start()
+                main_vc.cheerView.startConfetti()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    main_vc.cheerView.stop()
+                    main_vc.cheerView.stopConfetti()
                 }
             }
         }else{

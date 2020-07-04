@@ -109,9 +109,6 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="jfD-38-ycE">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fjc-sl-wVI" customClass="CheerView" customModule="Cheers">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Yr-pK-e6y">
                                 <rect key="frame" x="350.5" y="59" width="38.5" height="38.5"/>
                                 <constraints>
@@ -135,28 +132,23 @@
                             <constraint firstItem="hGv-5Y-mub" firstAttribute="leading" secondItem="2mc-gx-UUc" secondAttribute="leading" id="BvE-Hf-AMB"/>
                             <constraint firstItem="jfD-38-ycE" firstAttribute="leading" secondItem="J9j-fP-QJE" secondAttribute="leading" id="Dy3-Ql-p6t"/>
                             <constraint firstItem="bGc-Ww-cUl" firstAttribute="top" secondItem="hGv-5Y-mub" secondAttribute="bottom" id="EY0-vP-EIR"/>
-                            <constraint firstItem="Fjc-sl-wVI" firstAttribute="leading" secondItem="J9j-fP-QJE" secondAttribute="leading" id="Kpv-VM-k35"/>
                             <constraint firstItem="hGv-5Y-mub" firstAttribute="top" secondItem="1Yr-pK-e6y" secondAttribute="bottom" id="N78-yV-drd"/>
-                            <constraint firstAttribute="bottom" secondItem="Fjc-sl-wVI" secondAttribute="bottom" id="QAX-5f-enx"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="bottom" secondItem="bGc-Ww-cUl" secondAttribute="bottom" id="RW3-6w-60o"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="trailing" secondItem="bGc-Ww-cUl" secondAttribute="trailing" id="WMc-I1-e8g"/>
                             <constraint firstAttribute="bottom" secondItem="jfD-38-ycE" secondAttribute="bottom" id="Z8g-TI-cpF"/>
                             <constraint firstItem="bGc-Ww-cUl" firstAttribute="height" secondItem="2mc-gx-UUc" secondAttribute="height" multiplier="0.05" id="eeb-nX-D3t"/>
-                            <constraint firstAttribute="trailing" secondItem="Fjc-sl-wVI" secondAttribute="trailing" id="gKI-qe-HfF"/>
                             <constraint firstItem="jfD-38-ycE" firstAttribute="top" secondItem="J9j-fP-QJE" secondAttribute="top" id="htZ-SO-pgq"/>
                             <constraint firstItem="bGc-Ww-cUl" firstAttribute="leading" secondItem="2mc-gx-UUc" secondAttribute="leading" id="kBj-PO-zVZ"/>
                             <constraint firstItem="2mc-gx-UUc" firstAttribute="trailing" secondItem="hGv-5Y-mub" secondAttribute="trailing" id="mTM-yh-fCg"/>
                             <constraint firstAttribute="trailing" secondItem="jfD-38-ycE" secondAttribute="trailing" id="mfb-Ch-qAH"/>
                             <constraint firstItem="1Yr-pK-e6y" firstAttribute="height" secondItem="J9j-fP-QJE" secondAttribute="height" multiplier="0.043" id="tDt-xn-1yF"/>
                             <constraint firstItem="1Yr-pK-e6y" firstAttribute="trailing" secondItem="2mc-gx-UUc" secondAttribute="trailing" multiplier="0.94" id="wLN-OI-eRw"/>
-                            <constraint firstAttribute="top" secondItem="Fjc-sl-wVI" secondAttribute="top" id="x0H-Pc-LUU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2mc-gx-UUc"/>
                     </view>
                     <navigationItem key="navigationItem" id="Hm1-Tr-cZS"/>
                     <connections>
                         <outlet property="btn_top_constraint" destination="7pP-VG-i9A" id="f2s-DK-MlQ"/>
-                        <outlet property="cheerView" destination="Fjc-sl-wVI" id="KM1-S0-ZBG"/>
                         <outlet property="main_v" destination="hGv-5Y-mub" id="hSw-wc-dx9"/>
                         <outlet property="pager_view" destination="bGc-Ww-cUl" id="mo4-Mp-ycf"/>
                         <outlet property="sign_out_btn" destination="1Yr-pK-e6y" id="RXH-3l-ZNL"/>
