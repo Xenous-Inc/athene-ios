@@ -52,7 +52,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         guard let eng = contentView.editTextSecond.text?.formatted() else { return }
         if (sender == contentView.nextButton.tag) && (eng == words[0].english.formatted()) {
-            (view.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.init(rgb: green_clr)
+            contentView.arrowImageView.tintColor = UIColor.init(rgb: green_clr)
             contentView.editTextSecond.textColor = UIColor.init(rgb: green_clr)
             switch words[0].level{
             case 0:
@@ -82,11 +82,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             answering = true
             contentView.animateNextWord(nextWord: words.first?.russian, completion: {
                 if(words.count == 0){
-                    self.contentView.showEndOfWordsView(animated: true){
-                        main_vc.cheerView.startConfetti()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    main_vc.cheerView.startConfetti()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             main_vc.cheerView.stopConfetti()
-                        }
                     }
                 }
             })
@@ -159,10 +157,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         print("Checking for words, count = \(words.count)")
         contentView.clear()
         if(words.count > 0){
+            contentView.showContainerView()
             self.contentView.editTextFirst.text = words[0].russian
             self.contentView.nextButton.isEnabled = true
             self.contentView.forgotButton.isEnabled = true
-            contentView.showContainerView()
         }else{
             print("No words for today")
             contentView.showEndOfWordsView(animated: false)

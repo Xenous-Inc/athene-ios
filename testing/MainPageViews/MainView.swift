@@ -13,11 +13,16 @@ class MainView: UIView {
     let font = "Helvetica"
     var submit_btn_old_frame = CGRect()
     
-    var editTextFirst, editTextSecond: UITextField!
+    var editTextFirst, editTextSecond, editTextThird: UITextField!
     var nextButton, forgotButton: UIButton!
     var editButton, deleteButton: UIButton!
     var containerView: UIView!
     var endOfWordsView: UILabel!
+    
+    var arrowImageView: UIImageView!
+    var nextButtonDescriptionLabel: UILabel!
+    var editButtonDescription, deleteButtonDescription: UILabel!
+    var titleLabel: UILabel!
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -28,7 +33,7 @@ class MainView: UIView {
         let height = 0.07*frame.height
         let font_sz = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: height))
         
-        let titleLabel: UILabel = {
+        titleLabel = {
             let title_label = UILabel(frame: CGRect(x: 0.05*frame.width, y: 0.1*frame.height, width: 0.9*frame.width, height: height))
             title_label.text = main_page_title
             title_label.font = UIFont(name: font, size: font_sz)
@@ -39,7 +44,7 @@ class MainView: UIView {
         }()
         containerView.addSubview(titleLabel)
         
-        for i in 0..<2{
+        for i in 0..<3{
             let y = 0.45*frame.height + ((i == 0) ? -1.5*height : 0.5*height)
             let ed_text = UITextField(frame: CGRect(x: 0.1*frame.width, y: y, width: 0.8*frame.width, height: height))
             ed_text.text = (i == 0) ? loading_text : ""
@@ -63,10 +68,14 @@ class MainView: UIView {
             if(i == 1){
                 ed_text.attributedPlaceholder = NSAttributedString(string: main_page_placeholders[i], attributes: [NSAttributedString.Key.foregroundColor: UIColor.init(white: 1.0, alpha: 0.5)])
                 editTextSecond = ed_text
-            }else{
+                containerView.addSubview(ed_text)
+            }else if(i == 0){
                 editTextFirst = ed_text
+                containerView.addSubview(ed_text)
+            }else{
+                editTextThird = ed_text
+                editTextThird.textColor = UIColor.init(rgb: green_clr)
             }
-            containerView.addSubview(ed_text)
         }
         
         nextButton = {
@@ -83,7 +92,7 @@ class MainView: UIView {
         }()
         nextButton.tag = 100
         
-        let arrowImage: UIImageView = {
+        arrowImageView = {
             let arr_img = UIImage(named: "next")
             let newSize = CGSize(width: 0.33*nextButton.bounds.width, height: 0.7*nextButton.bounds.height)
             let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
@@ -100,12 +109,11 @@ class MainView: UIView {
             
             return arrow_img
         }()
-        arrowImage.tag = 101
         
-        containerView.addSubview(arrowImage)
+        containerView.addSubview(arrowImageView)
         containerView.addSubview(nextButton)
         
-        let descriptionLabel: UILabel = {
+        nextButtonDescriptionLabel = {
             let describtionlabel = UILabel(frame: CGRect(x: 0, y: 0, width: nextButton.bounds.width, height: 0.35*nextButton.bounds.height))
             describtionlabel.center = CGPoint(x: frame.width / 2, y: nextButton.frame.maxY + describtionlabel.bounds.height / 2)
             describtionlabel.text = main_page_describtion_check
@@ -114,22 +122,20 @@ class MainView: UIView {
             describtionlabel.textColor = UIColor.white
             describtionlabel.alpha = 0.8
             describtionlabel.textAlignment = .center
-            describtionlabel.tag = 102
             
             return describtionlabel
         }()
-        containerView.addSubview(descriptionLabel)
+        containerView.addSubview(nextButtonDescriptionLabel)
         
         forgotButton = {
             let forgot_btn = UIButton(frame: CGRect(x: 0, y: 0, width: 0.45*frame.width, height: height))
-            forgot_btn.center = CGPoint(x: frame.width / 2, y: descriptionLabel.frame.maxY + forgot_btn.bounds.height)
+            forgot_btn.center = CGPoint(x: frame.width / 2, y: nextButtonDescriptionLabel.frame.maxY + forgot_btn.bounds.height)
             forgot_btn.setTitle(main_page_forgot_word_text, for: .normal)
             forgot_btn.setTitleColor(UIColor.white, for: .normal)
             forgot_btn.backgroundColor = UIColor.clear
             forgot_btn.layer.borderWidth = 2
             forgot_btn.layer.borderColor = UIColor.white.cgColor
             forgot_btn.layer.cornerRadius = nextButton.bounds.height / 2
-            forgot_btn.tag = 103
             forgot_btn.isUserInteractionEnabled = true
             
             return forgot_btn
@@ -137,47 +143,34 @@ class MainView: UIView {
         containerView.addSubview(forgotButton)
         
         //Incorrect answer
-        let incorrectAnswerLabel: UILabel = {
-            let incorrect_label = UILabel(frame: CGRect(x: 0, y: frame.height / 2 - 3.5*height, width: frame.width, height: height))
-            incorrect_label.textColor = UIColor.white
-            incorrect_label.text = main_page_incorrect
-            incorrect_label.font = UIFont(name: font, size: font_sz)
-            incorrect_label.textAlignment = .center
-            incorrect_label.tag = 200
-            incorrect_label.alpha = 0
-            incorrect_label.isUserInteractionEnabled = false
-            
-            return incorrect_label
-        }()
-        containerView.addSubview(incorrectAnswerLabel)
         
         for i in 0..<2{
-            let btn = UIButton(frame: CGRect(x: frame.width / 2 + CGFloat(3*i - 2)*height, y: 0.45*frame.height + 2.1*height, width: height, height: height))
+            let btn = UIButton(frame: CGRect(x: frame.width / 2 + CGFloat(3*i - 2)*height, y: 0.45*frame.height + 2.2*height, width: height, height: height))
             btn.backgroundColor = UIColor.clear
             btn.setImage(UIImage(named: ((i == 0) ? "edit" : "cross")), for: .normal)
             btn.setTitle("", for: .normal)
-            btn.tag = 205 + i
             btn.isUserInteractionEnabled = false
             btn.alpha = 0
             containerView.addSubview(btn)
             
-            if(i == 0){
-                editButton = btn
-            }else{
-                deleteButton = btn
-            }
-            
             let descr = UILabel()
-            let d = [NSAttributedString.Key.font: descriptionLabel.font!]
-            descr.bounds = CGRect(x: 0, y: 0, width: (main_page_img_describtions[i] as NSString).size(withAttributes: d).width, height: descriptionLabel.bounds.height)
+            let d = [NSAttributedString.Key.font: nextButtonDescriptionLabel.font!]
+            descr.bounds = CGRect(x: 0, y: 0, width: (main_page_img_describtions[i] as NSString).size(withAttributes: d).width, height: nextButtonDescriptionLabel.bounds.height)
             descr.center = CGPoint(x: btn.center.x, y: btn.frame.maxY + descr.bounds.height)
-            descr.font = descriptionLabel.font
+            descr.font = nextButtonDescriptionLabel.font
             descr.text = main_page_img_describtions[i]
             descr.textColor = UIColor.white
             descr.textAlignment = .center
             descr.alpha = 0
             descr.isUserInteractionEnabled = false
-            descr.tag = 201 + i
+            
+            if(i == 0){
+                editButton = btn
+                editButtonDescription = descr
+            }else{
+                deleteButton = btn
+                deleteButtonDescription = descr
+            }
             containerView.addSubview(descr)
         }
         
@@ -209,16 +202,24 @@ class MainView: UIView {
             completion()
             return
         }
-        UIView.animate(withDuration: 0.2, animations: {
+        self.endOfWordsView.alpha = 0
+        self.endOfWordsView.text = end_of_words_text
+        self.endOfWordsView.frame = CGRect(x: frame.maxX, y: endOfWordsView.frame.minY, width: endOfWordsView.frame.width, height: endOfWordsView.frame.height)
+        self.addSubview(self.endOfWordsView)
+        
+        UIView.animate(withDuration: 0.4, animations: {
             self.containerView.alpha = 0
+            self.containerView.frame = CGRect(
+                x: -self.containerView.bounds.width,
+                y: self.containerView.frame.minY,
+                width: self.containerView.frame.width,
+                height: self.containerView.frame.height)
+            self.endOfWordsView.center = CGPoint(x: self.frame.width / 2, y: self.endOfWordsView.center.y)
+            self.endOfWordsView.alpha = 1
         }, completion: {(finished: Bool) in
             self.containerView.removeFromSuperview()
-            self.endOfWordsView.alpha = 0
-            self.endOfWordsView.text = end_of_words_text
-            self.addSubview(self.endOfWordsView)
-            UIView.animate(withDuration: 0.2) {
-                self.endOfWordsView.alpha = 1
-            }
+            self.containerView.center = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+            self.containerView.alpha = 1
             completion()
         })
     }
@@ -226,6 +227,9 @@ class MainView: UIView {
     func showContainerView(){
         endOfWordsView.removeFromSuperview()
         addSubview(containerView)
+        editTextFirst.text = ""
+        editTextSecond.text = ""
+        editTextSecond.textColor = .white
     }
     
     func switchTextFields(text: String){
@@ -261,7 +265,7 @@ class MainView: UIView {
                 newFirst = ed_text
             }
             ed_text.alpha = 1
-            self.addSubview(ed_text)
+            self.containerView.addSubview(ed_text)
         }
         
         UIView.animate(withDuration: 0.4, animations: {
@@ -295,36 +299,59 @@ class MainView: UIView {
         CATransaction.setAnimationDuration(0.4)
         CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
         
-        UIView.animate(withDuration: 0.4, animations: {
-            self.nextButton.bounds = CGRect(x: 0, y: 0, width: 2*self.nextButton.bounds.height, height: new_height)
-            self.nextButton.center = CGPoint(x: self.frame.width / 2, y: 0.9*self.frame.height - self.nextButton.bounds.height / 2)
-            let img = self.viewWithTag(101)!
-            img.center = self.nextButton.center
-            img.bounds = CGRect(x: 0, y: 0, width: 0.5*self.nextButton.bounds.width, height: img.bounds.height)
-            let d = self.viewWithTag(102) as! UILabel
-            d.center = CGPoint(x: self.center.x, y: self.nextButton.frame.maxY + d.bounds.height)
-            d.text = main_page_next_text
-            for i in self.containerView.subviews{
-                if([201, 202].contains(i.tag)){
-                    i.alpha = 0.8
-                }else if(i.tag >= 200){
-                    i.alpha = 1
-                    if([205, 206].contains(i.tag)){i.isUserInteractionEnabled = true}
-                }else if([0, 103].contains(i.tag)){
-                    i.alpha = 0
-                    i.isUserInteractionEnabled = false
-                }
-            }
-            if(status == self.nextButton.tag){
-                self.editTextFirst.text = ans
-                self.editTextFirst.textColor = UIColor.magenta
-            }
+        if(status == self.nextButton.tag){
+            self.editTextSecond.textColor = UIColor.magenta
+            self.editTextThird.text = correct
+            self.editTextThird.alpha = 0
+            self.editTextThird.center = CGPoint(x: self.editTextThird.center.x, y: 0.45*self.frame.height + 3*self.editTextThird.bounds.height)
+            self.editTextSecond.text = ans.formatted()
+            self.containerView.addSubview(self.editTextThird)
+        }else{
             self.editTextSecond.text = correct
             self.editTextSecond.textColor = UIColor.init(rgb: green_clr)
-            self.editTextSecond.isUserInteractionEnabled = false
-        }, completion: {(finished: Bool) in
+        }
+        
+        UIView.animateKeyframes(withDuration: 0.5, delay: 0, options: [], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.9) {
+                self.nextButton.bounds = CGRect(x: 0, y: 0, width: 2*self.nextButton.bounds.height, height: new_height)
+                self.nextButton.center = CGPoint(x: self.frame.width / 2, y: 0.9*self.frame.height - self.nextButton.bounds.height / 2)
+                
+                self.arrowImageView.center = self.nextButton.center
+                self.arrowImageView.bounds = CGRect(x: 0, y: 0, width: 0.5*self.nextButton.bounds.width, height: self.arrowImageView.bounds.height)
+                
+                self.nextButtonDescriptionLabel.center = CGPoint(x: self.center.x, y: self.nextButton.frame.maxY + self.nextButtonDescriptionLabel.bounds.height)
+                self.nextButtonDescriptionLabel.text = main_page_next_text
+                
+                self.editButtonDescription.alpha = 0.8
+                self.deleteButtonDescription.alpha = 0.8
+                
+                self.titleLabel.text = main_page_incorrect
+                
+                self.forgotButton.alpha = 0
+                self.deleteButton.alpha = 1
+                self.editButton.alpha = 1
+                
+                self.editTextSecond.isUserInteractionEnabled = false
+            }
+            if(status == self.nextButton.tag){
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
+                    self.editTextFirst.center = CGPoint(x: self.editTextFirst.center.x, y: self.editTextFirst.center.y - 2*self.editTextThird.bounds.height)
+                }
+                UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.6) {
+                    self.editTextSecond.center = CGPoint(x: self.editTextSecond.center.x, y: self.editTextSecond.center.y - 2*self.editTextThird.bounds.height)
+                }
+                UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.6) {
+                    self.editTextThird.alpha = 1
+                    self.editTextThird.center = CGPoint(x: self.editTextThird.center.x, y: self.editTextThird.center.y - 2*self.editTextThird.bounds.height)
+                }
+            }
+            
+        }) { (finished) in
             self.nextButton.isEnabled = true
-        })
+            self.forgotButton.isUserInteractionEnabled = false
+            self.deleteButton.isUserInteractionEnabled = true
+            self.editButton.isUserInteractionEnabled = true
+        }
         
         let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
         cornerAnimation.fromValue = oldValue
@@ -339,37 +366,67 @@ class MainView: UIView {
         let oldValue = nextButton.layer.cornerRadius
         let new_height = nextButton.bounds.height / 2
         CATransaction.begin()
-        CATransaction.setAnimationDuration(0.4)
+        CATransaction.setAnimationDuration(0.5)
         CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
         
-        UIView.animate(withDuration: 0.4, animations: {
-            self.nextButton.frame = self.submit_btn_old_frame
-            let img = self.viewWithTag(101)!
-            img.center = self.nextButton.center
-            img.bounds = CGRect(x: 0, y: 0, width: 0.33*self.nextButton.bounds.width, height: img.bounds.height)
-            let d = self.viewWithTag(102) as! UILabel
-            d.center = CGPoint(x: self.center.x, y: self.nextButton.frame.maxY + d.bounds.height)
-            d.text = main_page_describtion_check
-            for i in self.containerView.subviews{
-                if(i.tag >= 200){
-                    i.alpha = 0
-                    i.isUserInteractionEnabled = false
-                }else if([0, 103].contains(i.tag)){
-                    i.alpha = 1
-                    if(i.tag == 103){i.isUserInteractionEnabled = true}
+        UIView.animateKeyframes(withDuration: 0.5, delay: 0, options: [], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.9) {
+                self.nextButton.frame = self.submit_btn_old_frame
+                
+                self.arrowImageView.center = self.nextButton.center
+                self.arrowImageView.bounds = CGRect(x: 0, y: 0, width: 0.33*self.nextButton.bounds.width, height: self.arrowImageView.bounds.height)
+                
+                self.nextButtonDescriptionLabel.center = CGPoint(x: self.center.x, y: self.nextButton.frame.maxY + self.nextButtonDescriptionLabel.bounds.height)
+                self.nextButtonDescriptionLabel.text = main_page_describtion_check
+                
+                self.editButtonDescription.alpha = 0
+                self.deleteButtonDescription.alpha = 0
+                
+                self.titleLabel.text = main_page_title
+                
+                self.forgotButton.alpha = 1
+                self.deleteButton.alpha = 0
+                self.editButton.alpha = 0
+
+                self.editTextSecond.isUserInteractionEnabled = true
+            }
+            if((self.editTextThird.superview) != nil){
+                UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.6) {
+                    self.editTextFirst.center = CGPoint(x: self.editTextFirst.center.x, y: self.editTextFirst.center.y + 2*self.editTextThird.bounds.height)
+                }
+                UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.6) {
+                    self.editTextSecond.center = CGPoint(x: self.editTextSecond.center.x, y: self.editTextSecond.center.y + 2*self.editTextThird.bounds.height)
+                }
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
+                    self.editTextThird.alpha = 0
+                    self.editTextThird.center = CGPoint(x: self.editTextThird.center.x, y: self.editTextThird.center.y + 2*self.editTextThird.bounds.height)
                 }
             }
-            self.editTextSecond.isUserInteractionEnabled = true
-        }, completion: {(finished: Bool) in
-            if let word = nextWord{
-                self.switchTextFields(text: word)
-                self.nextButton.isEnabled = true
-                self.forgotButton.isEnabled = true
+            
+        }) { (finished) in
+            self.nextButton.isEnabled = true
+            self.forgotButton.isUserInteractionEnabled = true
+            self.deleteButton.isUserInteractionEnabled = false
+            self.editButton.isUserInteractionEnabled = false
+            self.editTextThird.removeFromSuperview()
+            
+            self.nextButton.isEnabled = true
+            self.forgotButton.isEnabled = true
+            
+            guard let word = nextWord else{
+                self.showEndOfWordsView(animated: true) {
+                    if let compl = completion{
+                        compl()
+                    }
+                }
+                return
             }
+                
+            self.switchTextFields(text: word)
             if let compl = completion{
                 compl()
             }
-        })
+        }
                
         let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
         cornerAnimation.fromValue = oldValue
@@ -382,7 +439,7 @@ class MainView: UIView {
     
     func resetTint(deadline: DispatchTime, completion: @escaping () -> Void){
         DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
-            (self.viewWithTag(101) as? UIImageView)?.tintColor = UIColor.white
+            self.arrowImageView.tintColor = UIColor.white
             completion()
         })
     }
