@@ -15,6 +15,7 @@
 		9E8D57F1248126270032655B /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8D57F0248126270032655B /* database.swift */; };
 		9E942CAC247FACF500C8C164 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E942CAB247FACF500C8C164 /* LoginView.swift */; };
 		9E942CAE247FAEA800C8C164 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E942CAD247FAEA800C8C164 /* SignupView.swift */; };
+		9EB57C5B24B1ED5400533116 /* loading_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 9EB57C5A24B1ED5300533116 /* loading_animation.json */; };
 		DA5AEAA424323FC0009DC286 /* SmoothSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */; };
 		DA60BA2C24247AAE00146E87 /* ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60BA2B24247AAE00146E87 /* ext.swift */; };
 		DA670927222D73F600595D5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA670926222D73F600595D5E /* AppDelegate.swift */; };
@@ -50,6 +51,7 @@
 		9E8D57F0248126270032655B /* database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		9E942CAB247FACF500C8C164 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9E942CAD247FAEA800C8C164 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		9EB57C5A24B1ED5300533116 /* loading_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading_animation.json; path = ../../../Downloads/loading_animation.json; sourceTree = "<group>"; };
 		BFCA890537D4CBDA96447174 /* Pods_testing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmoothSegue.swift; sourceTree = "<group>"; };
 		DA60BA2B24247AAE00146E87 /* ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				DAC38FA7243E46DD0035C5BE /* testing.entitlements */,
+				9EB57C5A24B1ED5300533116 /* loading_animation.json */,
 				DAEC4197242F916200944B7F /* Graphics */,
 				9E24A0F2247FA489006CEA1D /* MainPageViews */,
 				9E942CAF247FB1FA00C8C164 /* AuthViews */,
@@ -281,6 +284,7 @@
 				DACE93A3244EAEA4003B9DCF /* GoogleService-Info.plist in Resources */,
 				DA67092E222D740300595D5E /* Assets.xcassets in Resources */,
 				DA67092C222D73F600595D5E /* Main.storyboard in Resources */,
+				9EB57C5B24B1ED5400533116 /* loading_animation.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
