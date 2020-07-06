@@ -71,19 +71,20 @@ class ArchiveViewController: UIViewController{
         if let subview = view.viewWithTag(20){
             subview.removeFromSuperview()
         }
-        let v = CustomTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories_words)
+        let v = CategoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories_words)
+
         for cell in v.cells{
-            cell.main_view.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(deleteCategory(gesture:))))
-            cell.button_add.addTarget(self, action: #selector(learnCategory(sender:)), for: .touchUpInside)
-            cell.button_share.addTarget(self, action: #selector(shareCategory(sender:)), for: .touchUpInside)
-            for subcell in cell.subcells{
-                subcell.0.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(learnWord(gesture:))))
-            }
+            cell.buttonsViews[2].addTarget(self, action: #selector(deleteCategory(sender:)), for: .touchUpInside)
+            cell.buttonsViews[1].addTarget(self, action: #selector(learnCategory(sender:)), for: .touchUpInside)
+            cell.buttonsViews[0].addTarget(self, action: #selector(shareCategory(sender:)), for: .touchUpInside)
         }
+ 
         v.tag = 10
         views[0] = v
         
-        let tableView = CustomTableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: archive)
+        let tableView = CategoryDescriptionView(
+            frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height),
+            name: archive_title, words: archive)
         tableView.tag = 20
         views[1] = tableView
         if(current_tab == 0){
@@ -93,35 +94,27 @@ class ArchiveViewController: UIViewController{
         }
     }
     
-    @objc func deleteCategory(gesture: UILongPressGestureRecognizer){
-        if(gesture.state == .began){
-            let alert = UIAlertController(title: delete_category_title, message: delete_category_description, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: alert_cancel, style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: alert_ok, style: .default, handler: { (action) in
-                let cell = gesture.view?.superview as! CustomTableViewCell
-                for w in cell.subcells{
-                    let word = w.1
-                    ref.child("words").child(String(word.db_index)).child("category").setValue(no_category)
-                }
-                let catInd = categories.firstIndex(of: cell.title)! - 1 - default_categories.count
-                if(catInd >= 0){
-                    let maxInd = (categories.count - 1 - default_categories.count) - 1
-                    ref.child("categories").child(String(catInd)).setValue(categories.last!)
-                    ref.child("categories").child(String(maxInd)).removeValue()
-                    print(cell.title, categories.firstIndex(of: cell.title)!)
-                    print(categories)
-                    categories.remove(at: categories.firstIndex(of: cell.title)!)
-                    print(categories)
-                }
-                categories_words.removeValue(forKey: cell.title)
-                self.viewWillAppear(false)
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
+    @objc func deleteCategory(sender: UIButton){
+        let alert = UIAlertController(title: delete_category_title, message: delete_category_description, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: alert_cancel, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: alert_ok, style: .default, handler: { (action) in
+            let cell = sender.superview as! CategoryViewCell
+            for word in categories_words[cell.title]!{
+                ref.child("words").child(String(word.db_index)).child("category").setValue(no_category)
+            }
+            let catInd = categories.firstIndex(of: cell.title)! - 1 - default_categories.count
+            if(catInd >= 0){
+                ref.child("categories").child(String(catInd)).removeValue()
+                categories.remove(at: categories.firstIndex(of: cell.title)!)
+            }
+            categories_words.removeValue(forKey: cell.title)
+            self.viewWillAppear(false)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func shareCategory(sender: UIButton){
-        let cell = sender.superview?.superview as! CustomTableViewCell
+        let cell = sender.superview as! CategoryViewCell
         let category_text = cell.title
         
         var components = URLComponents()
@@ -181,11 +174,11 @@ class ArchiveViewController: UIViewController{
     }
     
     @objc func learnCategory(sender: UIButton){
-        let cell = sender.superview?.superview as! CustomTableViewCell
+        let cell = sender.superview as! CategoryViewCell
         var k = 0
-        let n = cell.subcells.count
-        for i in cell.subcells{
-            let word = i.1
+        var n = 0
+        for word in categories_words[cell.title]!{
+            n += 1
             if(word.level == -2){
                 k += 1
             }
@@ -196,8 +189,7 @@ class ArchiveViewController: UIViewController{
             preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
-            for i in cell.subcells{
-                let word = i.1
+            for word in categories_words[cell.title]!{
                 if(word.level == -2){
                     ref.child("words").child(word.db_index).child("level").setValue(0)
                     ref.child("words").child(word.db_index).child("date").setValue(next_date.toDatabaseFormat())
