@@ -11,9 +11,6 @@ import Firebase
 import GoogleSignIn
 import UserNotifications
 
-var user_shared_id: String? = nil
-var category_shared: String? = nil
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -69,48 +66,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             if(teacherId == nil || classId == nil) {return}
-            
-            let teacherRef = Database.database().reference().child("teachers").child(teacherId!)
-            teacherRef.observeSingleEvent(of: .value) { (snapshot) in
-                let en = snapshot.childSnapshot(forPath: "classes").childSnapshot(forPath: classId!).childSnapshot(forPath: "students").children
-                var isInClass = false
-                while let snap = en.nextObject() as? DataSnapshot{
-                    if(snap.childSnapshot(forPath: "id").value as! String == Auth.auth().currentUser!.uid){
-                        isInClass = true
-                        break
-                    }
-                }
-                guard let v_controller = self.window?.rootViewController else {return}
-                if(isInClass){
-                    messageAlert(vc: v_controller, message: "Вы уже добавлены в этот класс", text_error: nil)
-                }else{
-                    let alertController  = UIAlertController(
-                        title: "\(snapshot.childSnapshot(forPath: "name").value as! String) приглашает вас в класс \"\(snapshot.childSnapshot(forPath: "classes").childSnapshot(forPath: classId!).childSnapshot(forPath: "name").value as! String)\" ",
-                        message: nil,
-                        preferredStyle: .alert)
-                    
-                    alertController.addTextField { textField in
-                        textField.placeholder = "Ваше имя (для учителя)"
-                        textField.borderStyle = .roundedRect
-                    }
-                    alertController.addAction(UIAlertAction(title: "Принять", style: .default, handler: { (action) in
-                        let newStudentRef = teacherRef.child("classes").child(classId!).child("students").childByAutoId()
-                        newStudentRef.child("id").setValue(Auth.auth().currentUser!.uid)
-                        newStudentRef.child("name").setValue(alertController.textFields?.first?.text!)
-                    }))
-                    alertController.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
-                    
-                    v_controller.present(alertController, animated: true, completion: nil)
-                    if let textFields = alertController.textFields {
-                        if textFields.count > 0{
-                            textFields[0].superview!.superview!.subviews[0].removeFromSuperview()
-                            textFields[0].superview!.backgroundColor = UIColor.clear
-                        }
-                    }
-                }
-            }
+            guard let v_controller = self.window?.rootViewController else {return}
+            handleClassroomLink(teacherId: teacherId!, classId: classId!, v_controller: v_controller)
         }else{
             print("new category")
+            var user_shared_id: String? = nil, category_shared: String? = nil
             for i in queryitems{
                 if(i.name == "user"){
                     user_shared_id = i.value
@@ -118,27 +78,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     category_shared = i.value
                 }
             }
-            if(user_shared_id == nil || category_shared == nil) {return}
-            let alertController = UIAlertController(title: "Добавить слова категории \(category_shared!)?", message: nil, preferredStyle: .actionSheet)
+            guard let user_id = user_shared_id, let category = category_shared else { return }
             guard let v_controller = self.window?.rootViewController else {return}
-            alertController.addAction(UIAlertAction(title: alert_yes, style: .default, handler: { (action) in
-                var v = LoadingView()
-                v.tag = 54321
-                v.set(frame: v_controller.view.frame)
-                if let loading_v = v_controller.view.viewWithTag(54321){
-                    v = loading_v as! LoadingView
-                }else{
-                    v_controller.view.addSubview(v)
-                    v_controller.view.bringSubviewToFront(v)
-                }
-                v.show()
-                downloadCategory(completion: {(finished: Bool) in
-                    v.removeFromSuperview()
-                    v_controller.viewDidAppear(false)
-                })
-            }))
-            alertController.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
-            v_controller.present(alertController, animated: true, completion: nil)
+            handleCategoryLink(user_shared_id: user_id, category_shared: category, v_controller: v_controller)
         }
     }
     

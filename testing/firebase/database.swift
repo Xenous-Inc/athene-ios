@@ -91,12 +91,10 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     })
 }
 
-func downloadCategory(completion: ((Bool) -> Void)?){
-    guard let category = category_shared else {return}
-    guard let id = user_shared_id else {return}
+func downloadCategory(id: String, category: String, completion: ((Bool) -> Void)?){
     updateWordsFromDatabase(completion: {(finished: Bool) in
         if(!categories.contains(category)){
-            ref.child("categories").child(String(categories.count - default_categories.count - 1)).setValue(category)
+            ref.child("categories").childByAutoId().setValue(category)
             categories.append(category)
         }
         let other_user_ref = Database.database().reference().child("users").child(id)
@@ -125,6 +123,37 @@ func downloadCategory(completion: ((Bool) -> Void)?){
                 print(words.count)
             }
         })
+    })
+}
+
+func downloadClassesCategories(snapshot: DataSnapshot, classId: String, completion: @escaping () -> Void){
+    updateWordsFromDatabase(completion: {(finished: Bool) in
+        let enumerator = snapshot.childSnapshot(forPath: "classes").childSnapshot(forPath: classId).childSnapshot(forPath: "categories").children
+        while let catId = enumerator.nextObject() as? String{
+            let catName = snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "name").value as! String
+            if(!categories.contains(catName)){
+                ref.child("categories").childByAutoId().setValue(catName)
+                categories.append(catName)
+            }
+            while let wordSnapshot = snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "words").children.nextObject() as? DataSnapshot{
+                let eng = wordSnapshot.childSnapshot(forPath: "english").value as? String ?? ""
+                let rus = wordSnapshot.childSnapshot(forPath: "russian").value as? String ?? ""
+                if(english_list.contains(eng) || russian_list.contains(rus)){continue}
+                
+                let wordRef = ref.child("words").childByAutoId()
+                wordRef.child("English").setValue(eng)
+                wordRef.child("Russian").setValue(rus)
+                wordRef.child("category").setValue(catName)
+                wordRef.child("level").setValue(-2)
+                wordRef.child("date").setValue(now_date.toDatabaseFormat())
+                if(categories_words[catName] != nil){
+                    categories_words[catName]!.append(Word(eng: eng, rus: rus, ct: catName, lvl: -2, id: wordRef.key!))
+                }else{
+                    categories_words[catName] = [Word(eng: eng, rus: rus, ct: catName, lvl: -2, id: wordRef.key!)]
+                }
+            }
+        }
+        completion()
     })
 }
 
