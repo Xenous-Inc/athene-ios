@@ -74,9 +74,10 @@ class ArchiveViewController: UIViewController{
         let v = CategoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories_words)
 
         for cell in v.cells{
-            cell.buttonsViews[2].addTarget(self, action: #selector(deleteCategory(sender:)), for: .touchUpInside)
-            cell.buttonsViews[1].addTarget(self, action: #selector(learnCategory(sender:)), for: .touchUpInside)
-            cell.buttonsViews[0].addTarget(self, action: #selector(shareCategory(sender:)), for: .touchUpInside)
+            cell.deleteButton.addTarget(self, action: #selector(deleteCategory(sender:)), for: .touchUpInside)
+            cell.learnButton.addTarget(self, action: #selector(learnCategory(sender:)), for: .touchUpInside)
+            cell.shareButton.addTarget(self, action: #selector(shareCategory(sender:)), for: .touchUpInside)
+            cell.infoButton.addTarget(self, action: #selector(inspectCategory(sender:)), for: .touchUpInside)
         }
  
         v.tag = 10
@@ -84,8 +85,11 @@ class ArchiveViewController: UIViewController{
         
         let tableView = CategoryDescriptionView(
             frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height),
-            name: archive_title, words: archive)
+            name: archive_title, words: archive, canLearn: false, hasBackButton: false)
         tableView.tag = 20
+        for cell in tableView.cells{
+            cell.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(deleteWord(gesture:))))
+        }
         views[1] = tableView
         if(current_tab == 0){
             view.addSubview(views[0])
@@ -95,19 +99,16 @@ class ArchiveViewController: UIViewController{
     }
     
     @objc func deleteCategory(sender: UIButton){
-        let alert = UIAlertController(title: delete_category_title, message: delete_category_description, preferredStyle: .alert)
+        let alert = UIAlertController(title: delete_category_title, message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: alert_cancel, style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: alert_ok, style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: delete_category_without_words_text, style: .default, handler: { (action) in
             let cell = sender.superview as! CategoryViewCell
-            for word in categories_words[cell.title]!{
-                ref.child("words").child(String(word.db_index)).child("category").setValue(no_category)
-            }
-            let catInd = categories.firstIndex(of: cell.title)! - 1 - default_categories.count
-            if(catInd >= 0){
-                ref.child("categories").child(String(catInd)).removeValue()
-                categories.remove(at: categories.firstIndex(of: cell.title)!)
-            }
-            categories_words.removeValue(forKey: cell.title)
+            deleteCategoryFromDatabase(name: cell.title, deleteWords: false)
+            self.viewWillAppear(false)
+        }))
+        alert.addAction(UIAlertAction(title: delete_category_with_words_text, style: .default, handler: { (action) in
+            let cell = sender.superview as! CategoryViewCell
+            deleteCategoryFromDatabase(name: cell.title, deleteWords: true)
             self.viewWillAppear(false)
         }))
         self.present(alert, animated: true, completion: nil)
@@ -202,31 +203,27 @@ class ArchiveViewController: UIViewController{
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func learnWord(gesture: UILongPressGestureRecognizer){
-        if(gesture.state == .began){
-            let cell = gesture.view?.superview as! CustomTableViewCell
-            let ind = gesture.view?.tag
-            let word = cell.subcells[ind!].1
-            if(word.level == -2){
-                let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: .actionSheet)
-                
-                alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
-                    ref.child("words").child(word.db_index).child("level").setValue(0)
-                    ref.child("words").child(word.db_index).child("date").setValue(next_date.toDatabaseFormat())
-                }))
-                
-                alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
-                
-                self.present(alert, animated: true, completion: nil)
-            }else{
-                let alert = UIAlertController(
-                    title: already_learning_word_message,
-                    message: already_learning_word_description,
-                    preferredStyle: .actionSheet)
-                self.present(alert, animated: true, completion: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
-                    alert.dismiss(animated: true, completion: nil)
-                }
+    @objc func learnWord(sender: UIButton){
+        let cell = sender.superview as! CategoryDescriptionViewCell
+        if(cell.word.level == -2){
+            let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: .actionSheet)
+            
+            alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
+                ref.child("words").child(cell.word.db_index).child("level").setValue(0)
+                ref.child("words").child(cell.word.db_index).child("date").setValue(next_date.toDatabaseFormat())
+            }))
+            
+            alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            let alert = UIAlertController(
+                title: already_learning_word_message,
+                message: already_learning_word_description,
+                preferredStyle: .actionSheet)
+            self.present(alert, animated: true, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+                alert.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -254,5 +251,32 @@ class ArchiveViewController: UIViewController{
                 self.view.isUserInteractionEnabled = true
             })
         })
+    }
+    
+    @objc func inspectCategory(sender: UIButton){
+        let cell = sender.superview as! CategoryViewCell
+        let catView = (views[0] as! CategoryView).viewCategoryInfo(cell: cell)
+        for wordCell in catView.cells{
+            wordCell.learnButton!.addTarget(self, action: #selector(learnWord(sender:)), for: .touchUpInside)
+            wordCell.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(deleteWord(gesture:))))
+        }
+    }
+    
+    @objc func deleteWord(gesture: UILongPressGestureRecognizer){
+        if(gesture.state == .began){
+            print("deleting word")
+            let alert = UIAlertController(title: delete_alert_question, message: delete_alert_warning, preferredStyle: .actionSheet)
+            
+            alert.addAction(UIAlertAction(title: delete_alert_delete, style: UIAlertAction.Style.default, handler: {(action) in
+                let cell = gesture.view as! CategoryDescriptionViewCell
+                deleteWordFromDatabase(word: cell.word)
+                (self.views[0] as! CategoryView).descriptionView?.deleteWord(word: cell.word)
+                (self.views[1] as! CategoryDescriptionView).deleteWord(word: cell.word)
+            }))
+            
+            alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

@@ -118,7 +118,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         alert.addAction(UIAlertAction(title: delete_alert_delete, style: UIAlertAction.Style.default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
-            ref.child("words").child(words[0].db_index).removeValue()
+            deleteWordFromDatabase(word: words[0])
             self.next()
         }))
         

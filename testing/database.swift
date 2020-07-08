@@ -127,3 +127,31 @@ func downloadCategory(completion: ((Bool) -> Void)?){
         })
     })
 }
+
+func deleteWordFromDatabase(word: Word){
+    ref.child("words").child(word.db_index).removeValue()
+    if let ind = (archive.map { $0.english }).firstIndex(of: words[0].english){
+        archive.remove(at: ind)
+    }
+    if word.category != no_category{
+        if let ind = categories_words[word.category]?.firstIndex(where: { $0.english == word.english}){
+            categories_words[word.category]?.remove(at: ind)
+        }
+    }
+}
+
+func deleteCategoryFromDatabase(name: String, deleteWords: Bool){
+    for word in categories_words[name]!{
+        if(deleteWords){
+            ref.child("words").child(String(word.db_index)).removeValue()
+        }else{
+            ref.child("words").child(String(word.db_index)).child("category").setValue(no_category)
+        }
+    }
+    let catInd = categories.firstIndex(of: name)! - 1 - default_categories.count
+    if(catInd >= 0){
+        ref.child("categories").child(String(catInd)).removeValue()
+        categories.remove(at: categories.firstIndex(of: name)!)
+    }
+    categories_words.removeValue(forKey: name)
+}

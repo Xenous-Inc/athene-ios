@@ -16,10 +16,15 @@ class CategoryView: UIScrollView {
     var padding: CGFloat = 0
     var cellHeight: CGFloat = 0
     
-    var tableView: UITableView!
+    var mainView: UIView!
+    var descriptionView: CategoryDescriptionView!
     
     init(frame: CGRect, content: [String: [Word]]){
         super.init(frame: frame)
+        clipsToBounds = true
+        
+        mainView = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        addSubview(mainView)
         
         if(content.count == 0){
             let placeholder: UILabel = {
@@ -35,7 +40,7 @@ class CategoryView: UIScrollView {
                     label.alpha = 0.9
                     return label
             }()
-            self.addSubview(placeholder)
+            mainView.addSubview(placeholder)
             return
         }
         
@@ -48,7 +53,7 @@ class CategoryView: UIScrollView {
         
         for category in self.content{
             let cell = CategoryViewCell(frame: CGRect(x: padding, y: y, width: frame.width - 2*padding, height: height), text: category.key)
-            addSubview(cell)
+            mainView.addSubview(cell)
             cells.append(cell)
             cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onCellPressed(gesture:))))
             y += height + padding
@@ -70,6 +75,51 @@ class CategoryView: UIScrollView {
                 }
             }
         }
+    }
+    
+    func viewCategoryInfo(cell: CategoryViewCell) -> CategoryDescriptionView{
+        descriptionView = CategoryDescriptionView(
+            frame: frame,//CGRect(x: frame.width, y: 0, width: frame.width, height: frame.height),
+            name: cell.title,
+            words: content[cell.title]!,
+            canLearn: true,
+            hasBackButton: true)
+        descriptionView.alpha = 0
+        descriptionView.backButton.addTarget(self, action: #selector(returnToMainView(sender:)), for: .touchUpInside)
+        addSubview(descriptionView)
+        
+        mainView.isUserInteractionEnabled = false
+        
+        UIView.animateKeyframes(withDuration: 0.6, delay: 0, options: [], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self.mainView.alpha = 0
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5){
+                self.descriptionView.alpha = 1
+            }
+        }, completion: { finished in
+            self.mainView.removeFromSuperview()
+            self.mainView.isUserInteractionEnabled = true
+        })
+        return descriptionView
+    }
+    
+    @objc func returnToMainView(sender: Any){
+        mainView.alpha = 0
+        addSubview(mainView)
+        descriptionView.isUserInteractionEnabled = false
+        
+        UIView.animateKeyframes(withDuration: 0.6, delay: 0, options: [], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self.descriptionView.alpha = 0
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5){
+                self.mainView.alpha = 1
+            }
+        }, completion: { finished in
+            self.descriptionView.removeFromSuperview()
+            self.descriptionView.isUserInteractionEnabled = true
+        })
     }
     
     required init?(coder: NSCoder) {

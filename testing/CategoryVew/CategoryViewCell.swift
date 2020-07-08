@@ -16,7 +16,10 @@ class CategoryViewCell : UIView {
     var heightSmall: CGFloat!
     var heightBig: CGFloat!
     
-    var buttonsViews: [UIButton] = []
+    var deleteButton: UIButton!
+    var shareButton: UIButton!
+    var learnButton: UIButton!
+    var infoButton: UIButton!
     var title = ""
      
     init(frame: CGRect, text: String){
@@ -52,7 +55,22 @@ class CategoryViewCell : UIView {
             x += button.bounds.width + imagePadding
             
             addSubview(button)
-            buttonsViews.append(button)
+            switch i {
+            case 0:
+                shareButton = button
+                break
+            case 1:
+                learnButton = button
+                break
+            case 2:
+                deleteButton = button
+                break
+            case 3:
+                infoButton = button
+                break
+            default:
+                break
+            }
         }
     }
     

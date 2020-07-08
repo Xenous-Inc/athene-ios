@@ -17,6 +17,7 @@
 		9E942CAC247FACF500C8C164 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E942CAB247FACF500C8C164 /* LoginView.swift */; };
 		9E942CAE247FAEA800C8C164 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E942CAD247FAEA800C8C164 /* SignupView.swift */; };
 		9EB57C5B24B1ED5400533116 /* loading_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 9EB57C5A24B1ED5300533116 /* loading_animation.json */; };
+		9EF4EDEA24B4302900BFCCDB /* CategoryDescriptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF4EDE924B4302900BFCCDB /* CategoryDescriptionViewCell.swift */; };
 		9EF50B3B24B2DC5900A3A1E8 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF50B3A24B2DC5900A3A1E8 /* CategoryView.swift */; };
 		9EF50B3D24B2E30B00A3A1E8 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF50B3C24B2E30B00A3A1E8 /* CategoryViewCell.swift */; };
 		DA5AEAA424323FC0009DC286 /* SmoothSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AEAA324323FBE009DC286 /* SmoothSegue.swift */; };
@@ -55,6 +56,7 @@
 		9E942CAB247FACF500C8C164 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9E942CAD247FAEA800C8C164 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		9EB57C5A24B1ED5300533116 /* loading_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading_animation.json; path = ../../../Downloads/loading_animation.json; sourceTree = "<group>"; };
+		9EF4EDE924B4302900BFCCDB /* CategoryDescriptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDescriptionViewCell.swift; sourceTree = "<group>"; };
 		9EF50B3A24B2DC5900A3A1E8 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		9EF50B3C24B2E30B00A3A1E8 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
 		BFCA890537D4CBDA96447174 /* Pods_testing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,9 +115,6 @@
 				9E24A0F0247F95E6006CEA1D /* MainView.swift */,
 				9E336F69247E583D005CA112 /* NewWordView.swift */,
 				9E336F6B247E967F005CA112 /* ChangeWordView.swift */,
-				9EF50B3A24B2DC5900A3A1E8 /* CategoryView.swift */,
-				9EF50B3C24B2E30B00A3A1E8 /* CategoryViewCell.swift */,
-				9E66E4E724B343C80035440F /* CategoryDescriptionView.swift */,
 			);
 			path = MainPageViews;
 			sourceTree = "<group>";
@@ -127,6 +126,17 @@
 				9E942CAD247FAEA800C8C164 /* SignupView.swift */,
 			);
 			path = AuthViews;
+			sourceTree = "<group>";
+		};
+		9EF4EDEB24B4303A00BFCCDB /* CategoryVew */ = {
+			isa = PBXGroup;
+			children = (
+				9EF50B3A24B2DC5900A3A1E8 /* CategoryView.swift */,
+				9EF50B3C24B2E30B00A3A1E8 /* CategoryViewCell.swift */,
+				9E66E4E724B343C80035440F /* CategoryDescriptionView.swift */,
+				9EF4EDE924B4302900BFCCDB /* CategoryDescriptionViewCell.swift */,
+			);
+			path = CategoryVew;
 			sourceTree = "<group>";
 		};
 		B7EF8E043566619C51C1D854 /* Frameworks */ = {
@@ -162,6 +172,7 @@
 				DAC38FA7243E46DD0035C5BE /* testing.entitlements */,
 				9EB57C5A24B1ED5300533116 /* loading_animation.json */,
 				DAEC4197242F916200944B7F /* Graphics */,
+				9EF4EDEB24B4303A00BFCCDB /* CategoryVew */,
 				9E24A0F2247FA489006CEA1D /* MainPageViews */,
 				9E942CAF247FB1FA00C8C164 /* AuthViews */,
 				DAEC4196242F913900944B7F /* AuthControllers */,
@@ -383,6 +394,7 @@
 				9EF50B3B24B2DC5900A3A1E8 /* CategoryView.swift in Sources */,
 				DA8CB94722531B4400D40849 /* LogInViewController.swift in Sources */,
 				DAE37196223D1BF800F6E5E1 /* ChangeWordViewController.swift in Sources */,
+				9EF4EDEA24B4302900BFCCDB /* CategoryDescriptionViewCell.swift in Sources */,
 				9E24A0F1247F95E6006CEA1D /* MainView.swift in Sources */,
 				DAC96E472423AA9100675EEA /* Strings.swift in Sources */,
 				DAE37194223D0AD300F6E5E1 /* NewWordViewController.swift in Sources */,
