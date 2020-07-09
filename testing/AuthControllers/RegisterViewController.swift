@@ -83,14 +83,30 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
                 self.view.layer.removeAllAnimations()
                 self.view.isUserInteractionEnabled = true
                 v.removeFromSuperview()
-                if error != nil{
-                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[1])
+                if let error = error{
+                    let err_code = AuthErrorCode(rawValue: error._code)
+                    switch err_code{
+                    case .weakPassword:
+                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[1])
+                        break
+                    case .emailAlreadyInUse:
+                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[2])
+                        break
+                    case .accountExistsWithDifferentCredential:
+                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[2])
+                        break
+                    case .invalidEmail:
+                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[3])
+                        break
+                    default:
+                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[4])
+                    }
                     return
                 }
                 user = Auth.auth().currentUser!
                 Auth.auth().currentUser?.sendEmailVerification { (error) in
                     os_log("Error while sending verification email")
-                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[2])
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[5])
                     return
                 }
                 do{
@@ -103,7 +119,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }catch _ as NSError{
-                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[1])
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[4])
                     os_log("error")
                 }
                 

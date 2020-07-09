@@ -96,12 +96,17 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
             if let error = err{
                 let err_code = AuthErrorCode(rawValue: error._code)
                 switch err_code{
-                case .wrongPassword?:
+                case .wrongPassword:
                     messageAlert(vc: self, message: error_title, text_error: error_texts[0])
-                case .invalidEmail?:
-                    messageAlert(vc: self, message: error_title, text_error: error_texts[1])
-                default:
+                    break
+                case .invalidEmail:
                     messageAlert(vc: self, message: error_title, text_error: error_texts[2])
+                    break
+                case .userNotFound:
+                    messageAlert(vc: self, message: error_title, text_error: error_texts[1])
+                    break
+                default:
+                    messageAlert(vc: self, message: error_title, text_error: error_texts[3])
                 }
             }else{
                 os_log("NO ERROR")
@@ -109,7 +114,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                 if(user!.isEmailVerified){
                     self.performSegue(withIdentifier: "to_main", sender: LogInViewController.self)
                 }else{
-                    messageAlert(vc: self, message: error_title, text_error: error_texts[3])
+                    messageAlert(vc: self, message: error_title, text_error: error_texts[4])
                 }
             }
         })
