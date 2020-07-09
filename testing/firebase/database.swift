@@ -31,7 +31,12 @@ var categories: [String] = []
 var russian_list: [String] = []
 var english_list: [String] = []
 
+var shouldUpdate = true
+
 func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
+    if(!shouldUpdate) {return}
+    shouldUpdate = true
+    
     user_id = Auth.auth().currentUser!.uid
     var _archive: [Word] = []
     var _words: [Word] = []
@@ -56,7 +61,7 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             count = Calendar.current.dateComponents([.day], from: date, to: now_date).day!
             let eng = snap.childSnapshot(forPath: "English").value as? String ?? ""
             let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
-            let category = snap.childSnapshot(forPath: "category").value as? String ?? ""
+            let category = (snap.childSnapshot(forPath: "category").value as? String ?? "").formatted()
             var level = snap.childSnapshot(forPath: "level").value as? Int ?? 0
             _russian_list.append(rus)
             _english_list.append(eng)

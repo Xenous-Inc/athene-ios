@@ -33,10 +33,25 @@ class ChangeWordViewController: NewWordViewController {
     override func submit(_ sender: Any) {
         guard let eng = ed_text_english.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         guard let rus = ed_text_russian.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        if(eng == "" || rus == "") {
+            messageAlert(vc: self, message: "Введите слово", text_error: "Вы ничего не ввели")
+            return
+        }
         ref.child("words").child(words[0].db_index).child("English").setValue(eng)
         ref.child("words").child(words[0].db_index).child("Russian").setValue(rus)
         ref.child("words").child(words[0].db_index).child("category").setValue(mainView.categoryLabel.text!)
         
+        if(words[0].category != mainView.categoryLabel.text!){
+            if(words[0].category != no_category){
+                let ind = (categories_words[words[0].category]?.firstIndex(where: {$0.english == words[0].english}))!
+                categories_words[words[0].category]?.remove(at: ind)
+            }
+            words[0].category = mainView.categoryLabel.text!
+            if(words[0].category != no_category){
+                categories_words[words[0].category]?.append(words[0])
+            }
+        }
+        mainViewRequiresUpdate = false
         performSegue(withIdentifier: "back_from_word_edit", sender: self)
     }
     

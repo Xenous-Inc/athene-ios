@@ -33,7 +33,7 @@ class CategoryDescriptionViewCell: UIView {
                     y: (frame.height - buttonSize) / 2,
                     width: buttonSize,
                     height: buttonSize))
-                button.setBackgroundImage(UIImage(named: "book"), for: .normal)
+                button.setBackgroundImage(UIImage(named: "learn"), for: .normal)
                 button.layoutIfNeeded()
                 button.subviews.first?.contentMode = .scaleAspectFit
                 return button

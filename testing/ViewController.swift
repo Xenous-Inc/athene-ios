@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import os
 
+var mainViewRequiresUpdate = true
 class ViewController: UIViewController, UITextFieldDelegate {
 
     var archive_amount = 0
@@ -44,7 +45,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func submit(sender: Int) {
-        if (sender == contentView.nextButton.tag && (contentView.editTextSecond.text == "" || contentView.editTextSecond.text == " ")){
+        if (sender == contentView.nextButton.tag && (contentView.editTextSecond.text?.formatted() == "" || contentView.editTextSecond.text == " ")){
             messageAlert(vc: self, message: message_no_word, text_error: alert_no_word_description)
             contentView.nextButton.isEnabled = true
             contentView.forgotButton.isEnabled = true
@@ -150,7 +151,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("View will appear reached")
-        checkWordsUpdate()
+        if(mainViewRequiresUpdate){
+            checkWordsUpdate()
+        }else{
+            contentView.editTextFirst.text = words[0].russian
+            contentView.editTextSecond.text = words[0].english
+            contentView.editTextThird.text = words[0].english
+            next()
+        }
+        mainViewRequiresUpdate = true
     }
     
     func checkWordsUpdate(){

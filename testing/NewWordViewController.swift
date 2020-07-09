@@ -67,7 +67,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: save_category, style: .default, handler: { action in
             if let cat = alert.textFields?.first?.text {
                 self.mainView.shrinkBottomBar(nil)
-                if(cat == "" || cat == " "){
+                if(cat.formatted() == "" || cat == " "){
                     self.mainView.categoryLabel.text = no_category
                     return
                 }
@@ -174,7 +174,10 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         guard let rus = ed_text_russian.text?.formatted() else { return }
         guard let category = mainView.categoryLabel.text?.formatted() else { return }
         
-        if(eng == "" || eng == " " || rus == " " || rus == "") { return }
+        if(eng == "" || eng == " " || rus == " " || rus == "") {
+            messageAlert(vc: self, message: "Введите слово", text_error: "Вы ничего не ввели")
+            return
+        }
         
         let newWordRef = ref.child("words").childByAutoId()
         newWordRef.child("English").setValue(eng)

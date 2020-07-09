@@ -147,7 +147,7 @@ class MainView: UIView {
         for i in 0..<2{
             let btn = UIButton(frame: CGRect(x: frame.width / 2 + CGFloat(3*i - 2)*height, y: 0.45*frame.height + 2.2*height, width: height, height: height))
             btn.backgroundColor = UIColor.clear
-            btn.setImage(UIImage(named: ((i == 0) ? "edit" : "cross")), for: .normal)
+            btn.setImage(UIImage(named: ((i == 0) ? "edit" : "trash")), for: .normal)
             btn.setTitle("", for: .normal)
             btn.isUserInteractionEnabled = false
             btn.alpha = 0
@@ -228,7 +228,7 @@ class MainView: UIView {
         endOfWordsView.removeFromSuperview()
         addSubview(containerView)
         editTextFirst.text = ""
-        editTextSecond.text = ""
+        //editTextSecond.text = ""
         editTextSecond.textColor = .white
     }
     

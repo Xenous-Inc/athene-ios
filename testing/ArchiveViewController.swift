@@ -142,7 +142,7 @@ class ArchiveViewController: UIViewController{
         }
         shareLink.iOSParameters?.appStoreID = "1487762033"
         
-        shareLink.androidParameters = DynamicLinkAndroidParameters(packageName: "com.develop.vadim.english")
+        shareLink.androidParameters = DynamicLinkAndroidParameters(packageName: "com.xenous.athenekotlin")
         
         shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
         shareLink.socialMetaTagParameters?.title = "Кажется кто-то хочет поделиться с вами списком слов в приложении Athene!"

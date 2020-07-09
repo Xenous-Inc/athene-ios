@@ -43,7 +43,7 @@ class CategoryViewCell : UIView {
         }()
         addSubview(titleLabel)
         
-        let imageNames = ["share", "book", "cross", "info"]
+        let imageNames = ["trash", "share", "list", "learn"]
         let imageHeight = 0.5*(heightBig - heightSmall)
         let imagePadding = (frame.width - CGFloat(imageNames.count)*imageHeight) / CGFloat(imageNames.count+1)
         var x = imagePadding
@@ -56,16 +56,16 @@ class CategoryViewCell : UIView {
             
             addSubview(button)
             switch i {
-            case 0:
+            case 1:
                 shareButton = button
                 break
-            case 1:
+            case 3:
                 learnButton = button
                 break
-            case 2:
+            case 0:
                 deleteButton = button
                 break
-            case 3:
+            case 2:
                 infoButton = button
                 break
             default:
