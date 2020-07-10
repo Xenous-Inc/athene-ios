@@ -12,9 +12,11 @@ class CategoryDescriptionView: UIView {
     
     var backButton: UIButton!
     var cells: [CategoryDescriptionViewCell]!
+    var title = ""
 
     init(frame: CGRect, name: String, words: [Word], canLearn: Bool, hasBackButton: Bool){
         super.init(frame: frame)
+        title = name
         
         if(hasBackButton){
             backButton = {

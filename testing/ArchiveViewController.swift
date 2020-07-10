@@ -71,6 +71,16 @@ class ArchiveViewController: UIViewController{
         if let subview = view.viewWithTag(20){
             subview.removeFromSuperview()
         }
+
+        let wasDescriptionOpened =
+                (views[0] as? CategoryView) != nil &&
+                ((views[0] as! CategoryView).descriptionView != nil) &&
+                categories_words[(views[0] as! CategoryView).descriptionView!.title] != nil
+        var title = ""
+        if(wasDescriptionOpened){
+            title = (views[0] as! CategoryView).descriptionView!.title
+        }
+
         let v = CategoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories_words)
 
         for cell in v.cells{
@@ -78,6 +88,18 @@ class ArchiveViewController: UIViewController{
             cell.learnButton.addTarget(self, action: #selector(learnCategory(sender:)), for: .touchUpInside)
             cell.shareButton.addTarget(self, action: #selector(shareCategory(sender:)), for: .touchUpInside)
             cell.infoButton.addTarget(self, action: #selector(inspectCategory(sender:)), for: .touchUpInside)
+        }
+
+        if(wasDescriptionOpened){
+            v.mainView.removeFromSuperview()
+            v.descriptionView = CategoryDescriptionView(
+                    frame: v.mainView.frame,//CGRect(x: frame.width, y: 0, width: frame.width, height: frame.height),
+                    name: title,
+                    words: categories_words[title]!,
+                    canLearn: true,
+                    hasBackButton: true)
+            v.descriptionView!.backButton.addTarget(v, action: #selector(v.returnToMainView(sender:)), for: .touchUpInside)
+            v.addSubview(v.descriptionView!)
         }
  
         v.tag = 10
@@ -255,8 +277,8 @@ class ArchiveViewController: UIViewController{
     
     @objc func inspectCategory(sender: UIButton){
         let cell = sender.superview as! CategoryViewCell
-        let catView = (views[0] as! CategoryView).viewCategoryInfo(cell: cell)
-        for wordCell in catView.cells{
+        (views[0] as! CategoryView).viewCategoryInfo(cell: cell)
+        for wordCell in (views[0] as! CategoryView).descriptionView!.cells{
             wordCell.learnButton!.addTarget(self, action: #selector(learnWord(sender:)), for: .touchUpInside)
             wordCell.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(deleteWord(gesture:))))
         }
