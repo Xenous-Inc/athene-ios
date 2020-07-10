@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if(teacherId == nil || classId == nil) {return}
             guard let v_controller = self.window?.rootViewController else {return}
             handleClassroomLink(teacherId: teacherId!, classId: classId!, v_controller: v_controller)
-        }else{
+        }else if(url.path == "/category"){
             print("new category")
             var user_shared_id: String? = nil, category_shared: String? = nil
             for i in queryitems{

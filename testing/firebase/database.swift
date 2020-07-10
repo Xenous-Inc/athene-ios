@@ -134,13 +134,16 @@ func downloadCategory(id: String, category: String, completion: ((Bool) -> Void)
 func downloadClassesCategories(snapshot: DataSnapshot, classId: String, completion: @escaping () -> Void){
     updateWordsFromDatabase(completion: {(finished: Bool) in
         let enumerator = snapshot.childSnapshot(forPath: "classes").childSnapshot(forPath: classId).childSnapshot(forPath: "categories").children
-        while let catId = enumerator.nextObject() as? String{
+        while let catSnapshot = enumerator.nextObject() as? DataSnapshot{
+            let catId = catSnapshot.value as! String
             let catName = snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "name").value as! String
             if(!categories.contains(catName)){
                 ref.child("categories").childByAutoId().setValue(catName)
                 categories.append(catName)
             }
-            while let wordSnapshot = snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "words").children.nextObject() as? DataSnapshot{
+            print("CATEGORY TO IMPORT, ", catId, catName)
+            let wordEnumerator = snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "words").children
+            while let wordSnapshot = wordEnumerator.nextObject() as? DataSnapshot{
                 let eng = wordSnapshot.childSnapshot(forPath: "english").value as? String ?? ""
                 let rus = wordSnapshot.childSnapshot(forPath: "russian").value as? String ?? ""
                 if(english_list.contains(eng) || russian_list.contains(rus)){continue}
