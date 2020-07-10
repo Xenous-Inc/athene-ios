@@ -17,7 +17,8 @@ class LoadingView: UIView {
     func set(frame: CGRect){
         self.frame = frame
         self.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
-        
+        self.tag = 54321
+
         animationView = Lottie.AnimationView(name: "loading_animation")
         animationView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         animationView.center = self.center

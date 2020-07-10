@@ -256,6 +256,9 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         ed_text_english.resignFirstResponder()
         ed_text_russian.resignFirstResponder()
+        if(textField == ed_text_english){
+            ed_text_russian.becomeFirstResponder()
+        }
         return true
     }
     

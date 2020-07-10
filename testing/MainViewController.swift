@@ -68,6 +68,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed{
             currentPageIndex = lastPendingViewControllerIndex
+            //pager_view.updateState(from: currentPageIndex, to: (currentPageIndex + 1) % pager_view.tabs, progress: 0)
         }
     }
     override func viewDidLoad() {
@@ -81,6 +82,8 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         if(was_layout_set){return}
         cheerView = SAConfettiView(frame: view.bounds)
         view.addSubview(cheerView)
+        view.sendSubviewToBack(cheerView)
+        view.sendSubviewToBack(view.viewWithTag(911)!)
         cheerView.intensity = 0.7
         
         was_layout_set = true
@@ -143,20 +146,27 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         }
         user = Auth.auth().currentUser!
         print("Main view did appear")
-        let v = LoadingView()
-        v.tag = 54321
-        v.set(frame: view.frame)
-        view.addSubview(v)
-        view.bringSubviewToFront(v)
-        v.show()
+        var loadingView = LoadingView()
+        if view.viewWithTag(54321) != nil{
+            loadingView = view.viewWithTag(54321) as! LoadingView
+            view.bringSubviewToFront(loadingView)
+            loadingView.show()
+        }else {
+            loadingView.tag = 54321
+            loadingView.set(frame: view.frame)
+            view.addSubview(loadingView)
+            view.bringSubviewToFront(loadingView)
+            loadingView.show()
+        }
         updateWordsFromDatabase(completion: {(finished: Bool) in
-            v.removeFromSuperview()
+            loadingView.removeFromSuperview()
             (self.ViewControllers[1] as! ViewController).checkWordsUpdate()
             print(words.count)
         })
     }
-    
+
     @IBAction func logOut(_ sender: Any) {
+        print("SIGN OUT BUTTON TAPPED")
         let alert = UIAlertController(title: sign_out_question, message: nil, preferredStyle: UIAlertController.Style.alert)
         
         alert.addAction(UIAlertAction(title: sign_out_text, style: UIAlertAction.Style.default, handler: {(action) in
