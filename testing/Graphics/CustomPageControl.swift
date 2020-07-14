@@ -71,5 +71,9 @@ class CustomPageControl: UIView{
             next_tab.frame = CGRect(x: cords[second].maxX - secondWidth, y: cords[second].minY, width: secondWidth, height: cords[second].height)
         }
     }
-    
+
+    func setPosition(position: Int){
+        current_tab.frame = cords[position]
+        next_tab.frame = CGRect(x: cords[position].minX, y: cords[position].minY, width: 0, height: cords[position].height)
+    }
 }

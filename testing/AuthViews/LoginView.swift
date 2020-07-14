@@ -78,7 +78,7 @@ class LoginView: UIView {
         finish_btn.backgroundColor = UIColor.clear
         finish_btn.layer.borderWidth = 2
         finish_btn.layer.borderColor = UIColor.white.cgColor
-        finish_btn.center = CGPoint(x: (frame.width - 2*finish_btn.bounds.width - pd) / 2 + finish_btn.bounds.width / 2, y: s / 2)
+        finish_btn.center = CGPoint(x: (frame.width - 2*finish_btn.bounds.width - pd) / 2 + finish_btn.bounds.width / 2, y: 0.5*s)
         finish_btn.layer.cornerRadius = finish_btn.bounds.height / 2
         finish_btn.tag = 800
         finish_btn.isUserInteractionEnabled = true
@@ -107,6 +107,30 @@ class LoginView: UIView {
         imageView.center = google_btn.center
         
         self.addSubview(imageView)
+
+        let appleButton: UIButton = {
+            let width = 0.6*frame.width
+            let button = UIButton(frame: CGRect(
+                    x: (frame.width - width) / 2,
+                    y: google_btn.frame.maxY + 0.02*frame.height,
+                    width: width, height: finish_btn.bounds.height))
+            button.backgroundColor = .clear
+            button.layer.borderWidth = 2
+            button.layer.borderColor = UIColor.white.cgColor
+            button.layer.cornerRadius = button.bounds.height / 2
+            button.setTitleColor(UIColor.white, for: .normal)
+            button.setTitle(login_with_apple_title, for: .normal)
+            button.titleLabel?.font = UIFont(name: font, size: CGFloat(FontHelper().getFontSize(
+                    strings: [login_with_apple_title],
+                    font: font,
+                    maxFontSize: 120,
+                    width: 0.8*button.frame.width,
+                    height: 0.7*button.frame.height)))
+            button.tag = 803
+            return button
+        }()
+
+        addSubview(appleButton)
     }
     
     required init?(coder: NSCoder) {

@@ -176,13 +176,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
             contentView.endOfWordsView.text = no_words_for_today
         }
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        main_vc.pager_view.setPosition(position: 1)
+        main_vc.currentPageIndex = 1
+        main_vc.lastPendingViewControllerIndex = 0
+    }
+
     @objc func changeWord(_ sender: UIButton) {
         main_vc.performSegue(withIdentifier: "create_word_segue", sender: main_vc)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+        main_vc.currentPageIndex = 1
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

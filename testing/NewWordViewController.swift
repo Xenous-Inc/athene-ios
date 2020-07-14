@@ -30,7 +30,14 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         super.init(coder: aDecoder)
         
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        main_vc.pager_view.setPosition(position: 2)
+        main_vc.currentPageIndex = 2
+        main_vc.lastPendingViewControllerIndex = 1
+    }
+
     var opened = false
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,8 +48,6 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     func initialSetting(){
-        print("NEW WORD VIEW")
-        print(categories)
         for subview in self.view.subviews{
             subview.removeFromSuperview()
         }
@@ -246,6 +251,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+        main_vc.currentPageIndex = 2
         let touch = touches.first
         guard let location = touch?.location(in: view) else { return }
         if !mainView.categoryLabel.frame.contains(location) {

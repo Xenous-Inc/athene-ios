@@ -58,6 +58,8 @@ let auth_placeholders = ["Email", "Пароль", "Повторите парол
 let forgot_text = "Забыли пароль?"
 let sign_up_invite_text = "Еще нет аккаунта? Зарегистрируйтесь"
 let sign_up_title = "Регистрация"
+let login_with_apple_title = "Войти через Apple"
+let login_with_apple_not_available = "Данная функция недоступна для вашей версии IOS"
 
 //Auth error alerts
 let error_title = "Ошибка"

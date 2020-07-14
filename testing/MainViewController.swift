@@ -67,8 +67,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed{
-            currentPageIndex = lastPendingViewControllerIndex
-            //pager_view.updateState(from: currentPageIndex, to: (currentPageIndex + 1) % pager_view.tabs, progress: 0)
+            lastPendingViewControllerIndex = currentPageIndex
         }
     }
     override func viewDidLoad() {

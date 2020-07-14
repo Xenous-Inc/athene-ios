@@ -174,22 +174,31 @@ class ArchiveViewController: UIViewController{
         print("Long url: \(longURL)")
         
         shareLink.shorten { [weak self] (url, warnings, error) in
-            if let error = error{
+            if let error = error {
                 print("Error while shortening url: \(error.localizedDescription)")
                 return
             }
-            if let warnings = warnings{
-                for warning in warnings{
+            if let warnings = warnings {
+                for warning in warnings {
                     print("Warning: \(warning)")
                 }
             }
-            guard let url = url else {return}
+            guard let url = url else {
+                return
+            }
             print("Shortened url: \(url.absoluteString)")
             self?.showShareSheet(url: url)
         }
-        
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        main_vc.pager_view.setPosition(position: 0)
+        main_vc.currentPageIndex = 0
+        main_vc.lastPendingViewControllerIndex = 1
+        print("LALALALALALALALA")
+    }
+
     func showShareSheet(url: URL){
         let promoText = promo_text
         let activityVC = UIActivityViewController(activityItems: [promoText, url], applicationActivities: nil)
