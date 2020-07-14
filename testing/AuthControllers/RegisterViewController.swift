@@ -10,8 +10,11 @@ import UIKit
 import Firebase
 import GoogleSignIn
 import os
-import CryptoKit
 import AuthenticationServices
+
+#if canImport(CryptoKit)
+import CryptoKit
+#endif
 
 var email = ""
 class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
@@ -145,7 +148,11 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
 
     @objc func signInWithAppleSelected(_ sender: Any){
         if #available(iOS 13, *) {
+            #if canImport(CryptoKit)
             startSignInWithAppleFlow()
+            #else
+            messageAlert(vc: self, message: login_with_apple_not_available, text_error: nil)
+            #endif
         } else {
             messageAlert(vc: self, message: login_with_apple_not_available, text_error: nil)
         }
@@ -186,7 +193,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
 
     // Unhashed nonce.
     fileprivate var currentNonce: String?
-
+    #if canImport(CryptoKit)
     @available(iOS 13, *)
     func startSignInWithAppleFlow() {
         let nonce = randomNonceString()
@@ -212,6 +219,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
 
         return hashString
     }
+    #endif
 }
 
 @available(iOS 13.0, *)
