@@ -79,7 +79,14 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
     }
     
     @objc func LogIn(_ sender: Any) {
-        if(mainView.emailField.text == "" || mainView.passwordField.text == ""){return}
+        if(mainView.emailField.text == ""){
+            messageAlert(vc: self, message: enter_email_text, text_error: nil)
+            return
+        }
+        if(mainView.passwordField.text == ""){
+            messageAlert(vc: self, message: enter_password_text, text_error: nil)
+            return
+        }
         os_log("HELLO")
         view.isUserInteractionEnabled = false
         let v = LoadingView()

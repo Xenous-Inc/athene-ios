@@ -51,7 +51,7 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     ref.observeSingleEvent(of: .value, with: { (snp) in
         let en = snp.childSnapshot(forPath: "categories").children
         while let snap = en.nextObject() as? DataSnapshot{
-            _categories.append(snap.value as! String)
+            _categories.append((snap.value as! String).formatted())
         }
         let snapshot = snp.childSnapshot(forPath: "words")
         var date: Date, count: Int
@@ -108,7 +108,7 @@ func downloadCategory(id: String, category: String, completion: ((Bool) -> Void)
             while let snap = enumerator.nextObject() as? DataSnapshot{
                 let eng = snap.childSnapshot(forPath: "English").value as? String ?? ""
                 let rus = snap.childSnapshot(forPath: "Russian").value as? String ?? ""
-                let cat = snap.childSnapshot(forPath: "category").value as? String ?? ""
+                let cat = (snap.childSnapshot(forPath: "category").value as? String ?? "").formatted()
                 if(english_list.contains(eng) || russian_list.contains(rus)){continue}
                 if(cat.elementsEqual(category)){
                     let wordRef = ref.child("words").childByAutoId()
@@ -136,7 +136,7 @@ func downloadClassesCategories(snapshot: DataSnapshot, classId: String, completi
         let enumerator = snapshot.childSnapshot(forPath: "classes").childSnapshot(forPath: classId).childSnapshot(forPath: "categories").children
         while let catSnapshot = enumerator.nextObject() as? DataSnapshot{
             let catId = catSnapshot.value as! String
-            let catName = snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "name").value as! String
+            let catName = (snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "name").value as! String).formatted()
             if(!categories.contains(catName)){
                 ref.child("categories").childByAutoId().setValue(catName)
                 categories.append(catName)
@@ -171,8 +171,11 @@ func deleteWordFromDatabase(word: Word){
         archive.remove(at: ind)
     }
     if word.category != no_category{
-        if let ind = categories_words[word.category]?.firstIndex(where: { $0.english == word.english}){
+        if let ind = categories_words[word.category.formatted()]?.firstIndex(where: { $0.english.formatted() == word.english.formatted() }){
             categories_words[word.category]?.remove(at: ind)
+            if(categories_words[word.category]?.count == 0){
+                categories_words.removeValue(forKey: word.category)
+            }
         }
     }
 }
@@ -185,7 +188,8 @@ func deleteCategoryFromDatabase(name: String, deleteWords: Bool){
             ref.child("words").child(String(word.db_index)).child("category").setValue(no_category)
         }
     }
-    let catInd = categories.firstIndex(of: name)! - 1 - default_categories.count
+    if(categories.firstIndex(of: name.formatted()) == nil) {return}
+    let catInd = categories.firstIndex(of: name.formatted())! - 1 - default_categories.count
     if(catInd >= 0){
         ref.child("categories").child(String(catInd)).removeValue()
         categories.remove(at: categories.firstIndex(of: name)!)

@@ -30,6 +30,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
         GIDSignIn.sharedInstance()?.presentingViewController = self
         //GIDSignIn.sharedInstance().signIn()
         GIDSignIn.sharedInstance()?.delegate = self
+
+        mainView.backButton.addTarget(self, action: #selector(moveBackToLogin), for: .touchUpInside)
         
         mainView.submitButton.addTarget(self, action: #selector(Register(_:)), for: .touchUpInside)
         mainView.loginWithGoogleButton.addTarget(self, action: #selector(googleAuth(_sender:)), for: .touchUpInside)
@@ -40,6 +42,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
         mainView.emailField.delegate = self
         mainView.passwordField.delegate = self
         mainView.passwordConfirmField.delegate = self
+    }
+
+    @objc func moveBackToLogin(){
+        performSegue(withIdentifier: "to_log_in_segue", sender: RegisterViewController.self)
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -75,11 +81,20 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
     }
     
     @objc func Register(_ sender: Any) {
-        if(mainView.passwordField.text! != mainView.passwordConfirmField.text!) {
-            messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[0])
+        if(mainView.emailField.text?.formatted() == ""){
+            messageAlert(vc: self, message: enter_email_text, text_error: nil)
             return
         }
-        if(mainView.emailField.text?.formatted() == ""){
+        if(mainView.passwordField.text?.formatted() == ""){
+            messageAlert(vc: self, message: enter_password_text, text_error: nil)
+            return
+        }
+        if(mainView.passwordConfirmField.text?.formatted() == ""){
+            messageAlert(vc: self, message: confirm_password_text, text_error: nil)
+            return
+        }
+        if(mainView.passwordField.text! != mainView.passwordConfirmField.text!) {
+            messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[0])
             return
         }
         view.isUserInteractionEnabled = false

@@ -15,6 +15,7 @@ class SignupView: UIView {
 
     var emailField, passwordField, passwordConfirmField: UITextField!
     var submitButton, loginWithGoogleButton: UIButton!
+    var backButton: UIButton!
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -24,18 +25,32 @@ class SignupView: UIView {
         
         let titleLabel: UILabel = {
             let label = UILabel()
-            label.bounds = CGRect(x: 0, y: 0, width: 0.8*frame.width, height: frame.height / 18)
-            label.center = CGPoint(x: 0.5*frame.width, y: frame.height / 5)
+            label.bounds = CGRect(x: 0, y: 0, width: 0.7*frame.width, height: frame.height / 18)
+            label.center = CGPoint(x: 0.55*frame.width, y: frame.height / 5)
             label.text = sign_up_title
             label.textAlignment = .center
             let f_size = FontHelper().getFontSize(strings: [sign_up_title], font: font, maxFontSize: 120, width: label.bounds.width, height: label.bounds.height)
             label.font = UIFont(name: font, size: CGFloat(f_size))
             label.textColor = UIColor.white
             label.tag = 1000
-
             return label
         }()
-        self.addSubview(titleLabel)
+        addSubview(titleLabel)
+
+        backButton = {
+            let buttonSize = 0.045*frame.height
+            let button = UIButton(frame: CGRect(
+                    x: 0.1*frame.width,
+                    y: titleLabel.center.y - buttonSize / 2,
+                    width: buttonSize,
+                    height: buttonSize))
+            button.setBackgroundImage(UIImage(named: "back"), for: .normal)
+            button.layoutIfNeeded()
+            button.subviews.first?.contentMode = .scaleAspectFit
+
+            return button
+        }()
+        addSubview(backButton)
         
         for i in 0..<3{
             let y = frame.height / 2 + (CGFloat(2*i) - 2.5)*height
@@ -72,17 +87,40 @@ class SignupView: UIView {
         }
         
         let pd = 0.05*frame.width
+
+        loginWithGoogleButton = {
+            let button = UIButton()
+            button.bounds = CGRect(x: 0, y: 0, width: 0.4*frame.width, height: frame.height / 18)
+            button.center = CGPoint(
+                    x: (frame.width - 2*button.bounds.width - pd) / 2 + button.bounds.width / 2,
+                    y: 0.85*frame.height - button.bounds.height / 2)
+            button.backgroundColor = UIColor.white
+            button.layer.cornerRadius = button.bounds.height / 2
+            button.tag = 802
+
+            return button
+        }()
+        self.addSubview(loginWithGoogleButton)
+
+        let img = UIImage(named: "google_logo")
+        let h = 0.9*loginWithGoogleButton.bounds.height
+        let newSize = CGSize(width: h*(img!.size.width / img!.size.height), height: h)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        let imageView = UIImageView(image: img)
+        imageView.bounds = rect
+        imageView.center = loginWithGoogleButton.center
+        self.addSubview(imageView)
         
         submitButton = {
             let button = UIButton()
-            button.bounds = CGRect(x: 0, y: 0, width: 0.4*frame.width, height: frame.height / 18)
+            button.bounds = loginWithGoogleButton.bounds
             button.setTitle("", for: .normal)
             button.setTitleColor(UIColor.white, for: .normal)
             button.backgroundColor = UIColor.clear
             button.layer.borderWidth = 2
             button.layer.borderColor = UIColor.white.cgColor
             button.center = CGPoint(
-                    x: (frame.width - 2*button.bounds.width - pd) / 2 + button.bounds.width / 2,
+                    x: loginWithGoogleButton.frame.maxX + pd + button.bounds.width / 2,
                     y: 0.85*frame.height - button.bounds.height / 2)
             button.layer.cornerRadius = button.bounds.height / 2
             button.tag = 800
@@ -97,29 +135,6 @@ class SignupView: UIView {
         f_img.center = submitButton.center
         f_img.tag = 801
         self.addSubview(f_img)
-        
-        loginWithGoogleButton = {
-            let button = UIButton()
-            button.bounds = submitButton.bounds
-            button.center = CGPoint(
-                    x: submitButton.frame.maxX + pd + submitButton.bounds.width / 2,
-                    y: 0.85*frame.height - submitButton.bounds.height / 2)
-            button.backgroundColor = UIColor.white
-            button.layer.cornerRadius = button.bounds.height / 2
-            button.tag = 802
-
-            return button
-        }()
-        self.addSubview(loginWithGoogleButton)
-        
-        let img = UIImage(named: "google_logo")
-        let h = 0.9*loginWithGoogleButton.bounds.height
-        let newSize = CGSize(width: h*(img!.size.width / img!.size.height), height: h)
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        let imageView = UIImageView(image: img)
-        imageView.bounds = rect
-        imageView.center = loginWithGoogleButton.center
-        self.addSubview(imageView)
 
 //        let appleButton: UIButton = {
 //            let width = 0.6*frame.width

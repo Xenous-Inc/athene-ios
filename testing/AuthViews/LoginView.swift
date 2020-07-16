@@ -71,9 +71,13 @@ class LoginView: UIView {
         }
         
         var s: CGFloat = 0
-        let f_sz_small = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: 0.75*height))
+        let f_sz_small = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: 0.65*height))
         for i in 0..<2{
-            let btn = UIButton(frame: CGRect(x: self.subviews.last!.frame.minX, y: ((i == 0) ? (self.subviews.last!.frame.maxY + 0.75*height) : 0.87*frame.height), width: self.subviews.last!.frame.width, height: 0.75*height))
+            let btn = UIButton(frame: CGRect(
+                    x: self.subviews.last!.frame.minX,
+                    y: ((i == 0) ? (self.subviews.last!.frame.maxY + 0.4*height) : 0.87*frame.height),
+                    width: self.subviews.last!.frame.width,
+                    height: 0.75*height))
             s += btn.center.y
             btn.setTitle(((i == 0) ? forgot_text : sign_up_invite_text), for: .normal)
             btn.titleLabel?.font = UIFont(name: font, size: f_sz_small)
@@ -85,22 +89,45 @@ class LoginView: UIView {
             self.addSubview(btn)
             if(i == 0){
                 passwordResetButton = btn
+                passwordResetButton.contentHorizontalAlignment = .right
             }else{
                 signUpButton = btn
             }
         }
         
         let pd = 0.05*frame.width
+
+        loginWithGoogleButton = {
+            let button = UIButton()
+            button.bounds = CGRect(x: 0, y: 0, width: 0.4*frame.width, height: frame.height / 18)
+            button.center = CGPoint(x: (frame.width - 2*button.bounds.width - pd) / 2 + button.bounds.width / 2, y: 0.5*s)
+            button.backgroundColor = UIColor.white
+            button.layer.cornerRadius = button.bounds.height / 2
+            button.tag = 802
+
+            return button
+        }()
+        self.addSubview(loginWithGoogleButton)
+
+        let img = UIImage(named: "google_logo")
+        let h = 0.9*loginWithGoogleButton.bounds.height
+        let newSize = CGSize(width: h*(img!.size.width / img!.size.height), height: h)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        let imageView = UIImageView(image: img)
+        imageView.bounds = rect
+        imageView.center = loginWithGoogleButton.center
+
+        self.addSubview(imageView)
         
         submitButton = {
             let button = UIButton()
-            button.bounds = CGRect(x: 0, y: 0, width: 0.4*frame.width, height: frame.height / 18)
+            button.bounds = loginWithGoogleButton.bounds
             button.setTitle("", for: .normal)
             button.setTitleColor(UIColor.white, for: .normal)
             button.backgroundColor = UIColor.clear
             button.layer.borderWidth = 2
             button.layer.borderColor = UIColor.white.cgColor
-            button.center = CGPoint(x: (frame.width - 2*button.bounds.width - pd) / 2 + button.bounds.width / 2, y: 0.5*s)
+            button.center = CGPoint(x: loginWithGoogleButton.frame.maxX + pd + button.bounds.width / 2, y: s / 2)
             button.layer.cornerRadius = button.bounds.height / 2
             button.tag = 800
             button.isUserInteractionEnabled = true
@@ -115,28 +142,6 @@ class LoginView: UIView {
         f_img.center = submitButton.center
         f_img.tag = 801
         self.addSubview(f_img)
-        
-        loginWithGoogleButton = {
-            let button = UIButton()
-            button.bounds = submitButton.bounds
-            button.center = CGPoint(x: submitButton.frame.maxX + pd + button.bounds.width / 2, y: s / 2)
-            button.backgroundColor = UIColor.white
-            button.layer.cornerRadius = button.bounds.height / 2
-            button.tag = 802
-
-            return button
-        }()
-        self.addSubview(loginWithGoogleButton)
-        
-        let img = UIImage(named: "google_logo")
-        let h = 0.9*loginWithGoogleButton.bounds.height
-        let newSize = CGSize(width: h*(img!.size.width / img!.size.height), height: h)
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        let imageView = UIImageView(image: img)
-        imageView.bounds = rect
-        imageView.center = loginWithGoogleButton.center
-        
-        self.addSubview(imageView)
 
         if #available(iOS 13.0, *) {
             let appleButton : ASAuthorizationAppleIDButton = {
