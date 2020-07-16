@@ -19,30 +19,27 @@ import CryptoKit
 var email = ""
 class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
 
-    var ed_text_email = UITextField()
-    var ed_text_password = UITextField()
-    var ed_text_password_confirm = UITextField()
+    var mainView: SignupView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         email = ""
-        view.addSubview(SignupView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)))
+        mainView = SignupView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
+        view.addSubview(mainView)
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
         //GIDSignIn.sharedInstance().signIn()
         GIDSignIn.sharedInstance()?.delegate = self
         
-        (view.viewWithTag(800) as! UIButton).addTarget(self, action: #selector(Register(_:)), for: .touchUpInside)
-        (view.viewWithTag(802) as! UIButton).addTarget(self, action: #selector(googleAuth(_sender:)), for: .touchUpInside)
-        (view.viewWithTag(803) as! UIButton).addTarget(self, action: #selector(signInWithAppleSelected(_:)), for: .touchUpInside)
-
-        ed_text_email = view.viewWithTag(1) as! UITextField
-        ed_text_password = view.viewWithTag(2) as! UITextField
-        ed_text_password_confirm = view.viewWithTag(3) as! UITextField
+        mainView.submitButton.addTarget(self, action: #selector(Register(_:)), for: .touchUpInside)
+        mainView.loginWithGoogleButton.addTarget(self, action: #selector(googleAuth(_sender:)), for: .touchUpInside)
+        if #available(iOS 13.0, *) {
+            (view.viewWithTag(803) as! ASAuthorizationAppleIDButton).addTarget(self, action: #selector(signInWithAppleSelected(_:)), for: .touchUpInside)
+        }
         
-        self.ed_text_email.delegate = self
-        self.ed_text_password.delegate = self
-        self.ed_text_password_confirm.delegate = self
+        mainView.emailField.delegate = self
+        mainView.passwordField.delegate = self
+        mainView.passwordConfirmField.delegate = self
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -78,60 +75,63 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
     }
     
     @objc func Register(_ sender: Any) {
-        if(ed_text_password.text! == ed_text_password_confirm.text!){
-            view.isUserInteractionEnabled = false
-            let v = LoadingView()
-            v.set(frame: view.frame)
-            view.addSubview(v)
-            v.show()
-            email = ed_text_email.text!
-            Auth.auth().createUser(withEmail: ed_text_email.text!, password: ed_text_password.text!) { authResult, error in
-                self.view.layer.removeAllAnimations()
-                self.view.isUserInteractionEnabled = true
-                v.removeFromSuperview()
-                if let error = error{
-                    let err_code = AuthErrorCode(rawValue: error._code)
-                    switch err_code{
-                    case .weakPassword:
-                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[1])
-                        break
-                    case .emailAlreadyInUse:
-                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[2])
-                        break
-                    case .accountExistsWithDifferentCredential:
-                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[2])
-                        break
-                    case .invalidEmail:
-                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[3])
-                        break
-                    default:
-                        messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[4])
-                    }
-                    return
-                }
-                user = Auth.auth().currentUser!
-                Auth.auth().currentUser?.sendEmailVerification { (error) in
-                    os_log("Error while sending verification email")
-                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[5])
-                    return
-                }
-                do{
-                    try Auth.auth().signOut()
-                    let alert = UIAlertController(title: verification_sent_text, message: verification_sent_describtion, preferredStyle: UIAlertController.Style.alert)
-                    
-                    alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: {(action) in
-                        alert.dismiss(animated: true, completion: nil)
-                        self.performSegue(withIdentifier: "to_log_in_segue", sender: RegisterViewController.self)
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }catch _ as NSError{
-                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[4])
-                    os_log("error")
-                }
-                
-            }
-        }else{
+        if(mainView.passwordField.text! != mainView.passwordConfirmField.text!) {
             messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[0])
+            return
+        }
+        if(mainView.emailField.text?.formatted() == ""){
+            return
+        }
+        view.isUserInteractionEnabled = false
+        let v = LoadingView()
+        v.set(frame: view.frame)
+        view.addSubview(v)
+        v.show()
+        email = mainView.emailField.text!
+        Auth.auth().createUser(withEmail: mainView.emailField.text!, password: mainView.passwordField.text!) { authResult, error in
+            self.view.layer.removeAllAnimations()
+            self.view.isUserInteractionEnabled = true
+            v.removeFromSuperview()
+            if let error = error{
+                let err_code = AuthErrorCode(rawValue: error._code)
+                switch err_code{
+                case .weakPassword:
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[1])
+                    break
+                case .emailAlreadyInUse:
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[2])
+                    break
+                case .accountExistsWithDifferentCredential:
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[2])
+                    break
+                case .invalidEmail:
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[3])
+                    break
+                default:
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[4])
+                }
+                return
+            }
+            user = Auth.auth().currentUser!
+            Auth.auth().currentUser?.sendEmailVerification { (error) in
+                os_log("Error while sending verification email")
+                messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[5])
+                return
+            }
+            do{
+                try Auth.auth().signOut()
+                let alert = UIAlertController(title: verification_sent_text, message: verification_sent_describtion, preferredStyle: UIAlertController.Style.alert)
+
+                alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: {(action) in
+                    alert.dismiss(animated: true, completion: nil)
+                    self.performSegue(withIdentifier: "to_log_in_segue", sender: RegisterViewController.self)
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }catch _ as NSError{
+                messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[4])
+                os_log("error")
+            }
+
         }
     }
     
@@ -140,9 +140,9 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        ed_text_email.resignFirstResponder()
-        ed_text_password.resignFirstResponder()
-        ed_text_password_confirm.resignFirstResponder()
+        mainView.emailField.resignFirstResponder()
+        mainView.passwordField.resignFirstResponder()
+        mainView.passwordConfirmField.resignFirstResponder()
         return true
     }
 

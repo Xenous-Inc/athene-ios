@@ -19,12 +19,7 @@ import CryptoKit
 class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
 
 
-    var ed_text_email = UITextField()
-    var ed_text_password = UITextField()
-    
-    var reset_password = UIButton()
-    var submit_btn = UIButton()
-    var to_sign_up_btn = UIButton()
+    var mainView: LoginView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,25 +28,22 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         //GIDSignIn.sharedInstance().signIn()
         GIDSignIn.sharedInstance()?.delegate = self
 
-        view.addSubview(LoginView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)))
+        mainView = LoginView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
+        view.addSubview(mainView)
         
-        (view.viewWithTag(802) as! UIButton).addTarget(self, action: #selector(googleAuth(_sender:)), for: .touchUpInside)
-        (view.viewWithTag(803) as! UIButton).addTarget(self, action: #selector(signInWithAppleSelected(_:)), for: .touchUpInside)
+        mainView.loginWithGoogleButton.addTarget(self, action: #selector(googleAuth(_sender:)), for: .touchUpInside)
+        if #available(iOS 13.0, *) {
+            (mainView.viewWithTag(803) as! ASAuthorizationAppleIDButton).addTarget(self, action: #selector(signInWithAppleSelected(_:)), for: .touchUpInside)
+        }
+        
+        mainView.submitButton.addTarget(self, action: #selector(LogIn(_:)), for: .touchUpInside)
+        mainView.passwordResetButton.addTarget(self, action: #selector(Reset(_:)), for: .touchUpInside)
+        mainView.signUpButton.addTarget(self, action: #selector(toSignUp(_:)), for: .touchUpInside)
 
-        submit_btn = view.viewWithTag(800) as! UIButton
-        reset_password = view.viewWithTag(100) as! UIButton
-        to_sign_up_btn = view.viewWithTag(101) as! UIButton
-        
-        submit_btn.addTarget(self, action: #selector(LogIn(_:)), for: .touchUpInside)
-        reset_password.addTarget(self, action: #selector(Reset(_:)), for: .touchUpInside)
-        to_sign_up_btn.addTarget(self, action: #selector(toSignUp(_:)), for: .touchUpInside)
-        
-        ed_text_email = view.viewWithTag(1) as! UITextField
-        ed_text_email.text = email
-        ed_text_password = view.viewWithTag(2) as! UITextField
+        mainView.emailField.text = email
 
-        self.ed_text_email.delegate = self
-        self.ed_text_password.delegate = self
+        mainView.emailField.delegate = self
+        mainView.passwordField.delegate = self
     }
     
     @objc func googleAuth(_sender: Any){
@@ -87,15 +79,15 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
     }
     
     @objc func LogIn(_ sender: Any) {
-        if(ed_text_email.text == "" || ed_text_password.text == ""){return}
+        if(mainView.emailField.text == "" || mainView.passwordField.text == ""){return}
         os_log("HELLO")
         view.isUserInteractionEnabled = false
         let v = LoadingView()
         v.set(frame: view.frame)
         view.addSubview(v)
         v.show()
-        self.reset_password.isEnabled = true
-        Auth.auth().signIn(withEmail: ed_text_email.text!, password: ed_text_password.text!, completion: { (u, err) in
+        mainView.passwordResetButton.isEnabled = true
+        Auth.auth().signIn(withEmail: mainView.emailField.text!, password: mainView.passwordField.text!, completion: { (u, err) in
             self.view.layer.removeAllAnimations()
             self.view.isUserInteractionEnabled = true
             v.removeFromSuperview()
@@ -127,9 +119,9 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
     }
     
     @objc func Reset(_ sender: Any) {
-        if(ed_text_email.text != ""){
-            Auth.auth().sendPasswordReset(withEmail: ed_text_email.text!, completion: nil)
-            self.reset_password.isEnabled = false
+        if(mainView.emailField.text?.formatted() != ""){
+            Auth.auth().sendPasswordReset(withEmail: mainView.emailField.text!, completion: nil)
+            mainView.passwordResetButton.isEnabled = false
             messageAlert(vc: self, message: reset_password_title, text_error: reset_password_describtion)
         }
     }
@@ -143,8 +135,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        ed_text_email.resignFirstResponder()
-        ed_text_password.resignFirstResponder()
+        mainView.emailField.resignFirstResponder()
+        mainView.passwordField.resignFirstResponder()
         return true
     }
 

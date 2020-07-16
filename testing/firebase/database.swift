@@ -167,7 +167,7 @@ func downloadClassesCategories(snapshot: DataSnapshot, classId: String, completi
 
 func deleteWordFromDatabase(word: Word){
     ref.child("words").child(word.db_index).removeValue()
-    if let ind = (archive.map { $0.english }).firstIndex(of: words[0].english){
+    if let ind = (archive.map { $0.english }).firstIndex(of: word.english){
         archive.remove(at: ind)
     }
     if word.category != no_category{
