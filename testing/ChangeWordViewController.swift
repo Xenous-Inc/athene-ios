@@ -26,7 +26,7 @@ class ChangeWordViewController: NewWordViewController {
         ed_text_english.text = words[0].english
         ed_text_russian.text = words[0].russian
         mainView.categoryLabel.text = words[0].category
-        let cancel_btn = view.viewWithTag(801) as! UIButton
+        let cancel_btn = view.viewWithTag(801) as! Button
         cancel_btn.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
     }
     

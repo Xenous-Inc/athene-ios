@@ -65,20 +65,24 @@ class CategoryView: UIView {
         print("new tap")
         let pressedCell = gesture.view as! CategoryViewCell
         UIView.animate(withDuration: 0.4) {
-            var dy: CGFloat = 0
-            for cell in self.cells{
-                cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY + dy, width: cell.frame.width, height: cell.frame.height)
-                if((cell.opened && abs(cell.frame.minY - pressedCell.frame.minY) > 1) || abs(cell.frame.minY - pressedCell.frame.minY) < 1){
-                    dy -= cell.frame.height
-                    cell.handleTap()
-                    dy += cell.frame.height
-                }
-            }
-            self.mainView.contentSize.height += dy
+            self.openCell(cellToOpen: pressedCell)
         }
     }
+
+    func openCell(cellToOpen: CategoryViewCell){
+        var dy: CGFloat = 0
+        for cell in self.cells{
+            cell.frame = CGRect(x: cell.frame.minX, y: cell.frame.minY + dy, width: cell.frame.width, height: cell.frame.height)
+            if((cell.opened && abs(cell.frame.minY - cellToOpen.frame.minY) > 1) || abs(cell.frame.minY - cellToOpen.frame.minY) < 1){
+                dy -= cell.frame.height
+                cell.handleTap()
+                dy += cell.frame.height
+            }
+        }
+        self.mainView.contentSize.height += dy
+    }
     
-    func viewCategoryInfo(cell: CategoryViewCell){
+    func viewCategoryInfo(cell: CategoryViewCell) -> CategoryDescriptionView{
         descriptionView = CategoryDescriptionView(
             frame: frame,//CGRect(x: frame.width, y: 0, width: frame.width, height: frame.height),
             name: cell.title,
@@ -86,7 +90,6 @@ class CategoryView: UIView {
             canLearn: true,
             hasBackButton: true)
         descriptionView?.alpha = 0
-        descriptionView?.backButton.addTarget(self, action: #selector(returnToMainView(sender:)), for: .touchUpInside)
         addSubview(descriptionView!)
         
         mainView.isUserInteractionEnabled = false
@@ -102,16 +105,18 @@ class CategoryView: UIView {
             self.mainView.removeFromSuperview()
             self.mainView.isUserInteractionEnabled = true
         })
+        return descriptionView!
     }
     
-    @objc func returnToMainView(sender: Any){
+    @objc func returnToMainView(completion: @escaping () -> Void = { }){
+        guard let descriptionView = descriptionView else {return}
         mainView.alpha = 0
         addSubview(mainView)
-        descriptionView?.isUserInteractionEnabled = false
+        descriptionView.isUserInteractionEnabled = false
         
         UIView.animateKeyframes(withDuration: 0.6, delay: 0, options: [], animations: {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
-                self.descriptionView?.alpha = 0
+                descriptionView.alpha = 0
             }
             UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5){
                 self.mainView.alpha = 1
@@ -120,6 +125,7 @@ class CategoryView: UIView {
             self.descriptionView?.removeFromSuperview()
             self.descriptionView?.isUserInteractionEnabled = true
             self.descriptionView = nil
+            completion()
         })
     }
     

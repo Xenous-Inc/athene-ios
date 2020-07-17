@@ -22,13 +22,13 @@ class NewWordView: UIView {
     var min_len: CGFloat = 0
     var padding: CGFloat = 0
 
-    var finishButton = UIButton(), addButton = UIButton()
+    var finishButton = Button(), addButton = Button()
     var categoryView = UIView()
     var categoryLabel = UILabel()
     
     var opened = false
     
-    var categoriesButtons: [UIButton] = []
+    var categoriesButtons: [Button] = []
     
     init(frame: CGRect, categories: [String]){
         super.init(frame: frame)
@@ -105,7 +105,7 @@ class NewWordView: UIView {
         bottom_bar_height_small = titleLabel.bounds.height
         
         finishButton = {
-            let finish_btn = UIButton()
+            let finish_btn = Button()
             finish_btn.bounds = CGRect(x: 0, y: 0, width: 0.45*frame.width, height: bottom_bar_height_small)
             finish_btn.setTitle("", for: .normal)
             finish_btn.setTitleColor(UIColor.white, for: .normal)
@@ -240,7 +240,7 @@ class NewWordView: UIView {
         }
         
         for i in 0..<categories.count{
-            let cur = UIButton()
+            let cur = Button()
             cur.bounds = CGRect(x: 0, y: 0, width: block_lens[i], height: block_height)
             cur.setTitle(categories[i], for: .normal)
             cur.titleLabel?.font = small_font
@@ -260,7 +260,7 @@ class NewWordView: UIView {
         scroll.isScrollEnabled = false
         
         addButton = {
-            let add_btn = UIButton()
+            let add_btn = Button()
             add_btn.bounds = CGRect(x: 0, y: 0, width: 2*padding + (add_cat_text as NSString).size(withAttributes: d).width, height: block_height)
             add_btn.setTitle(add_cat_text, for: .normal)
             add_btn.titleLabel?.font = small_font
@@ -293,14 +293,14 @@ class NewWordView: UIView {
         if(scroll.contentSize.height > scroll.bounds.height){
             scroll.isScrollEnabled = true
         }
-        let add_btn = v.viewWithTag(600) as! UIButton
+        let add_btn = v.viewWithTag(600) as! Button
         UIView.animate(withDuration: 0.5, animations: {
             v.frame = CGRect(x: (self.bounds.width - self.bottom_bar_width) / 2, y: v.frame.minY, width: self.bottom_bar_width, height: self.bottom_bar_height)
             v.alpha = 1
             add_btn.center = CGPoint(x: self.bottom_bar_width / 2, y: add_btn.center.y)
             add_btn.alpha = 1
             for i in 0..<categories.count{
-                let cat = scroll.viewWithTag(i + 1) as! UIButton
+                let cat = scroll.viewWithTag(i + 1) as! Button
                 //cat.addTarget(self, action: #selector(self.chooseCategory(sender:)), for: .touchUpInside)
                 cat.isUserInteractionEnabled = true
                 cat.center = self.categories_centers[i]
@@ -311,7 +311,7 @@ class NewWordView: UIView {
         })
     }
     
-    @objc func shrinkBottomBar(_ sender: UIButton?){
+    @objc func shrinkBottomBar(_ sender: Button?){
         if(!opened) {return}
         opened = false
         let scroll = categoryView.viewWithTag(400) as! UIScrollView
@@ -324,7 +324,7 @@ class NewWordView: UIView {
             self.addButton.alpha = 0
             self.addButton.center = CGPoint(x: self.bottom_bar_width_small / 2, y: self.addButton.center.y)
             for i in 0..<categories.count{
-                let cat = scroll.viewWithTag(i + 1) as! UIButton
+                let cat = scroll.viewWithTag(i + 1) as! Button
                 cat.center = CGPoint(x: scroll.bounds.width / 2, y: cat.bounds.height / 2)
                 cat.alpha = 0
                 cat.isUserInteractionEnabled = false

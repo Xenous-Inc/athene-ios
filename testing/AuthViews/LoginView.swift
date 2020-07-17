@@ -14,8 +14,8 @@ class LoginView: UIView {
     let font = "Helvetica"
     
     var emailField, passwordField: UITextField!
-    var passwordResetButton, signUpButton: UIButton!
-    var submitButton, loginWithGoogleButton: UIButton!
+    var passwordResetButton, signUpButton: Button!
+    var submitButton, loginWithGoogleButton: Button!
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -73,7 +73,7 @@ class LoginView: UIView {
         var s: CGFloat = 0
         let f_sz_small = CGFloat(FontHelper().getInterfaceFontSize(font: font, height: 0.65*height))
         for i in 0..<2{
-            let btn = UIButton(frame: CGRect(
+            let btn = Button(frame: CGRect(
                     x: self.subviews.last!.frame.minX,
                     y: ((i == 0) ? (self.subviews.last!.frame.maxY + 0.4*height) : 0.87*frame.height),
                     width: self.subviews.last!.frame.width,
@@ -98,7 +98,7 @@ class LoginView: UIView {
         let pd = 0.05*frame.width
 
         loginWithGoogleButton = {
-            let button = UIButton()
+            let button = Button()
             button.bounds = CGRect(x: 0, y: 0, width: 0.4*frame.width, height: frame.height / 18)
             button.center = CGPoint(x: (frame.width - 2*button.bounds.width - pd) / 2 + button.bounds.width / 2, y: 0.5*s)
             button.backgroundColor = UIColor.white
@@ -120,7 +120,7 @@ class LoginView: UIView {
         self.addSubview(imageView)
         
         submitButton = {
-            let button = UIButton()
+            let button = Button()
             button.bounds = loginWithGoogleButton.bounds
             button.setTitle("", for: .normal)
             button.setTitleColor(UIColor.white, for: .normal)

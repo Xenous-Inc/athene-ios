@@ -14,8 +14,8 @@ class MainView: UIView {
     var submit_btn_old_frame = CGRect()
     
     var editTextFirst, editTextSecond, editTextThird: UITextField!
-    var nextButton, forgotButton: UIButton!
-    var editButton, deleteButton: UIButton!
+    var nextButton, forgotButton: Button!
+    var editButton, deleteButton: Button!
     var containerView: UIView!
     var endOfWordsView: UILabel!
     
@@ -79,7 +79,7 @@ class MainView: UIView {
         }
         
         nextButton = {
-            let next_btn = UIButton(frame: CGRect(x: 0.275*frame.width, y: 0.77*frame.height - height, width: 0.45*frame.width, height: height))
+            let next_btn = Button(frame: CGRect(x: 0.275*frame.width, y: 0.77*frame.height - height, width: 0.45*frame.width, height: height))
             next_btn.setTitle("", for: .normal)
             next_btn.setTitleColor(UIColor.white, for: .normal)
             next_btn.backgroundColor = UIColor.clear
@@ -128,7 +128,7 @@ class MainView: UIView {
         containerView.addSubview(nextButtonDescriptionLabel)
         
         forgotButton = {
-            let forgot_btn = UIButton(frame: CGRect(x: 0, y: 0, width: 0.45*frame.width, height: height))
+            let forgot_btn = Button(frame: CGRect(x: 0, y: 0, width: 0.45*frame.width, height: height))
             forgot_btn.center = CGPoint(x: frame.width / 2, y: nextButtonDescriptionLabel.frame.maxY + forgot_btn.bounds.height)
             forgot_btn.setTitle(main_page_forgot_word_text, for: .normal)
             forgot_btn.setTitleColor(UIColor.white, for: .normal)
@@ -145,7 +145,7 @@ class MainView: UIView {
         //Incorrect answer
         
         for i in 0..<2{
-            let btn = UIButton(frame: CGRect(x: frame.width / 2 + CGFloat(3*i - 2)*height, y: 0.45*frame.height + 2.2*height, width: height, height: height))
+            let btn = Button(frame: CGRect(x: frame.width / 2 + CGFloat(3*i - 2)*height, y: 0.45*frame.height + 2.2*height, width: height, height: height))
             btn.backgroundColor = UIColor.clear
             btn.setImage(UIImage(named: ((i == 0) ? "edit" : "trash")), for: .normal)
             btn.setTitle("", for: .normal)

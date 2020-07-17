@@ -42,7 +42,7 @@ class ArchiveViewController: UIViewController{
         bottom_bar = UIView(frame: CGRect(x: 0, y: 0.9*view.bounds.height, width: view.bounds.width, height: 0.1*view.bounds.height))
         for i in 0..<2{
             let width = view.bounds.width / 3
-            let btn = UIButton(frame: CGRect(x: CGFloat(i+1)*pd + CGFloat(i)*width, y: pd, width: width, height: bottom_bar.bounds.height - 2*pd))
+            let btn = Button(frame: CGRect(x: CGFloat(i+1)*pd + CGFloat(i)*width, y: pd, width: width, height: bottom_bar.bounds.height - 2*pd))
             btn.layer.borderWidth = 2
             btn.layer.borderColor = UIColor.white.cgColor
             btn.layer.cornerRadius = btn.bounds.height / 2
@@ -76,29 +76,50 @@ class ArchiveViewController: UIViewController{
                 (views[0] as? CategoryView) != nil &&
                 ((views[0] as! CategoryView).descriptionView != nil) &&
                 categories_words[(views[0] as! CategoryView).descriptionView!.title] != nil
-        var title = ""
+        var titleOfOpenedDescription = ""
         if(wasDescriptionOpened){
-            title = (views[0] as! CategoryView).descriptionView!.title
+            titleOfOpenedDescription = (views[0] as! CategoryView).descriptionView!.title
+        }
+
+        var titleOfOpenedCell: String? = nil
+        if (views[0] as? CategoryView) != nil{
+            for cell in (views[0] as! CategoryView).cells{
+                if(cell.opened){
+                    titleOfOpenedCell = cell.title
+                    break
+                }
+            }
         }
 
         let v = CategoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories_words)
 
+        var cellToOpen: CategoryViewCell? = nil
         for cell in v.cells{
             cell.deleteButton.addTarget(self, action: #selector(deleteCategory(sender:)), for: .touchUpInside)
             cell.learnButton.addTarget(self, action: #selector(learnCategory(sender:)), for: .touchUpInside)
             cell.shareButton.addTarget(self, action: #selector(shareCategory(sender:)), for: .touchUpInside)
             cell.infoButton.addTarget(self, action: #selector(inspectCategory(sender:)), for: .touchUpInside)
+            if(cell.title == titleOfOpenedCell){
+                cellToOpen = cell
+            }
+        }
+
+        if let cellToOpen = cellToOpen{
+            v.openCell(cellToOpen: cellToOpen)
         }
 
         if(wasDescriptionOpened){
             v.mainView.removeFromSuperview()
             v.descriptionView = CategoryDescriptionView(
                     frame: v.mainView.frame,//CGRect(x: frame.width, y: 0, width: frame.width, height: frame.height),
-                    name: title,
-                    words: categories_words[title]!,
+                    name: titleOfOpenedDescription,
+                    words: categories_words[titleOfOpenedDescription]!,
                     canLearn: true,
                     hasBackButton: true)
-            v.descriptionView!.backButton.addTarget(v, action: #selector(v.returnToMainView(sender:)), for: .touchUpInside)
+            v.descriptionView!.backButton.addTarget(
+                    self,
+                    action: #selector(categoryViewReturnToCategories),
+                    for: .touchUpInside)
             v.addSubview(v.descriptionView!)
         }
  
@@ -120,7 +141,7 @@ class ArchiveViewController: UIViewController{
         }
     }
     
-    @objc func deleteCategory(sender: UIButton){
+    @objc func deleteCategory(sender: Button){
         let alert = UIAlertController(title: delete_category_title, message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: alert_cancel, style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: delete_category_without_words_text, style: .default, handler: { (action) in
@@ -136,7 +157,7 @@ class ArchiveViewController: UIViewController{
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func shareCategory(sender: UIButton){
+    @objc func shareCategory(sender: Button){
         let cell = sender.superview as! CategoryViewCell
         let category_text = cell.title
         
@@ -205,7 +226,7 @@ class ArchiveViewController: UIViewController{
         present(activityVC, animated: true)
     }
     
-    @objc func learnCategory(sender: UIButton){
+    @objc func learnCategory(sender: Button){
         let cell = sender.superview as! CategoryViewCell
         var k = 0
         var n = 0
@@ -234,7 +255,7 @@ class ArchiveViewController: UIViewController{
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func learnWord(sender: UIButton){
+    @objc func learnWord(sender: Button){
         let cell = sender.superview as! CategoryDescriptionViewCell
         if(cell.word.level == -2){
             let alert = UIAlertController(title: add_alert_title_single, message: add_alert_describtion_single, preferredStyle: .actionSheet)
@@ -284,13 +305,17 @@ class ArchiveViewController: UIViewController{
         })
     }
     
-    @objc func inspectCategory(sender: UIButton){
+    @objc func inspectCategory(sender: Button){
         let cell = sender.superview as! CategoryViewCell
-        (views[0] as! CategoryView).viewCategoryInfo(cell: cell)
-        for wordCell in (views[0] as! CategoryView).descriptionView!.cells{
+        let descriptionView = (views[0] as! CategoryView).viewCategoryInfo(cell: cell)
+        for wordCell in descriptionView.cells{
             wordCell.learnButton!.addTarget(self, action: #selector(learnWord(sender:)), for: .touchUpInside)
             wordCell.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(deleteWord(gesture:))))
         }
+        descriptionView.backButton.addTarget(
+                self,
+                action: #selector(categoryViewReturnToCategories),
+                for: .touchUpInside)
     }
     
     @objc func deleteWord(gesture: UILongPressGestureRecognizer){
@@ -308,6 +333,12 @@ class ArchiveViewController: UIViewController{
             alert.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
             
             self.present(alert, animated: true, completion: nil)
+        }
+    }
+
+    @objc func categoryViewReturnToCategories(){
+        (views[0] as! CategoryView).returnToMainView() {
+            self.viewWillAppear(false)
         }
     }
 }

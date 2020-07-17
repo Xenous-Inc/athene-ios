@@ -17,7 +17,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     
     
     var cheerView: SAConfettiView!
-    @IBOutlet weak var sign_out_btn: UIButton!
+    @IBOutlet weak var sign_out_btn: Button!
     @IBOutlet weak var btn_top_constraint: NSLayoutConstraint!
     @IBOutlet weak var pager_view: CustomPageControl!
     @IBOutlet weak var main_v: UIView!

@@ -10,7 +10,7 @@ import UIKit
 
 class ChangeWordView: NewWordView {
 
-    var cancelButton = UIButton()
+    var cancelButton = Button()
     
     override init(frame: CGRect, categories: [String]) {
         let pd_top = 0.15*frame.height, pd_bottom = 0.05*frame.height
@@ -26,7 +26,7 @@ class ChangeWordView: NewWordView {
         (viewWithTag(1001) as! UILabel).center = CGPoint(x: finishButton.center.x, y: finishButton.center.y + finishButton.bounds.height / 2 + 0.9*(viewWithTag(1001) as! UILabel).bounds.height)
         
         cancelButton = {
-            let cancel_btn = UIButton()
+            let cancel_btn = Button()
             cancel_btn.bounds = finishButton.bounds
             cancel_btn.setTitle(edit_page_cancel_text, for: .normal)
             cancel_btn.setTitleColor(UIColor.white, for: .normal)

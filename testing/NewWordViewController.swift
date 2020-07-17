@@ -102,13 +102,13 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                     }
                 }
                 
-                let comp_btn = scroll.viewWithTag(1) as! UIButton
+                let comp_btn = scroll.viewWithTag(1) as! Button
                 
                 let d = [NSAttributedString.Key.font:comp_btn.titleLabel?.font!]
                 let l1 = 2*self.mainView.padding + (cat as NSString).size(withAttributes: d as [NSAttributedString.Key : Any]).width
                 let len = min(max(l1, self.mainView.min_len), scroll.bounds.width)
                 
-                let cur = UIButton()
+                let cur = Button()
                 cur.bounds = CGRect(x: 0, y: 0, width: len, height: comp_btn.bounds.height)
                 cur.setTitle(cat, for: .normal)
                 cur.titleLabel?.font = comp_btn.titleLabel?.font
@@ -268,7 +268,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    @objc func chooseCategory(sender: UIButton){
+    @objc func chooseCategory(sender: Button){
         print("nice")
         mainView.categoryLabel.text = sender.title(for: .normal)
         mainView.shrinkBottomBar(nil)

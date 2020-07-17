@@ -33,7 +33,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //Navigation
     
-    @objc func onNextButtonPressed(_ sender: UIButton){
+    @objc func onNextButtonPressed(_ sender: Button){
         if(words.count == 0){return}
         contentView.nextButton.isEnabled = false
         contentView.forgotButton.isEnabled = false
@@ -184,7 +184,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         main_vc.lastPendingViewControllerIndex = 0
     }
 
-    @objc func changeWord(_ sender: UIButton) {
+    @objc func changeWord(_ sender: Button) {
         main_vc.performSegue(withIdentifier: "create_word_segue", sender: main_vc)
     }
     

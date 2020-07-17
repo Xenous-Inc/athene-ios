@@ -43,8 +43,8 @@ class TutorialSegmentViewController: UIViewController {
         
         if(is_last){
             print("Last tab")
-            let finish_btn: UIButton = {
-                let btn = UIButton(frame: CGRect(x: 0.1*imageView.bounds.width + imageView.frame.minX, y: imageView.frame.maxY + 0.02*view.bounds.width, width: 0.8*imageView.bounds.width, height: 0.06*view.bounds.height))
+            let finish_btn: Button = {
+                let btn = Button(frame: CGRect(x: 0.1*imageView.bounds.width + imageView.frame.minX, y: imageView.frame.maxY + 0.02*view.bounds.width, width: 0.8*imageView.bounds.width, height: 0.06*view.bounds.height))
                 btn.setTitle("Понятно", for: .normal)
                 btn.setTitleColor(UIColor.init(rgb: colors[2]), for: .normal)
                 btn.layer.borderColor = UIColor.init(rgb: colors[2]).cgColor

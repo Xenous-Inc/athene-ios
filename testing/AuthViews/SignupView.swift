@@ -14,8 +14,8 @@ class SignupView: UIView {
     let font = "Helvetica"
 
     var emailField, passwordField, passwordConfirmField: UITextField!
-    var submitButton, loginWithGoogleButton: UIButton!
-    var backButton: UIButton!
+    var submitButton, loginWithGoogleButton: Button!
+    var backButton: Button!
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -39,7 +39,7 @@ class SignupView: UIView {
 
         backButton = {
             let buttonSize = 0.045*frame.height
-            let button = UIButton(frame: CGRect(
+            let button = Button(frame: CGRect(
                     x: 0.1*frame.width,
                     y: titleLabel.center.y - buttonSize / 2,
                     width: buttonSize,
@@ -89,7 +89,7 @@ class SignupView: UIView {
         let pd = 0.05*frame.width
 
         loginWithGoogleButton = {
-            let button = UIButton()
+            let button = Button()
             button.bounds = CGRect(x: 0, y: 0, width: 0.4*frame.width, height: frame.height / 18)
             button.center = CGPoint(
                     x: (frame.width - 2*button.bounds.width - pd) / 2 + button.bounds.width / 2,
@@ -112,7 +112,7 @@ class SignupView: UIView {
         self.addSubview(imageView)
         
         submitButton = {
-            let button = UIButton()
+            let button = Button()
             button.bounds = loginWithGoogleButton.bounds
             button.setTitle("", for: .normal)
             button.setTitleColor(UIColor.white, for: .normal)
@@ -136,9 +136,9 @@ class SignupView: UIView {
         f_img.tag = 801
         self.addSubview(f_img)
 
-//        let appleButton: UIButton = {
+//        let appleButton: Button = {
 //            let width = 0.6*frame.width
-//            let button = UIButton(frame: CGRect(
+//            let button = Button(frame: CGRect(
 //                    x: (frame.width - width) / 2,
 //                    y: google_btn.frame.maxY + 0.02*frame.height,
 //                    width: width, height: finish_btn.bounds.height))
