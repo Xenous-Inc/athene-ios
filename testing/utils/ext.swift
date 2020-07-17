@@ -12,9 +12,7 @@ import AVFoundation
 import UserNotifications
 
 extension Date {
-    func toDatabaseFormat() -> Int64{
-        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
-    }
+    func toDatabaseFormat() -> Int64 { Int64((self.timeIntervalSince1970 * 1000.0).rounded()) }
     
     init(milliseconds: Int64) {
         self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
@@ -72,9 +70,7 @@ extension UIColor {
 }
 
 extension String {
-    func formatted() -> String{
-        return self.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-    }
+    func formatted() -> String { self.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) }
 }
 
 func drawLine(view: UIView, start: CGPoint, end: CGPoint, color: CGColor, width: CGFloat){
