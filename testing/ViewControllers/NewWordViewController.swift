@@ -78,12 +78,13 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 }
                 self.mainView.categoryLabel.text = cat.formatted()
                 
-                if(categories.contains(cat.formatted())){ return }
+                if(categories.contains(where: { $0.title == cat.formatted()})){ return }
                 
-                ref.child("categories").childByAutoId().setValue(cat.formatted())
+                let newCatRef = ref.child("categories").childByAutoId()
+                newCatRef.setValue(cat.formatted())
                 
                 self.mainView.shrinkBottomBar(nil)
-                categories.append(cat.formatted())
+                categories.append(Category(title: cat.formatted(), databaseId: newCatRef.key))
                 self.mainView.categoryLabel.text = cat.formatted()
                 print("SUCCESS")
                 
@@ -192,10 +193,12 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
         newWordRef.child("category").setValue(category)
         
         if(category != no_category){
-            if(categories_words[category] != nil){
-                categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: 0, id: newWordRef.key!))
+            if let categoryIndex = categories.firstIndex(where: { $0.title.formatted() == category.formatted() }){
+                categories[categoryIndex].words.append(Word(eng: eng, rus: rus, ct: category.formatted(), lvl: 0, id: newWordRef.key!))
             }else{
-                categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: 0, id: newWordRef.key!)]
+                categories.append(Category(
+                        title: category.formatted(),
+                        words: [Word(eng: eng, rus: rus, ct: category.formatted(), lvl: 0, id: newWordRef.key!)]))
             }
         }
         self.view.isUserInteractionEnabled = false

@@ -25,8 +25,7 @@ var month_date: Date = Date()
 var three_month_date: Date = Date()
 var six_month_date: Date = Date()
 
-var categories_words: [String: [Word]] = [:]
-var categories: [String] = []
+var categories: [Category] = []
 
 var russian_list: [String] = []
 var english_list: [String] = []
@@ -42,8 +41,10 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     var _words: [Word] = []
     var _russian_list: [String] = []
     var _english_list: [String] = []
-    var _categories_words: [String: [Word]] = [:]
-    var _categories: [String] = [no_category] + default_categories
+    var _categories: [Category] = [Category(title: no_category)]
+    for catName in default_categories{
+        _categories.append(Category(title: catName))
+    }
     SetDates()
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -51,7 +52,9 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
     ref.observeSingleEvent(of: .value, with: { (snp) in
         let en = snp.childSnapshot(forPath: "categories").children
         while let snap = en.nextObject() as? DataSnapshot{
-            _categories.append((snap.value as! String).formatted())
+            if (!_categories.contains(where: { $0.title.formatted() == (snap.value as! String).formatted() })) {
+                _categories.append(Category(title: (snap.value as! String), databaseId: snap.key))
+            }
         }
         let snapshot = snp.childSnapshot(forPath: "words")
         var date: Date, count: Int
@@ -65,11 +68,13 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
             var level = snap.childSnapshot(forPath: "level").value as? Int ?? 0
             _russian_list.append(rus)
             _english_list.append(eng)
-            if(category.formatted() != no_category){
-                if(_categories_words[category] != nil){
-                    _categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, id: snap.key))
+            if(category.formatted() != no_category.formatted()){
+                if let categoryIndex = _categories.firstIndex(where: { $0.title.formatted() == category.formatted() }){
+                    _categories[categoryIndex].words.append(Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, id: snap.key))
                 }else{
-                    _categories_words[category] = [Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, id: snap.key)]
+                    _categories.append(Category(
+                            title: category,
+                            words: [Word(eng: eng, rus: rus, ct: category.formatted(), lvl: level, id: snap.key)]))
                 }
             }
             if(level == -1){
@@ -89,7 +94,6 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
         words = _words
         russian_list = _russian_list
         english_list = _english_list
-        categories_words = _categories_words
         categories = _categories
         if let comp = completion{
             comp(true)        }
@@ -98,9 +102,10 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
 
 func downloadCategory(id: String, category: String, completion: ((Bool) -> Void)?){
     updateWordsFromDatabase(completion: {(finished: Bool) in
-        if(!categories.contains(category)){
-            ref.child("categories").childByAutoId().setValue(category)
-            categories.append(category)
+        if(!categories.contains(where: { $0.title.formatted() == category.formatted() })){
+            let newCategoryRef = ref.child("categories").childByAutoId()
+            newCategoryRef.setValue(category)
+            categories.append(Category(title: category.formatted(), databaseId: newCategoryRef.key))
         }
         let other_user_ref = Database.database().reference().child("users").child(id)
         other_user_ref.child("words").observeSingleEvent(of: .value, with: {(snapshot) in
@@ -117,11 +122,14 @@ func downloadCategory(id: String, category: String, completion: ((Bool) -> Void)
                     wordRef.child("category").setValue(cat)
                     wordRef.child("level").setValue(-2)
                     wordRef.child("date").setValue(now_date.toDatabaseFormat())
-                    if(categories_words[category] != nil){
-                        categories_words[category]!.append(Word(eng: eng, rus: rus, ct: category, lvl: -2, id: wordRef.key!))
+                    if let categoryIndex = categories.firstIndex(where: { $0.title.formatted() == category.formatted() }){
+                        categories[categoryIndex].words.append(Word(eng: eng, rus: rus, ct: category.formatted(), lvl: -2, id: wordRef.key!))
                     }else{
-                        categories_words[category] = [Word(eng: eng, rus: rus, ct: category, lvl: -2, id: wordRef.key!)]
-                    }                }
+                        categories.append(Category(
+                                title: category.formatted(),
+                                words: [Word(eng: eng, rus: rus, ct: category.formatted(), lvl: -2, id: wordRef.key!)]))
+                    }
+                }
             }
             if let comp = completion{
                 comp(true)
@@ -137,9 +145,10 @@ func downloadClassesCategories(snapshot: DataSnapshot, classId: String, completi
         while let catSnapshot = enumerator.nextObject() as? DataSnapshot{
             let catId = catSnapshot.value as! String
             let catName = (snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "name").value as! String).formatted()
-            if(!categories.contains(catName)){
-                ref.child("categories").childByAutoId().setValue(catName)
-                categories.append(catName)
+            if(!categories.contains(where: { $0.title.formatted() == catName.formatted() })){
+                let newCategoryRef = ref.child("categories").childByAutoId()
+                newCategoryRef.setValue(catName)
+                categories.append(Category(title: catName.formatted(), databaseId: newCategoryRef.key))
             }
             print("CATEGORY TO IMPORT, ", catId, catName)
             let wordEnumerator = snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "words").children
@@ -154,10 +163,12 @@ func downloadClassesCategories(snapshot: DataSnapshot, classId: String, completi
                 wordRef.child("category").setValue(catName)
                 wordRef.child("level").setValue(-2)
                 wordRef.child("date").setValue(now_date.toDatabaseFormat())
-                if(categories_words[catName] != nil){
-                    categories_words[catName]!.append(Word(eng: eng, rus: rus, ct: catName, lvl: -2, id: wordRef.key!))
+                if let categoryIndex = categories.firstIndex(where: { $0.title.formatted() == catName.formatted() }){
+                    categories[categoryIndex].words.append(Word(eng: eng, rus: rus, ct: catName.formatted(), lvl: -2, id: wordRef.key!))
                 }else{
-                    categories_words[catName] = [Word(eng: eng, rus: rus, ct: catName, lvl: -2, id: wordRef.key!)]
+                    categories.append(Category(
+                            title: catName.formatted(),
+                            words: [Word(eng: eng, rus: rus, ct: catName.formatted(), lvl: -2, id: wordRef.key!)]))
                 }
             }
         }
@@ -171,28 +182,26 @@ func deleteWordFromDatabase(word: Word){
         archive.remove(at: ind)
     }
     if word.category != no_category{
-        if let ind = categories_words[word.category.formatted()]?.firstIndex(where: { $0.english.formatted() == word.english.formatted() }){
-            categories_words[word.category]?.remove(at: ind)
-            if(categories_words[word.category]?.count == 0){
-                categories_words.removeValue(forKey: word.category)
-            }
-        }
+        guard let categoryIndex = categories.firstIndex(where: { $0.title.formatted() == word.category.formatted() }) else {return}
+        guard let wordIndex = categories[categoryIndex].words.firstIndex(where: { $0.english.formatted() == word.english.formatted() }) else {return}
+
+        categories[categoryIndex].words.remove(at: wordIndex)
     }
 }
 
 func deleteCategoryFromDatabase(name: String, deleteWords: Bool){
-    for word in categories_words[name]!{
+    guard let categoryIndex = categories.firstIndex(where: { $0.title.formatted() == name.formatted() }) else {return}
+    let category = categories[categoryIndex]
+    for word in category.words{
         if(deleteWords){
             ref.child("words").child(String(word.db_index)).removeValue()
         }else{
             ref.child("words").child(String(word.db_index)).child("category").setValue(no_category)
         }
     }
-    if(categories.firstIndex(of: name.formatted()) == nil) {return}
-    let catInd = categories.firstIndex(of: name.formatted())! - 1 - default_categories.count
-    if(catInd >= 0){
-        ref.child("categories").child(String(catInd)).removeValue()
-        categories.remove(at: categories.firstIndex(of: name)!)
+    if let categoryId = category.databaseId{
+        ref.child("categories").child(String(categoryId)).removeValue()
     }
-    categories_words.removeValue(forKey: name)
+    categories.remove(at: categoryIndex)
+
 }

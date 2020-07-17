@@ -30,7 +30,7 @@ class NewWordView: UIView {
     
     var categoriesButtons: [Button] = []
     
-    init(frame: CGRect, categories: [String]){
+    init(frame: CGRect, categories: [Category]){
         super.init(frame: frame)
         if(categories.count == 0) {return};
         
@@ -180,7 +180,7 @@ class NewWordView: UIView {
         bottom_bar_height = frame.height - categoryView.frame.minY
         
         let d = [NSAttributedString.Key.font: small_font!]
-        let block_height = (categories[0] as NSString).size(withAttributes: d).height + 0.015*frame.height
+        let block_height = (categories[0].title as NSString).size(withAttributes: d).height + 0.015*frame.height
         
         let scroll = UIScrollView()
         scroll.bounds = CGRect(x: 0, y: 0, width: bottom_bar_width - 2*categoryView.layer.cornerRadius, height: bottom_bar_height - 3*categoryView.layer.cornerRadius - block_height)
@@ -192,7 +192,7 @@ class NewWordView: UIView {
         
         var block_lens: [CGFloat] = []
         for i in 0..<categories.count{
-            let l1 = 2*padding + (categories[i] as NSString).size(withAttributes: d).width
+            let l1 = 2*padding + (categories[i].title as NSString).size(withAttributes: d).width
             block_lens.append(min(max(l1, min_len), scroll.bounds.width))
         }
         
@@ -242,7 +242,7 @@ class NewWordView: UIView {
         for i in 0..<categories.count{
             let cur = Button()
             cur.bounds = CGRect(x: 0, y: 0, width: block_lens[i], height: block_height)
-            cur.setTitle(categories[i], for: .normal)
+            cur.setTitle(categories[i].title, for: .normal)
             cur.titleLabel?.font = small_font
             cur.backgroundColor = UIColor.init(rgb: colors[i % colors.count])
             cur.setTitleColor(UIColor.white, for: .normal)

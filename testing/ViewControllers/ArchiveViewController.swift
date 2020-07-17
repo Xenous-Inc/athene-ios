@@ -75,7 +75,8 @@ class ArchiveViewController: UIViewController{
         let wasDescriptionOpened =
                 (views[0] as? CategoryView) != nil &&
                 ((views[0] as! CategoryView).descriptionView != nil) &&
-                categories_words[(views[0] as! CategoryView).descriptionView!.title] != nil
+                categories.firstIndex(where: { $0.title == (views[0] as! CategoryView).descriptionView!.title }) != nil &&
+                categories.firstIndex(where: { $0.title == (views[0] as! CategoryView).descriptionView!.title })!.words.count > 0
         var titleOfOpenedDescription = ""
         if(wasDescriptionOpened){
             titleOfOpenedDescription = (views[0] as! CategoryView).descriptionView!.title
@@ -91,7 +92,7 @@ class ArchiveViewController: UIViewController{
             }
         }
 
-        let v = CategoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories_words)
+        let v = CategoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - bottom_bar.bounds.height), content: categories)
 
         var cellToOpen: CategoryViewCell? = nil
         for cell in v.cells{
@@ -113,7 +114,7 @@ class ArchiveViewController: UIViewController{
             v.descriptionView = CategoryDescriptionView(
                     frame: v.mainView.frame,//CGRect(x: frame.width, y: 0, width: frame.width, height: frame.height),
                     name: titleOfOpenedDescription,
-                    words: categories_words[titleOfOpenedDescription]!,
+                    words: categories.first(where: { $0.title == titleOfOpenedDescription })!.words,
                     canLearn: true,
                     hasBackButton: true)
             v.descriptionView!.backButton.addTarget(
@@ -230,7 +231,7 @@ class ArchiveViewController: UIViewController{
         let cell = sender.superview as! CategoryViewCell
         var k = 0
         var n = 0
-        for word in categories_words[cell.title]!{
+        for word in categories.first(where: { $0.title == cell.title })!.words{
             n += 1
             if(word.level == -2){
                 k += 1
@@ -242,7 +243,7 @@ class ArchiveViewController: UIViewController{
             preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: alert_yes, style: UIAlertAction.Style.default, handler: {(action) in
-            for word in categories_words[cell.title]!{
+            for word in categories.first(where: { $0.title == cell.title })!.words{
                 if(word.level == -2){
                     ref.child("words").child(word.db_index).child("level").setValue(0)
                     ref.child("words").child(word.db_index).child("date").setValue(next_date.toDatabaseFormat())

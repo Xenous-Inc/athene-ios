@@ -10,7 +10,7 @@ import UIKit
 
 class CategoryView: UIView {
 
-    var content: [String: [Word]] = [:]
+    var content: [Category] = []
     var cells: [CategoryViewCell] = []
     
     var padding: CGFloat = 0
@@ -19,14 +19,14 @@ class CategoryView: UIView {
     var mainView: UIScrollView!
     var descriptionView: CategoryDescriptionView? = nil
     
-    init(frame: CGRect, content: [String: [Word]]){
+    init(frame: CGRect, content: [Category]){
         super.init(frame: frame)
         clipsToBounds = true
         
         mainView = UIScrollView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         addSubview(mainView)
         
-        if(content.count == 0){
+        if(content.count < 2){
             let placeholder: UILabel = {
                 let label = UILabel(frame: CGRect(x: 0.05*self.bounds.width, y: 0, width: 0.9*self.bounds.width, height: 0.5*self.bounds.height))
                     label.text = empty_categories_placeholder
@@ -52,7 +52,8 @@ class CategoryView: UIView {
         let height = 0.09*frame.height
         
         for category in self.content{
-            let cell = CategoryViewCell(frame: CGRect(x: padding, y: y, width: frame.width - 2*padding, height: height), text: category.key)
+            if category.title == no_category {continue}
+            let cell = CategoryViewCell(frame: CGRect(x: padding, y: y, width: frame.width - 2*padding, height: height), text: category.title)
             mainView.addSubview(cell)
             cells.append(cell)
             cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onCellPressed(gesture:))))
@@ -86,7 +87,7 @@ class CategoryView: UIView {
         descriptionView = CategoryDescriptionView(
             frame: frame,//CGRect(x: frame.width, y: 0, width: frame.width, height: frame.height),
             name: cell.title,
-            words: content[cell.title]!,
+            words: content.first(where: { $0.title == cell.title} )!.words,
             canLearn: true,
             hasBackButton: true)
         descriptionView?.alpha = 0

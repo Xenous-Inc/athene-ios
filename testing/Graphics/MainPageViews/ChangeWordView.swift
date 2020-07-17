@@ -12,7 +12,7 @@ class ChangeWordView: NewWordView {
 
     var cancelButton = Button()
     
-    override init(frame: CGRect, categories: [String]) {
+    override init(frame: CGRect, categories: [Category]) {
         let pd_top = 0.15*frame.height, pd_bottom = 0.05*frame.height
         let newFrame = CGRect(x: frame.minX, y: frame.minY + pd_top, width: frame.width, height: frame.height - pd_top - pd_bottom)
         super.init(frame: newFrame, categories: categories)

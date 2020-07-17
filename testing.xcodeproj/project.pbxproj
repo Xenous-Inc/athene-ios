@@ -27,6 +27,7 @@
 		BE094867200E0F2E2F722AA3 /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE09433FBA8465D1973579F5 /* NewWordViewController.swift */; };
 		BE0948703E5B1FAD5CDA0615 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE094EC1C7B3A5314EE4C8BC /* SignupView.swift */; };
 		BE09492481ECDD758CCC2F33 /* ChangeWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE09466E2D17599669ABFBA2 /* ChangeWordViewController.swift */; };
+		BE0949F7EA469AA5CCDCA8E8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE094EBD9F75697F08B65661 /* Category.swift */; };
 		BE094B48416E08BE112047DF /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE094986067E04B5AF3F300F /* CategoryView.swift */; };
 		BE094B607EC5CFBB60F215B5 /* SmoothSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE094952248742454498D826 /* SmoothSegue.swift */; };
 		BE094B74C9A38EBB397FD382 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE09429F3D25A273AEDB286D /* ArchiveViewController.swift */; };
@@ -82,6 +83,7 @@
 		BE094CE9861D5DBD2A56C302 /* MainPageStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageStrings.swift; sourceTree = "<group>"; };
 		BE094DCFCBF7C1F37931F789 /* TutorialSegmentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialSegmentViewController.swift; sourceTree = "<group>"; };
 		BE094DD8139D43C3A23CEA00 /* ChangeWordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeWordView.swift; sourceTree = "<group>"; };
+		BE094EBD9F75697F08B65661 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		BE094EC1C7B3A5314EE4C8BC /* SignupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		BE094F0FFE97C1EC9336FBDF /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		BE094F948CA6BA6ED9A10B7C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				DAF1847A2420EA600031B68C /* Word.swift */,
 				BE094E79B940FE668B085F05 /* ViewControllers */,
 				BE094489663FB5CD180C46AE /* utils */,
+				BE094EBD9F75697F08B65661 /* Category.swift */,
 			);
 			path = testing;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				BE094B607EC5CFBB60F215B5 /* SmoothSegue.swift in Sources */,
 				BE094446E091CE0D167B91B6 /* TutorialViewController.swift in Sources */,
 				BE09443387442ED8762FA487 /* TutorialSegmentViewController.swift in Sources */,
+				BE0949F7EA469AA5CCDCA8E8 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

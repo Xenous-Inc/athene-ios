@@ -43,12 +43,14 @@ class ChangeWordViewController: NewWordViewController {
         
         if(words[0].category != mainView.categoryLabel.text!){
             if(words[0].category != no_category){
-                let ind = (categories_words[words[0].category]?.firstIndex(where: {$0.english == words[0].english}))!
-                categories_words[words[0].category]?.remove(at: ind)
+                let ind = (categories.first(where: { $0.title == words[0].category.formatted() })?.words.firstIndex(
+                        where: { $0.english == words[0].english }))!
+                categories.first(where: { $0.title == words[0].category.formatted() })?.words.remove(at: ind)
+
             }
             words[0].category = mainView.categoryLabel.text!
             if(words[0].category != no_category){
-                categories_words[words[0].category]?.append(words[0])
+                categories.first(where: { $0.title == words[0].category.formatted() })?.words.append(words[0])
             }
         }
         mainViewRequiresUpdate = false
