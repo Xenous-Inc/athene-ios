@@ -24,6 +24,7 @@ let already_learning_word_description = "Это слово уже встреча
 
 let empty_categories_placeholder = "У вас еще нет категорий, содержащих слова"
 let empty_archive_placeholder = "Пока что ни одно слово не прошло весь цикл обучения"
+let empty_category_placeholder = "В данной категории нет слов"
 
 let delete_category_title = "Удалить категорию?"
 let delete_category_without_words_text = "Удалить, оставив слова"

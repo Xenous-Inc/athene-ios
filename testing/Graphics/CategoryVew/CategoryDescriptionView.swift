@@ -11,7 +11,7 @@ import UIKit
 class CategoryDescriptionView: UIView {
     
     var backButton: UIButton!
-    var cells: [CategoryDescriptionViewCell]!
+    var cells: [CategoryDescriptionViewCell] = []
     var title = ""
 
     init(frame: CGRect, name: String, words: [Word], canLearn: Bool, hasBackButton: Bool){
@@ -45,6 +45,24 @@ class CategoryDescriptionView: UIView {
             return label
         }()
         addSubview(titleLabel)
+
+        if(words.count == 0){
+            let placeholder: UILabel = {
+                let label = UILabel(frame: CGRect(x: 0.1*self.bounds.width, y: titleLabel.frame.maxY + 0.04*frame.height, width: 0.8*self.bounds.width, height: 0.5*self.bounds.height))
+                label.text = hasBackButton ? empty_category_placeholder : empty_categories_placeholder
+                label.backgroundColor = .clear
+                label.textColor = .white
+                label.font = UIFont(name: "Helvetica", size: 30)
+                label.textAlignment = .left
+                label.numberOfLines = 3
+                label.adjustsFontSizeToFitWidth = true
+                label.sizeToFit()
+                label.alpha = 0.9
+                return label
+            }()
+            addSubview(placeholder)
+            return
+        }
         
         let scrollView = UIScrollView(frame: CGRect(
             x: 0,
