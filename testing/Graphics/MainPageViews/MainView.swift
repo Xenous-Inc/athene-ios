@@ -229,7 +229,7 @@ class MainView: UIView {
         addSubview(containerView)
         editTextFirst.text = ""
         //editTextSecond.text = ""
-        editTextSecond.textColor = .white
+        //editTextSecond.textColor = .white
     }
     
     func switchTextFields(text: String){

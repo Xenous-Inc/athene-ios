@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--Log In View Controller-->
         <scene sceneID="O1D-nL-0Az">
             <objects>
-                <viewController storyboardIdentifier="loginvc" modalPresentationStyle="fullScreen" id="4xn-Xc-lk7" customClass="LogInViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginvc" modalPresentationStyle="fullScreen" id="4xn-Xc-lk7" customClass="LogInViewController" customModule="Athene" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SBT-Bq-6OQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -29,10 +29,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="EtK-IW-hdY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Ou8-cn-zq6"/>
                     <connections>
-                        <segue destination="8t7-Eg-gat" kind="custom" identifier="move_to_sign_up" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="lIL-sD-mjY"/>
-                        <segue destination="H1Z-6T-ZjC" kind="custom" identifier="to_main" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="2F2-0l-pKk"/>
+                        <segue destination="8t7-Eg-gat" kind="custom" identifier="move_to_sign_up" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="lIL-sD-mjY"/>
+                        <segue destination="H1Z-6T-ZjC" kind="show" identifier="to_main" id="2F2-0l-pKk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="htS-g5-eQi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -52,7 +51,7 @@
         <!--Register View Controller-->
         <scene sceneID="daz-WP-vja">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="8t7-Eg-gat" customClass="RegisterViewController" customModule="Lett" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="8t7-Eg-gat" customClass="RegisterViewController" customModule="Athene" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BwT-uE-yTf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -70,10 +69,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hKt-9m-PPa"/>
                     </view>
-                    <navigationItem key="navigationItem" id="5n3-bn-512"/>
                     <connections>
-                        <segue destination="Dwd-RA-8FH" kind="custom" identifier="to_log_in_segue" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="bYd-ET-mOO"/>
-                        <segue destination="H1Z-6T-ZjC" kind="custom" identifier="to_main_from_sign_up" customClass="SmoothSegue" customModule="Lett" customModuleProvider="target" id="l8H-LA-G7m"/>
+                        <segue destination="Dwd-RA-8FH" kind="custom" identifier="to_log_in_segue" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="bYd-ET-mOO"/>
+                        <segue destination="H1Z-6T-ZjC" kind="custom" identifier="to_main_from_sign_up" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="l8H-LA-G7m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5o-HW-0WR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -91,10 +89,10 @@
             <point key="canvasLocation" x="1273" y="-671"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="2F2-0l-pKk"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="bg" width="207" height="368"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="l8H-LA-G7m"/>
-    </inferredMetricsTieBreakers>
 </document>

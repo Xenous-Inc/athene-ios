@@ -21,14 +21,12 @@ class ArchiveViewController: UIViewController{
     var bottom_bar = UIView()
     
     init(frame: CGRect)   {
-        print("init nibName style")
         super.init(nibName: nil, bundle: nil)
         self.frame = frame
     }
 
     // note slightly new syntax for 2017
     required init?(coder aDecoder: NSCoder) {
-        print("init coder style")
         super.init(coder: aDecoder)
         
     }
@@ -171,7 +169,7 @@ class ArchiveViewController: UIViewController{
         let categoryQueryItem = URLQueryItem(name: "category", value: category_text)
         
         components.queryItems = [userIdQueryItem, categoryQueryItem]
-        
+        components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: " ")
         guard let linkParameter = components.url else {return}
         print("Sharing \(linkParameter.absoluteString)")
         
@@ -184,16 +182,13 @@ class ArchiveViewController: UIViewController{
         if let bundleID = Bundle.main.bundleIdentifier{
             shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: bundleID)
         }
-        shareLink.iOSParameters?.appStoreID = "1487762033"
+        shareLink.iOSParameters?.appStoreID = "1508535432"
         
         shareLink.androidParameters = DynamicLinkAndroidParameters(packageName: "com.xenous.athenekotlin")
         
         shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
         shareLink.socialMetaTagParameters?.title = "Кажется кто-то хочет поделиться с вами списком слов в приложении Athene!"
         shareLink.socialMetaTagParameters?.descriptionText = "Скачайте Athene, чтобы получить доступ к списку слов."
-        
-        guard let longURL = shareLink.url else {return}
-        print("Long url: \(longURL)")
         
         shareLink.shorten { [weak self] (url, warnings, error) in
             if let error = error {
@@ -216,9 +211,8 @@ class ArchiveViewController: UIViewController{
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         main_vc.pager_view.setPosition(position: 0)
-        main_vc.currentPageIndex = 0
+        currentPageIndex = 0
         main_vc.lastPendingViewControllerIndex = 1
-        print("LALALALALALALALA")
     }
 
     func showShareSheet(url: URL){
@@ -283,7 +277,6 @@ class ArchiveViewController: UIViewController{
     
     @objc func switchView(gesture: UITapGestureRecognizer){
         let new_ind = gesture.view!.tag
-        print(current_tab, new_ind)
         if(new_ind == current_tab){
             return
         }
@@ -320,9 +313,7 @@ class ArchiveViewController: UIViewController{
     }
     
     @objc func deleteWord(gesture: UILongPressGestureRecognizer){
-        if(gesture.state == .began){
-            print("deleting word")
-            let alert = UIAlertController(title: delete_alert_question, message: delete_alert_warning, preferredStyle: .actionSheet)
+        if(gesture.state == .began){            let alert = UIAlertController(title: delete_alert_question, message: delete_alert_warning, preferredStyle: .actionSheet)
             
             alert.addAction(UIAlertAction(title: delete_alert_delete, style: UIAlertAction.Style.default, handler: {(action) in
                 let cell = gesture.view as! CategoryDescriptionViewCell

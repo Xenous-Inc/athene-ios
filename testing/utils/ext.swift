@@ -23,7 +23,6 @@ extension UserDefaults{
     static func isFirstLaunch() -> Bool{
         let hasBeenLaunchedBeforeFlag = "LetthasBeenLaunchedBefore"
         let isFirstLaunch = !UserDefaults.standard.bool(forKey: hasBeenLaunchedBeforeFlag)
-        print("Fist: \(isFirstLaunch)")
         return isFirstLaunch
     }
     
@@ -42,7 +41,6 @@ extension UIViewController {
               constant: margin
             ).isActive = true
         } else {
-            print("Attaching view to top")
             customView.topAnchor.constraint(
               equalTo: topLayoutGuide.topAnchor,
               constant: margin

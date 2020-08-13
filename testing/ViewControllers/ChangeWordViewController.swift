@@ -53,11 +53,14 @@ class ChangeWordViewController: NewWordViewController {
                 categories.first(where: { $0.title == words[0].category.formatted() })?.words.append(words[0])
             }
         }
-        mainViewRequiresUpdate = false
+        currentPageIndex = 1
         performSegue(withIdentifier: "back_from_word_edit", sender: self)
     }
     
-    @objc func cancel(_ sender: UIBarButtonItem) {
+    override func viewDidAppear(_ animated: Bool) { }
+    
+    @objc func cancel(_ sender: Any) {
+        currentPageIndex = 1
         performSegue(withIdentifier: "back_from_word_edit", sender: self)
     }
 

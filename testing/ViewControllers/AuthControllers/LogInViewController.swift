@@ -71,6 +71,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
             if let e = error{
                 print("Failed to log in Firebase using Google: ", e)
             }
+            currentPageIndex = 2
             self.performSegue(withIdentifier: "to_main", sender: self)
             print("Successfully logged in Firebase", res!.user.uid)
         })
@@ -78,8 +79,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
         print("Successfully logged into Google ", user)
     }
     
-    @objc func LogIn(_ sender: Any) {
-        if(mainView.emailField.text == ""){
+    @objc func LogIn(_ sender: Any) {        if(mainView.emailField.text == ""){
             messageAlert(vc: self, message: enter_email_text, text_error: nil)
             return
         }
@@ -87,7 +87,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
             messageAlert(vc: self, message: enter_password_text, text_error: nil)
             return
         }
-        os_log("HELLO")
         view.isUserInteractionEnabled = false
         let v = LoadingView()
         v.set(frame: view.frame)
@@ -114,10 +113,11 @@ class LogInViewController: UIViewController, UITextFieldDelegate, GIDSignInDeleg
                     messageAlert(vc: self, message: error_title, text_error: error_texts[3])
                 }
             }else{
-                os_log("NO ERROR")
                 user = Auth.auth().currentUser!
                 if(user!.isEmailVerified){
+                    currentPageIndex = 2
                     self.performSegue(withIdentifier: "to_main", sender: LogInViewController.self)
+                    return
                 }else{
                     messageAlert(vc: self, message: error_title, text_error: error_texts[4])
                 }
@@ -255,6 +255,7 @@ extension LogInViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                     print(error?.localizedDescription as Any)
                     return
                 }
+                currentPageIndex = 2
                 self.performSegue(withIdentifier: "to_main", sender: self)
                 // User is signed in to Firebase with Apple.
                 // ...

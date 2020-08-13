@@ -37,7 +37,9 @@ class SmoothSegue: UIStoryboardSegue {
             UIView.animate(withDuration: self.duration / 2, animations: {
                 second.alpha = 1
             }, completion: {(finished: Bool) in
+                bg.removeFromSuperview()
                 self.source.present(self.destination, animated: false, completion: nil)
+                //super.perform()
             })
         })
     }

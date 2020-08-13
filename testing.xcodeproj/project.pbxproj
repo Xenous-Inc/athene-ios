@@ -10,6 +10,7 @@
 		86A3E13B32A4C34AAE7ECDA4 /* Pods_testing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFCA890537D4CBDA96447174 /* Pods_testing.framework */; };
 		9E0EADD624B0D35200FF0765 /* SAConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0EADD524B0D35200FF0765 /* SAConfettiView.swift */; };
 		9E8D57F1248126270032655B /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8D57F0248126270032655B /* database.swift */; };
+		9EAC29B224E52E4600034080 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAC29B124E52E4600034080 /* TestViewController.swift */; };
 		9EB57C5B24B1ED5400533116 /* loading_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 9EB57C5A24B1ED5300533116 /* loading_animation.json */; };
 		9EE1772724B6097F0009EF62 /* links.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE1772624B6097F0009EF62 /* links.swift */; };
 		BE0940CDEB473131E840AB21 /* CategoryDescriptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0941AB590728F61145B2D6 /* CategoryDescriptionViewCell.swift */; };
@@ -57,6 +58,7 @@
 		9E0EADD524B0D35200FF0765 /* SAConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SAConfettiView.swift; sourceTree = "<group>"; };
 		9E2FE5C3247D8DA900DCD8E5 /* libleveldb-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libleveldb-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E8D57F0248126270032655B /* database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
+		9EAC29B124E52E4600034080 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		9EB57C5A24B1ED5300533116 /* loading_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading_animation.json; path = ../../../Downloads/loading_animation.json; sourceTree = "<group>"; };
 		9EE1772624B6097F0009EF62 /* links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = links.swift; sourceTree = "<group>"; };
 		BE0941A4463D7F830147DB33 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
@@ -128,8 +130,8 @@
 		9EE1772824B609990009EF62 /* firebase */ = {
 			isa = PBXGroup;
 			children = (
-				9E8D57F0248126270032655B /* database.swift */,
 				9EE1772624B6097F0009EF62 /* links.swift */,
+				9E8D57F0248126270032655B /* database.swift */,
 			);
 			path = firebase;
 			sourceTree = "<group>";
@@ -261,6 +263,7 @@
 				BE094E79B940FE668B085F05 /* ViewControllers */,
 				BE094489663FB5CD180C46AE /* utils */,
 				BE094EBD9F75697F08B65661 /* Category.swift */,
+				9EAC29B124E52E4600034080 /* TestViewController.swift */,
 			);
 			path = testing;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				DAF1847B2420EA600031B68C /* Word.swift in Sources */,
 				DAEC4199242F91AF00944B7F /* CustomPageControl.swift in Sources */,
 				DAC96E452423AA1D00675EEA /* FontHelper.swift in Sources */,
+				9EAC29B224E52E4600034080 /* TestViewController.swift in Sources */,
 				9E8D57F1248126270032655B /* database.swift in Sources */,
 				DA670927222D73F600595D5E /* AppDelegate.swift in Sources */,
 				BE094B8C28DB991655A0980F /* Button.swift in Sources */,
@@ -636,7 +640,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xenous.athene;
 				PRODUCT_NAME = Athene;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -681,7 +685,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.9;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xenous.athene;
 				PRODUCT_NAME = Athene;

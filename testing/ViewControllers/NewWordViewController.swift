@@ -16,17 +16,15 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     
     var frame: CGRect? = nil
     
-    var mainView = NewWordView(frame: CGRect.init(), categories: [])
+    var mainView: NewWordView!
     
     init(frame: CGRect)   {
-        print("init nibName style")
         super.init(nibName: nil, bundle: nil)
         self.frame = frame
     }
 
     // note slightly new syntax for 2017
     required init?(coder aDecoder: NSCoder) {
-        print("init coder style")
         super.init(coder: aDecoder)
         
     }
@@ -34,7 +32,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         main_vc.pager_view.setPosition(position: 2)
-        main_vc.currentPageIndex = 2
+        currentPageIndex = 2
         main_vc.lastPendingViewControllerIndex = 1
     }
 
@@ -86,7 +84,6 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
                 self.mainView.shrinkBottomBar(nil)
                 categories.append(Category(title: cat.formatted(), databaseId: newCatRef.key))
                 self.mainView.categoryLabel.text = cat.formatted()
-                print("SUCCESS")
                 
                 var m: CGFloat = 0
                 var s: CGFloat = 0
@@ -254,7 +251,7 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        main_vc.currentPageIndex = 2
+        currentPageIndex = 2
         let touch = touches.first
         guard let location = touch?.location(in: view) else { return }
         if !mainView.categoryLabel.frame.contains(location) {
@@ -272,7 +269,6 @@ class NewWordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func chooseCategory(sender: Button){
-        print("nice")
         mainView.categoryLabel.text = sender.title(for: .normal)
         mainView.shrinkBottomBar(nil)
     }

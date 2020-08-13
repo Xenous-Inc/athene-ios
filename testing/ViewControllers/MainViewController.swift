@@ -12,6 +12,7 @@ import os
 import Firebase
 
 var main_vc = MainViewController()
+var currentPageIndex:Int = 1
 
 class MainViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
@@ -22,7 +23,6 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     @IBOutlet weak var pager_view: CustomPageControl!
     @IBOutlet weak var main_v: UIView!
     
-    var currentPageIndex:Int = 1 // holds the current page index
     var pageviewcontroller:UIPageViewController! // self explanatory
     var ViewControllers: [UIViewController] = [UIViewController]()
     
@@ -86,7 +86,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         cheerView.intensity = 0.7
         
         was_layout_set = true
-        pager_view.set(width: self.view.frame.width, height: 0.05*self.view.frame.height, tabs: 3, start: 1, color: UIColor.white)
+        pager_view.set(width: self.view.frame.width, height: 0.05*self.view.frame.height, tabs: 3, start: currentPageIndex, color: UIColor.white)
         
         let padding = 0.02*view.bounds.height
         btn_top_constraint.constant = padding
@@ -100,7 +100,7 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         ViewControllers.append(ArchiveViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
         ViewControllers.append(ViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
         ViewControllers.append(NewWordViewController(frame: CGRect(x: 0, y: 0, width: self.pageviewcontroller.view.bounds.width, height: self.pageviewcontroller.view.bounds.height)))
-        self.pageviewcontroller.setViewControllers([ViewControllers[1]], direction: .forward, animated: true, completion: nil)
+        self.pageviewcontroller.setViewControllers([ViewControllers[currentPageIndex]], direction: .forward, animated: true, completion: nil)
         
         self.addChild(self.pageviewcontroller)
         self.view.addSubview(self.pageviewcontroller.view)
@@ -130,27 +130,30 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if(UserDefaults.isFirstLaunch()){
-            print("First launch")
             DispatchQueue.main.async(){
                 self.performSegue(withIdentifier: "move_to_tutorial", sender: self)
             }
             return
         }
         if(Auth.auth().currentUser == nil){
-            os_log("Signing out...")
             DispatchQueue.main.async(){
                 self.performSegue(withIdentifier: "signing_out", sender: self)
             }
             return
         }
+        if let storedDynamicLink = UserDefaults.standard.url(forKey: "StoredDynamicLink"){
+            self.view.layoutIfNeeded()
+            UserDefaults.standard.removeObject(forKey: "StoredDynamicLink")
+            print("GETTING SAVED DYNAMIC LINK: \(storedDynamicLink)")
+            handleIncomingDynamicLink(storedDynamicLink, v_controller: self)
+        }
         user = Auth.auth().currentUser!
-        print("Main view did appear")
         var loadingView = LoadingView()
         if view.viewWithTag(54321) != nil{
             loadingView = view.viewWithTag(54321) as! LoadingView
             view.bringSubviewToFront(loadingView)
             loadingView.show()
-        }else {
+        } else {
             loadingView.tag = 54321
             loadingView.set(frame: view.frame)
             view.addSubview(loadingView)
@@ -159,13 +162,15 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
         }
         updateWordsFromDatabase(completion: {(finished: Bool) in
             loadingView.removeFromSuperview()
-            (self.ViewControllers[1] as! ViewController).checkWordsUpdate()
-            print(words.count)
+            if(currentPageIndex == 1){
+                (self.ViewControllers[1] as! ViewController).checkWordsUpdate()
+            }else if(currentPageIndex == 2){
+                (self.ViewControllers[2] as! NewWordViewController).initialSetting()
+            }
         })
     }
 
     @IBAction func logOut(_ sender: Any) {
-        print("SIGN OUT BUTTON TAPPED")
         let alert = UIAlertController(title: sign_out_question, message: nil, preferredStyle: UIAlertController.Style.alert)
         
         alert.addAction(UIAlertAction(title: sign_out_text, style: UIAlertAction.Style.default, handler: {(action) in
@@ -180,6 +185,8 @@ class MainViewController: UIViewController, UIPageViewControllerDataSource, UINa
             }
         }))
         alert.addAction(UIAlertAction(title: sign_out_cancel, style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)    }
+        
+        self.present(alert, animated: true, completion: nil)
+    }
     
 }

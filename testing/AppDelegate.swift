@@ -28,8 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func registerForPushNotifications() {
       UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {[weak self] granted, error in
-            
-          print("Permission granted: \(granted)")
           guard granted else { return }
           self?.getNotificationSettings()
       }
@@ -44,46 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     }
     
-    func handleIncomingDynamicLink(_ dynamicLink: DynamicLink){
-        guard let url = dynamicLink.url else{
-            print("Dynaimc link object has no url")
-            return
-        }
-        print("Your incoming link parameter is \(url.absoluteString)")
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryitems = components.queryItems else {return}
-        print(url.path)
-        
-        if(Auth.auth().currentUser == nil) {return}
-        
-        if(url.path == "/invite"){
-            print("new invite")
-            var teacherId: String? = nil, classId: String? = nil
-            for i in queryitems{
-                if(i.name == "teacherId"){
-                    teacherId = i.value
-                }else if(i.name == "classId"){
-                    classId = i.value
-                }
-            }
-            if(teacherId == nil || classId == nil) {return}
-            guard let v_controller = self.window?.rootViewController else {return}
-            handleClassroomLink(teacherId: teacherId!, classId: classId!, v_controller: v_controller)
-        }else if(url.path == "/category"){
-            print("new category")
-            var user_shared_id: String? = nil, category_shared: String? = nil
-            for i in queryitems{
-                if(i.name == "user"){
-                    user_shared_id = i.value
-                }else if(i.name == "category"){
-                    category_shared = i.value
-                }
-            }
-            guard let user_id = user_shared_id, let category = category_shared else { return }
-            guard let v_controller = self.window?.rootViewController else {return}
-            handleCategoryLink(user_shared_id: user_id, category_shared: category, v_controller: v_controller)
-        }
-    }
-    
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if let incomingURL = userActivity.webpageURL{
             print("Incoming URL is \(incomingURL)")
@@ -92,8 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Dynamic links error: \(error!.localizedDescription)")
                     return
                 }
-                if let dynamicLink = dynamicLink{
-                    self.handleIncomingDynamicLink(dynamicLink)
+                if let dynamicLinkUrl = dynamicLink?.url, let controller = self.window?.rootViewController{
+                    handleIncomingDynamicLink(dynamicLinkUrl, v_controller: controller)
                 }
             }
             if(linkHandled){
@@ -108,7 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromUniversalLink: url){
-            self.handleIncomingDynamicLink(dynamicLink)
+            if let dynamicLinkUrl = dynamicLink.url, let controller = self.window?.rootViewController{
+                handleIncomingDynamicLink(dynamicLinkUrl, v_controller: controller)
+            }
             return true
         }else{
             return GIDSignIn.sharedInstance().handle(url)
@@ -127,7 +87,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         shouldUpdate = true
-        print("Opening app")
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
@@ -135,7 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.applicationIconBadgeNumber = 0
         guard let current = window?.rootViewController else {return}
         if(!UserDefaults.isFirstLaunch() && Auth.auth().currentUser != nil && current.isKind(of: MainViewController.self)){
-            print("Running view did appear")
             current.viewDidAppear(false)
         }
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.

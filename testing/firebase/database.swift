@@ -92,6 +92,7 @@ func updateWordsFromDatabase(completion: ((Bool) -> Void)?){
         }
         archive = _archive
         words = _words
+        words.shuffle()
         russian_list = _russian_list
         english_list = _english_list
         categories = _categories
@@ -133,7 +134,6 @@ func downloadCategory(id: String, category: String, completion: ((Bool) -> Void)
             }
             if let comp = completion{
                 comp(true)
-                print(words.count)
             }
         })
     })
@@ -150,11 +150,11 @@ func downloadClassesCategories(snapshot: DataSnapshot, classId: String, completi
                 newCategoryRef.setValue(catName)
                 categories.append(Category(title: catName.formatted(), databaseId: newCategoryRef.key))
             }
-            print("CATEGORY TO IMPORT, ", catId, catName)
+            print("CATEGORY TO IMPORT: ", catId, catName)
             let wordEnumerator = snapshot.childSnapshot(forPath: "categories").childSnapshot(forPath: catId).childSnapshot(forPath: "words").children
             while let wordSnapshot = wordEnumerator.nextObject() as? DataSnapshot{
-                let eng = wordSnapshot.childSnapshot(forPath: "english").value as? String ?? ""
-                let rus = wordSnapshot.childSnapshot(forPath: "russian").value as? String ?? ""
+                let eng = wordSnapshot.childSnapshot(forPath: "English").value as? String ?? ""
+                let rus = wordSnapshot.childSnapshot(forPath: "Russian").value as? String ?? ""
                 if(english_list.contains(eng) || russian_list.contains(rus)){continue}
                 
                 let wordRef = ref.child("words").childByAutoId()

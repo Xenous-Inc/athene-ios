@@ -69,6 +69,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
             if let e = error{
                 print("Failed to log in Firebase using Google: ", e)
             }
+            currentPageIndex = 2
             self.performSegue(withIdentifier: "to_main_from_sign_up", sender: self)
             print("Successfully logged in Firebase", res!.user.uid)
         })
@@ -129,22 +130,26 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, GIDSignInDe
             }
             user = Auth.auth().currentUser!
             Auth.auth().currentUser?.sendEmailVerification { (error) in
-                os_log("Error while sending verification email")
-                messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[5])
-                return
-            }
-            do{
-                try Auth.auth().signOut()
-                let alert = UIAlertController(title: verification_sent_text, message: verification_sent_describtion, preferredStyle: UIAlertController.Style.alert)
-
-                alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: {(action) in
-                    alert.dismiss(animated: true, completion: nil)
-                    self.performSegue(withIdentifier: "to_log_in_segue", sender: RegisterViewController.self)
-                }))
-                self.present(alert, animated: true, completion: nil)
-            }catch _ as NSError{
-                messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[4])
-                os_log("error")
+                if error != nil{
+                    os_log("Error while sending verification email")
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[5])
+                    return
+                }
+                
+                do{
+                    try Auth.auth().signOut()
+                    let alert = UIAlertController(title: verification_sent_text, message: verification_sent_describtion, preferredStyle: UIAlertController.Style.alert)
+                    
+                    alert.addAction(UIAlertAction(title: alert_ok, style: UIAlertAction.Style.default, handler: {(action) in
+                        alert.dismiss(animated: true, completion: nil)
+                        self.performSegue(withIdentifier: "to_log_in_segue", sender: RegisterViewController.self)
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }catch _ as NSError{
+                    messageAlert(vc: self, message: error_title, text_error: error_texts_sign_up[4])
+                    os_log("error")
+                }
+                
             }
 
         }

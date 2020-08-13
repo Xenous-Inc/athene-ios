@@ -70,7 +70,6 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource, 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tutorial_vc = self
-        print("Reached tutorial")
         
         if(built){return}
         built = true
@@ -81,7 +80,6 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource, 
         self.pageviewcontroller.dataSource = self
         self.pageviewcontroller.delegate = self
         self.pageviewcontroller.view.frame = CGRect(x: 0, y: 0, width: container.frame.width, height: container.frame.height)
-        print(container.bounds.height, view.bounds.height)
         ViewControllers = []
         for i in 0..<tutorial_images.count{
             let vc = TutorialSegmentViewController(frame: pageviewcontroller.view.frame, image: tutorial_images[i], is_last: (i == tutorial_images.count - 1))

@@ -32,7 +32,7 @@ class NewWordView: UIView {
     
     init(frame: CGRect, categories: [Category]){
         super.init(frame: frame)
-        if(categories.count == 0) {return};
+        //if(categories.count == 0) {return};
         
         min_len = 0.12*frame.width
         padding = 0.04*frame.width
@@ -180,7 +180,7 @@ class NewWordView: UIView {
         bottom_bar_height = frame.height - categoryView.frame.minY
         
         let d = [NSAttributedString.Key.font: small_font!]
-        let block_height = (categories[0].title as NSString).size(withAttributes: d).height + 0.015*frame.height
+        let block_height = ("ABC" as NSString).size(withAttributes: d).height + 0.015*frame.height
         
         let scroll = UIScrollView()
         scroll.bounds = CGRect(x: 0, y: 0, width: bottom_bar_width - 2*categoryView.layer.cornerRadius, height: bottom_bar_height - 3*categoryView.layer.cornerRadius - block_height)
@@ -256,7 +256,7 @@ class NewWordView: UIView {
             categoriesButtons.append(cur)
         }
         
-        scroll.contentSize.height = categories_centers.last!.y + block_height / 2
+        scroll.contentSize.height = categories_centers.last?.y  ?? 0 + block_height / 2
         scroll.isScrollEnabled = false
         
         addButton = {
@@ -286,7 +286,6 @@ class NewWordView: UIView {
     
     @objc func expandBottomBar(gesture: UITapGestureRecognizer){
         if(opened) {return}
-        print("test")
         opened = true
         let v = gesture.view!
         let scroll = v.viewWithTag(400) as! UIScrollView

@@ -63,7 +63,6 @@ class CategoryView: UIView {
     }
     
     @objc func onCellPressed(gesture: UITapGestureRecognizer){
-        print("new tap")
         let pressedCell = gesture.view as! CategoryViewCell
         UIView.animate(withDuration: 0.4) {
             self.openCell(cellToOpen: pressedCell)

@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import os
 
-var mainViewRequiresUpdate = true
 class ViewController: UIViewController, UITextFieldDelegate {
 
     var archive_amount = 0
@@ -20,13 +19,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var contentView: MainView!
     
     init(frame: CGRect)   {
-        print("init nibName style")
         super.init(nibName: nil, bundle: nil)
         self.frame = frame
     }
 
     required init?(coder aDecoder: NSCoder) {
-        print("init coder style")
         super.init(coder: aDecoder)
         
     }
@@ -135,6 +132,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if(frame != nil){
             view.frame = frame!
         }
+        setContentView()
+    }
+    
+    func setContentView(){
         contentView = MainView(frame: view.frame)
         contentView.center = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
         view.addSubview(contentView)
@@ -150,28 +151,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("View will appear reached")
-        if(mainViewRequiresUpdate){
-            checkWordsUpdate()
-        }else{
-            contentView.editTextFirst.text = words[0].russian
+        if(words.count == 0) { return }
+        contentView.editTextFirst.text = words[0].russian
+        contentView.editTextThird.text = words[0].english
+        if(contentView.editTextSecond.backgroundColor == UIColor(rgb: green_clr)){
             contentView.editTextSecond.text = words[0].english
-            contentView.editTextThird.text = words[0].english
-            next()
         }
-        mainViewRequiresUpdate = true
     }
     
     func checkWordsUpdate(){
-        print("Checking for words, count = \(words.count)")
+        contentView.removeFromSuperview()
+        setContentView()
         contentView.clear()
+        answering = true
         if(words.count > 0){
             contentView.showContainerView()
             self.contentView.editTextFirst.text = words[0].russian
             self.contentView.nextButton.isEnabled = true
             self.contentView.forgotButton.isEnabled = true
         }else{
-            print("No words for today")
             contentView.showEndOfWordsView(animated: false)
             contentView.endOfWordsView.text = no_words_for_today
         }
@@ -180,7 +178,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         main_vc.pager_view.setPosition(position: 1)
-        main_vc.currentPageIndex = 1
+        currentPageIndex = 1
         main_vc.lastPendingViewControllerIndex = 0
     }
 
@@ -190,7 +188,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-        main_vc.currentPageIndex = 1
+        currentPageIndex = 1
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

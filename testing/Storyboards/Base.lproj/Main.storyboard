@@ -96,7 +96,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NPT-bs-xHW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-546.37681159420299" y="129.61956521739131"/>
+            <point key="canvasLocation" x="-580" y="130"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="yrM-vQ-p8v">
@@ -153,7 +153,7 @@
                         <outlet property="pager_view" destination="bGc-Ww-cUl" id="mo4-Mp-ycf"/>
                         <outlet property="sign_out_btn" destination="1Yr-pK-e6y" id="RXH-3l-ZNL"/>
                         <segue destination="zjN-e2-0KL" kind="custom" identifier="signing_out" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="4Yq-xe-kbz"/>
-                        <segue destination="OEw-I6-jdo" kind="show" identifier="create_word_segue" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="gRe-sj-1m1"/>
+                        <segue destination="OEw-I6-jdo" kind="custom" identifier="create_word_segue" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="gRe-sj-1m1"/>
                         <segue destination="Bxu-2S-TjA" kind="custom" identifier="move_to_tutorial" customClass="SmoothSegue" customModule="Athene" customModuleProvider="target" id="FMd-R5-uMt"/>
                     </connections>
                 </viewController>

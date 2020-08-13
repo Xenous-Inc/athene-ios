@@ -49,7 +49,7 @@ class CategoryDescriptionView: UIView {
         if(words.count == 0){
             let placeholder: UILabel = {
                 let label = UILabel(frame: CGRect(x: 0.1*self.bounds.width, y: titleLabel.frame.maxY + 0.04*frame.height, width: 0.8*self.bounds.width, height: 0.5*self.bounds.height))
-                label.text = hasBackButton ? empty_category_placeholder : empty_categories_placeholder
+                label.text = hasBackButton ? empty_category_placeholder : empty_archive_placeholder
                 label.backgroundColor = .clear
                 label.textColor = .white
                 label.font = UIFont(name: "Helvetica", size: 30)

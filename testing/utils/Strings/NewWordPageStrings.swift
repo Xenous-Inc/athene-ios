@@ -6,8 +6,8 @@
 import Foundation
 
 let add_word_title = "Впишите слово"
-let russian_field_placeholder = "Русский"
-let english_field_placeholder = "English"
+let russian_field_placeholder = "На родном"
+let english_field_placeholder = "На иностранном"
 let choose_category = "Выберете категорию"
 let choose_cat_describtion = "или добавьте новую"
 let add_cat_text = "Добавить новую"

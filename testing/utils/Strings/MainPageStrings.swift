@@ -10,7 +10,7 @@ import UIKit
 //Main page
 
 let main_page_title = "Проверка слова"
-let main_page_placeholders = ["На русском", "На английском"]
+let main_page_placeholders = ["На родном", "На иностранном"]
 let main_page_describtion_check = "Проверить"
 let main_page_forgot_word_text = "Не помню"
 let main_page_incorrect = "Неправильно :("

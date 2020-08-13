@@ -9,6 +9,45 @@
 import Foundation
 import Firebase
 
+func handleIncomingDynamicLink(_ url: URL, v_controller: UIViewController){
+    
+    if(Auth.auth().currentUser == nil){
+        UserDefaults.standard.set(url, forKey: "StoredDynamicLink")
+        return
+    }
+    
+    print("Incoming link parameter is \(url.absoluteString)")
+    guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return }
+    //components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: " ")
+    guard let queryitems = components.queryItems else { return }
+    
+    if(Auth.auth().currentUser == nil) {return}
+    
+    if(url.path == "/invite"){
+        var teacherId: String? = nil, classId: String? = nil
+        for i in queryitems{
+            if(i.name == "teacherId"){
+                teacherId = i.value
+            }else if(i.name == "classId"){
+                classId = i.value
+            }
+        }
+        if(teacherId == nil || classId == nil) {return}
+        handleClassroomLink(teacherId: teacherId!, classId: classId!, v_controller: v_controller)
+    }else if(url.path == "/category"){
+        var user_shared_id: String? = nil, category_shared: String? = nil
+        for i in queryitems{
+            if(i.name == "user"){
+                user_shared_id = i.value
+            }else if(i.name == "category"){
+                category_shared = i.value?.replacingOccurrences(of: "+", with: " ")
+            }
+        }
+        guard let user_id = user_shared_id, let category = category_shared else { return }
+        handleCategoryLink(user_shared_id: user_id, category_shared: category, v_controller: v_controller)
+    }
+}
+
 func handleCategoryLink(user_shared_id: String, category_shared: String, v_controller: UIViewController){
     let alertController = UIAlertController(title: "Добавить слова категории \(category_shared)?", message: nil, preferredStyle: .actionSheet)
     alertController.addAction(UIAlertAction(title: alert_yes, style: .default, handler: { (action) in
@@ -28,7 +67,9 @@ func handleCategoryLink(user_shared_id: String, category_shared: String, v_contr
         })
     }))
     alertController.addAction(UIAlertAction(title: alert_cancel, style: .default, handler: nil))
-    v_controller.present(alertController, animated: true, completion: nil)
+    DispatchQueue.main.async {
+        v_controller.present(alertController, animated: true, completion: nil)
+    }
 }
 
 func handleClassroomLink(teacherId: String, classId: String, v_controller: UIViewController){
